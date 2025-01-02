@@ -5,6 +5,7 @@
 - [ ] Crud service generator (based on gorm gen)
 - [ ] Easy init without git repository (like create-nto-app)
 - [ ] Excel export
+- [ ] Models validation logic (callbacks and other stuff)
 - [ ] Models [linter](https://git.gogacoder.ru/NTO/gormlint)
 - [ ] Auto-generated frontend  
 
