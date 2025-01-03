@@ -14,9 +14,7 @@ func main() {
 	app := application.New(application.Options{
 		Name:        "nto_starterkit",
 		Description: "A demo of using raw HTML & CSS",
-		Services: []application.Service{
-			application.NewService(&services.PostService{}),
-		},
+		Services:    append([]application.Service{services.MigratorService}, services.ExportedServices...),
 		Assets: application.AssetOptions{
 			Handler: application.AssetFileServerFS(assets),
 		},

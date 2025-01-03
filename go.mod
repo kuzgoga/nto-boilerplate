@@ -6,6 +6,7 @@ toolchain go1.23.4
 
 require (
 	github.com/wailsapp/wails/v3 v3.0.0-alpha.8.3
+	gorm.io/driver/sqlite v1.5.0
 	gorm.io/gen v0.3.26
 	gorm.io/gorm v1.25.12
 	gorm.io/plugin/dbresolver v1.5.3
@@ -40,6 +41,7 @@ require (
 	github.com/lmittmann/tint v1.0.4 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
+	github.com/mattn/go-sqlite3 v1.14.16 // indirect
 	github.com/pjbgf/sha1cd v0.3.0 // indirect
 	github.com/pkg/browser v0.0.0-20210911075715-681adbf594b8 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect

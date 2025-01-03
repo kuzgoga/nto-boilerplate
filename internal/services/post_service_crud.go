@@ -4,7 +4,6 @@ import (
 	"app/internal/dal"
 	"app/internal/models"
 	"errors"
-
 	"gorm.io/gen/field"
 	"gorm.io/gorm"
 )
