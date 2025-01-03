@@ -15,7 +15,7 @@ func main() {
 		Name:        "nto_starterkit",
 		Description: "A demo of using raw HTML & CSS",
 		Services: []application.Service{
-			application.NewService(&internal.GreetService{}),
+			application.NewService(&services.PostService{}),
 		},
 		Assets: application.AssetOptions{
 			Handler: application.AssetFileServerFS(assets),
