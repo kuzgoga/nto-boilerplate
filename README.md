@@ -1,7 +1,7 @@
 # NTO
 
 ## Задачи
-- [ ] Migrator
+- [x] Migrator
 - [ ] Crud service generator (based on gorm gen)
 - [ ] Easy init without git repository (like create-nto-app)
 - [ ] Excel export
