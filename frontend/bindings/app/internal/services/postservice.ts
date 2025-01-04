@@ -7,11 +7,11 @@ import {Call as $Call, Create as $Create} from "@wailsio/runtime";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore: Unused imports
-import * as models$0 from "../models/models.js";
+import * as models$0 from "../models/models.ts";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore: Unused imports
-import * as $models from "./models.js";
+import * as $models from "./models.ts";
 
 export function Count(): Promise<number> & { cancel(): void } {
     let $resultPromise = $Call.ByID(3109924027) as any;
