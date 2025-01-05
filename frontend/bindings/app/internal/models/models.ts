@@ -5,6 +5,31 @@
 // @ts-ignore: Unused imports
 import {Create as $Create} from "@wailsio/runtime";
 
+export class Author {
+    "Id": number;
+    "Name": string;
+
+    /** Creates a new Author instance. */
+    constructor($$source: Partial<Author> = {}) {
+        if (!("Id" in $$source)) {
+            this["Id"] = 0;
+        }
+        if (!("Name" in $$source)) {
+            this["Name"] = "";
+        }
+
+        Object.assign(this, $$source);
+    }
+
+    /**
+     * Creates a new Author instance from a string or object.
+     */
+    static createFrom($$source: any = {}): Author {
+        let $$parsedSource = typeof $$source === 'string' ? JSON.parse($$source) : $$source;
+        return new Author($$parsedSource as Partial<Author>);
+    }
+}
+
 export class Post {
     "Id": number;
     "Text": string;

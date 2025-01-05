@@ -57,4 +57,19 @@ wails3 build -clean -upx -v 2 -webview2 embed
 ```
 go env -w GOPROXY="https://proxy.golang.org,direct"
 ```
+## CRUD generator
+Установите crudgen:
+```
+go install git.gogacoder.ru/NTO/crudgen/cmd/crudgen@latest
+```
+Сгенерируйте DAL:
+```
+cd dal
+go run gen.go
+```
+Запустите crudgen:
+```
+crudgen -p internal
+```
+Не забудьте добавить новые модели в `Entities`, а сервисы в `Services`.
 

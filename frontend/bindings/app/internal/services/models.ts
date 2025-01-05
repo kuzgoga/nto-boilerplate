@@ -9,5 +9,8 @@ import {Create as $Create} from "@wailsio/runtime";
 // @ts-ignore: Unused imports
 import * as models$0 from "../models/models.js";
 
+export const Author = models$0.Author;
+export type Author = models$0.Author;
+
 export const Post = models$0.Post;
 export type Post = models$0.Post;

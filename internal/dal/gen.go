@@ -16,34 +16,39 @@ import (
 )
 
 var (
-	Q    = new(Query)
-	Post *post
+	Q      = new(Query)
+	Author *author
+	Post   *post
 )
 
 func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	*Q = *Use(db, opts...)
+	Author = &Q.Author
 	Post = &Q.Post
 }
 
 func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
-		db:   db,
-		Post: newPost(db, opts...),
+		db:     db,
+		Author: newAuthor(db, opts...),
+		Post:   newPost(db, opts...),
 	}
 }
 
 type Query struct {
 	db *gorm.DB
 
-	Post post
+	Author author
+	Post   post
 }
 
 func (q *Query) Available() bool { return q.db != nil }
 
 func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
-		db:   db,
-		Post: q.Post.clone(db),
+		db:     db,
+		Author: q.Author.clone(db),
+		Post:   q.Post.clone(db),
 	}
 }
 
@@ -57,18 +62,21 @@ func (q *Query) WriteDB() *Query {
 
 func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
-		db:   db,
-		Post: q.Post.replaceDB(db),
+		db:     db,
+		Author: q.Author.replaceDB(db),
+		Post:   q.Post.replaceDB(db),
 	}
 }
 
 type queryCtx struct {
-	Post IPostDo
+	Author IAuthorDo
+	Post   IPostDo
 }
 
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
-		Post: q.Post.WithContext(ctx),
+		Author: q.Author.WithContext(ctx),
+		Post:   q.Post.WithContext(ctx),
 	}
 }
 

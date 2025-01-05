@@ -7,6 +7,7 @@ import (
 
 func InsertDefaultData() {
 	insertPosts()
+	insertAuthors()
 }
 
 func InsertDefaultEntityData[T any](service Service[T], entities []T) {
@@ -31,6 +32,15 @@ func insertPosts() {
 		{
 			Id:   3,
 			Text: "В Кузбассе начали строить дома выше, чтобы жители были ближе к богу и солнцу.",
+		},
+	})
+}
+
+func insertAuthors() {
+	InsertDefaultEntityData(&AuthorService{}, []Author{
+		{
+			Id:   1,
+			Name: "ИА Кузбасс",
 		},
 	})
 }
