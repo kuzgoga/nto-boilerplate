@@ -5,6 +5,9 @@
 // @ts-ignore: Unused imports
 import {Create as $Create} from "@wailsio/runtime";
 
+/**
+ * Author A sample of comment
+ */
 export class Author {
     "Id": number;
     "Name": string;
@@ -33,6 +36,7 @@ export class Author {
 export class Post {
     "Id": number;
     "Text": string;
+    "CreatedAt": number;
 
     /** Creates a new Post instance. */
     constructor($$source: Partial<Post> = {}) {
@@ -41,6 +45,9 @@ export class Post {
         }
         if (!("Text" in $$source)) {
             this["Text"] = "";
+        }
+        if (!("CreatedAt" in $$source)) {
+            this["CreatedAt"] = 0;
         }
 
         Object.assign(this, $$source);
