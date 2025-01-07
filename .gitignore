@@ -1,3 +1,4 @@
 bin/
 database.db
 frontend/node_modules
+.task
