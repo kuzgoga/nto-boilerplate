@@ -4,14 +4,36 @@ import (
 	"github.com/wailsapp/wails/v3/pkg/application"
 )
 
+var currentWindow *application.WebviewWindow
+
+func Init(window *application.WebviewWindow) {
+	if window == nil {
+		panic("currentWindow is nil")
+	}
+	currentWindow = window
+}
+
+func checkInit() {
+	if currentWindow == nil {
+		panic("Initialize dialogs package before use")
+	}
+}
+
 func InfoDialog(title string, message string) {
-	application.InfoDialog().SetTitle(title).SetMessage(message).Show()
+	checkInit()
+	application.InfoDialog().AttachToWindow(currentWindow).SetTitle(title).SetMessage(message).Show()
 }
 
 func WarningDialog(title string, message string) {
-	application.WarningDialog().SetTitle(title).SetMessage(message).Show()
+	checkInit()
+	application.WarningDialog().AttachToWindow(currentWindow).SetTitle(title).SetMessage(message).Show()
 }
 
 func ErrorDialog(title string, message string) {
-	application.ErrorDialog().SetTitle(title).SetMessage(message).Show()
+	checkInit()
+	application.ErrorDialog().AttachToWindow(currentWindow).SetTitle(title).SetMessage(message).Show()
+}
+
+func SaveFileDialog(title string) {
+	checkInit()
 }
