@@ -36,6 +36,11 @@ export function Delete(item: $models.Post): Promise<$models.Post> & { cancel(): 
     return $typingPromise;
 }
 
+export function ExportToExcel(): Promise<void> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(75322242) as any;
+    return $resultPromise;
+}
+
 export function GetAll(): Promise<($models.Post | null)[]> & { cancel(): void } {
     let $resultPromise = $Call.ByID(65691059) as any;
     let $typingPromise = $resultPromise.then(($result) => {

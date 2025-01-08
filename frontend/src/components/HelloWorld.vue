@@ -16,6 +16,7 @@ const doGreet = () => {
 
 onMounted(async () => {
   console.log(await PostService.GetById(5))
+  await PostService.ExportToExcel()
 })
 
 </script>

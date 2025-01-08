@@ -5,8 +5,8 @@ var Entities = []any{
 }
 
 type Post struct {
-	Id        uint   `gorm:"primaryKey"`
-	Text      string `displayName:"Текст"`
+	Id        uint   `gorm:"primaryKey" displayName:"Номер"`
+	Text      string `displayName:"Текст" displayName:"Текст поста"`
 	CreatedAt int64  `gorm:"autoCreateTime" displayName:"Дата публикации" cellType:"timestamp"`
 }
 

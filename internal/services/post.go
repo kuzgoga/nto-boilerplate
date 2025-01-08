@@ -2,8 +2,11 @@ package services
 
 import (
 	"app/internal/dal"
+	"app/internal/dialogs"
+	excel "app/internal/extras/excel"
 	"app/internal/models"
 	"errors"
+	"fmt"
 	"gorm.io/gen/field"
 	"gorm.io/gorm"
 )
@@ -42,4 +45,11 @@ func (service *PostService) Delete(item Post) (Post, error) {
 func (service *PostService) Count() (int64, error) {
 	amount, err := dal.Post.Count()
 	return amount, err
+}
+
+func (service *PostService) ExportToExcel() {
+	err := excel.ExportEntityToSpreadsheet("report.xlsx", "Посты", Post{}, service.GetAll)
+	if err != nil {
+		dialogs.ErrorDialog("Ошибка экспорта", fmt.Sprintf("Ошибка при экспорте данных: %s", err))
+	}
 }
