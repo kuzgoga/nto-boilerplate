@@ -16,10 +16,10 @@ type Field struct {
 }
 
 type Model struct {
-	Name   string
-	Fields []Field
+	Name   string  `json:"name"`
+	Fields []Field `json:"fields"`
 }
 
-type Schema struct {
-	models []Model
+type Scheme struct {
+	Models []Model `json:"models"`
 }
