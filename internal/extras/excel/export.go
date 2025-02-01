@@ -7,6 +7,8 @@ import (
 	"log/slog"
 	"reflect"
 	"slices"
+	"strings"
+	"time"
 )
 
 type TableHeaders struct {
@@ -56,22 +58,34 @@ func ExportEntityToSpreadsheet[T any](filename, sheetName string, entity T, prov
 	// TODO: appearance
 	for i, item := range items {
 		structValue := reflect.ValueOf(item).Elem()
-		for j := range structValue.NumField() {
+
+		for j := 0; j < structValue.NumField(); j++ {
 			if slices.Contains(headers.IgnoredFieldsIndices, j) {
 				continue
 			}
 			field := structValue.Field(j)
-
 			if isPrimitive(field.Type()) {
-				fieldValue := reflect.ValueOf(field)
-
+				fieldValue := field.Interface()
 				cellName, err := GetCellNameByIndices(j, i+1)
 				if err != nil {
 					return err
 				}
-				fmt.Printf("Field %s value: %v\n", cellName, fieldValue.Interface())
 
-				err = file.SetCellValue(sheetName, cellName, fieldValue.Interface())
+				cellType := structValue.Type().Field(j).Tag.Get(CellTypeTag)
+
+				var cellValue any
+
+				switch cellType {
+				case TimestampTag:
+					cellValue = time.Unix(field.Int(), 0)
+				case DurationTag:
+					cellValue = time.Duration(field.Int())
+				default:
+					cellValue = fieldValue
+				}
+
+				slog.Debug("Field %s value: %v, %s\n", cellName, cellValue, cellType)
+				err = file.SetCellValue(sheetName, cellName, cellValue)
 				if err != nil {
 					return err
 				}
@@ -79,12 +93,7 @@ func ExportEntityToSpreadsheet[T any](filename, sheetName string, entity T, prov
 		}
 	}
 
-	filepath, err := dialogs.SaveFileDialog("Экспорт данных", filename)
-	if err != nil {
-		return err
-	}
-
-	if err := file.SaveAs(filepath); err != nil {
+	if err := WriteData(file, filename); err != nil {
 		return err
 	}
 
@@ -214,6 +223,18 @@ func ApplyStyleHeaders(file *excelize.File, sheetName string, headers TableHeade
 	return nil
 }
 
-func WriteData(file *excelize.File) {
+func WriteData(file *excelize.File, filename string) error {
+	filepath, err := dialogs.SaveFileDialog("Экспорт данных", filename)
 
+	if !strings.HasSuffix(filepath, ".xlsx") {
+		filepath += ".xlsx"
+	}
+
+	if err != nil {
+		return err
+	}
+	if err := file.SaveAs(filepath); err != nil {
+		return err
+	}
+	return nil
 }
