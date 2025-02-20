@@ -82,7 +82,7 @@ go install git.gogacoder.ru/NTO/crudgen/cmd/crudgen@latest
 Сгенерируйте DAL:
 
 ```
-cd dal
+cd gen
 go run gen.go
 ```
 
