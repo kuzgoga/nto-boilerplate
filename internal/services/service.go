@@ -5,6 +5,6 @@ type Service[T any] interface {
 	GetById(id uint) (*T, error)
 	Create(item T) (T, error)
 	Update(item T) (T, error)
-	Delete(item T) (T, error)
+	Delete(id uint) error
 	Count() (int64, error)
 }

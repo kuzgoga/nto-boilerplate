@@ -27,13 +27,9 @@ export function Create(item: $models.Author): Promise<$models.Author> & { cancel
     return $typingPromise;
 }
 
-export function Delete(item: $models.Author): Promise<$models.Author> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(2096845974, item) as any;
-    let $typingPromise = $resultPromise.then(($result) => {
-        return $$createType0($result);
-    }) as any;
-    $typingPromise.cancel = $resultPromise.cancel.bind($resultPromise);
-    return $typingPromise;
+export function Delete(id: number): Promise<void> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(2096845974, id) as any;
+    return $resultPromise;
 }
 
 export function GetAll(): Promise<($models.Author | null)[]> & { cancel(): void } {

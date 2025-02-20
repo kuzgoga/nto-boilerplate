@@ -27,13 +27,9 @@ export function Create(item: $models.Post): Promise<$models.Post> & { cancel(): 
     return $typingPromise;
 }
 
-export function Delete(item: $models.Post): Promise<$models.Post> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(2924549135, item) as any;
-    let $typingPromise = $resultPromise.then(($result) => {
-        return $$createType0($result);
-    }) as any;
-    $typingPromise.cancel = $resultPromise.cancel.bind($resultPromise);
-    return $typingPromise;
+export function Delete(id: number): Promise<void> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(2924549135, id) as any;
+    return $resultPromise;
 }
 
 export function ExportToExcel(): Promise<void> & { cancel(): void } {
