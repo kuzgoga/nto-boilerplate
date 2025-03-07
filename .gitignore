@@ -2,5 +2,5 @@ bin/
 database.db
 .task/
 frontend/node_modules/
-nto-ui/
+nto-cli/
 /**/cli.exe
