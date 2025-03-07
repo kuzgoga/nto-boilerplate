@@ -8,7 +8,7 @@ export default class PostService implements IService<Post> {
 	}
 
 	async readAll() {
-		return await GetAll()
+		return await GetAll() as Post[]
 	}
 
 	async create(item: Post) {

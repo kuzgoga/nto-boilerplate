@@ -62,8 +62,7 @@ const emits = defineEmits<{
                         </template>
                     </Select>
                     <MultiSelect v-else-if="props.scheme[key].type?.many" v-model:model-value="createItem![key]"
-                        :options="props.scheme[key].type?.nested?.values"
-                        class="w-[300px] h-11"
+                        :options="props.scheme[key].type?.nested?.values" class="w-[300px] h-11"
                         :placeholder="`Выберите ${props.scheme[key].russian}`">
                         <template #option="{ option }">
                             {{ manyStructsView(option, props.scheme[key]?.type?.nested?.field) }}
@@ -78,15 +77,16 @@ const emits = defineEmits<{
         <template #footer>
             <Button severity="success" @click="async () => {
                 if (props.updateMode) {
-                    props.service.update(createItem as T)
-                    emits('onSaveUpdate', createItem as T)
-                    emits('onSave', createItem as T)
+                    await props.service.update(createItem as T)
+                    await emits('onSaveUpdate', createItem as T)
+                    await emits('onSave', createItem as T)
                 } else {
-                    props.service.create(createItem as T)
-                    emits('onSaveCreate', createItem as T)
-                    emits('onSave', createItem as T)
+                    if (createItem) createItem.Id = 0;
+                    await props.service.create(createItem as T)
+                    await emits('onSaveCreate', createItem as T)
+                    await emits('onSave', createItem as T)
                 }
-                items = await service.readAll() as UnwrapRef<T[]>
+                items = await props.service.readAll() as UnwrapRef<T[]>
                 showCreate = false
             }">Сохранить</Button>
         </template>

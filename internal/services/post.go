@@ -34,22 +34,18 @@ func (service *PostService) GetById(id uint) (*Post, error) {
 	}
 	return item, nil
 }
-
 func (service *PostService) Update(item Post) (Post, error) {
 	err := dal.Post.Preload(field.Associations).Save(&item)
 	return item, err
 }
-
 func (service *PostService) Delete(id uint) error {
 	_, err := dal.Post.Unscoped().Where(dal.Post.Id.Eq(id)).Delete()
 	return err
 }
-
 func (service *PostService) Count() (int64, error) {
 	amount, err := dal.Post.Count()
 	return amount, err
 }
-
 func (service *PostService) ExportToExcel() {
 	err := excel.ExportEntityToSpreadsheet("report.xlsx", "Посты", Post{}, service.GetAll)
 	if err != nil {

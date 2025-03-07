@@ -18,6 +18,7 @@ Id:{
   type: {
     primitive: "number",
   },
+  hidden: true,
 }, 
 Text:{
   type: {

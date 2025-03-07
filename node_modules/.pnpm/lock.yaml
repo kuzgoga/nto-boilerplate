@@ -1,0 +1,22 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      '@wailsio/runtime':
+        specifier: 3.0.0-alpha.66
+        version: 3.0.0-alpha.66
+
+packages:
+
+  '@wailsio/runtime@3.0.0-alpha.66':
+    resolution: {integrity: sha512-ENLu8rn1griL1gFHJqkq1i+BVxrrA0JPJHYneUJYuf/s54kjuQViW0RKDEe/WTDo56ABpfykrd/T8OYpPUyXUw==}
+
+snapshots:
+
+  '@wailsio/runtime@3.0.0-alpha.66': {}
