@@ -5,13 +5,12 @@ var Entities = []any{
 }
 
 type Post struct {
-	Id        uint   `gorm:"primaryKey" displayName:"Номер"`
-	Text      string `displayName:"Текст" displayName:"Текст поста"`
-	CreatedAt int64  `gorm:"autoCreateTime" displayName:"Дата публикации" cellType:"timestamp"`
+	Id        uint   `gorm:"primaryKey" ui:"hidden"`
+	Text      string `displayName:"Текст" ui:"label=Текст"`
+	CreatedAt int64  `gorm:"autoCreateTime" ui:"hidden"`
 }
 
-// Author A sample of comment
 type Author struct {
-	Id   uint `gorm:"primaryKey"`
-	Name string
+	Id   uint   `gorm:"primaryKey" ui:"hidden"`
+	Name string `ui:"label=Имя"`
 }
