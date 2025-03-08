@@ -466,9 +466,12 @@ packages:
       vue:
         optional: true
 
+<<<<<<< HEAD
   '@wailsio/runtime@3.0.0-alpha.66':
     resolution: {integrity: sha512-ENLu8rn1griL1gFHJqkq1i+BVxrrA0JPJHYneUJYuf/s54kjuQViW0RKDEe/WTDo56ABpfykrd/T8OYpPUyXUw==}
 
+=======
+>>>>>>> 4ec5fd2 (fix: creating, updating)
   alien-signals@1.0.4:
     resolution: {integrity: sha512-DJqqQD3XcsaQcQ1s+iE2jDUZmmQpXwHiR6fCAim/w87luaW+vmLY8fMlrdkmRwzaFXhkxf3rqPCR59tKVv1MDw==}
 
@@ -823,10 +826,13 @@ packages:
   primeicons@7.0.0:
     resolution: {integrity: sha512-jK3Et9UzwzTsd6tzl2RmwrVY/b8raJ3QZLzoDACj+oTJ0oX7L9Hy+XnVwgo4QVKlKpnP/Ur13SXV/pVh4LzaDw==}
 
+<<<<<<< HEAD
   primelocale@2.0.3:
     resolution: {integrity: sha512-/sMoTdLxDFJs2Bdns+F4lm33ph6m4j18Rho8y9dsz5DqgWliqXsfYu1We4tkHtviRWq8AzEj31TDLDA3NEYC0Q==}
     engines: {node: '>=18.0.0', npm: '>=8.6.0'}
 
+=======
+>>>>>>> 4ec5fd2 (fix: creating, updating)
   primevue@4.3.1:
     resolution: {integrity: sha512-NSUpcWf2WpXgqOvjgXu5zQM3E5UEXoA2iXLi6xV+h1SBZ1TmgNfrjme96KRzfUY2RBsI0rTSUuPv0I+fXvtcmA==}
     engines: {node: '>=12.11.0'}
@@ -1338,8 +1344,11 @@ snapshots:
       typescript: 5.6.3
       vue: 3.5.13(typescript@5.6.3)
 
+<<<<<<< HEAD
   '@wailsio/runtime@3.0.0-alpha.66': {}
 
+=======
+>>>>>>> 4ec5fd2 (fix: creating, updating)
   alien-signals@1.0.4: {}
 
   ansi-regex@5.0.1: {}
@@ -1666,8 +1675,11 @@ snapshots:
 
   primeicons@7.0.0: {}
 
+<<<<<<< HEAD
   primelocale@2.0.3: {}
 
+=======
+>>>>>>> 4ec5fd2 (fix: creating, updating)
   primevue@4.3.1(vue@3.5.13(typescript@5.6.3)):
     dependencies:
       '@primeuix/styled': 0.5.0

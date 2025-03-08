@@ -1,6 +1,7 @@
 bin/
 database.db
 .task/
-frontend/node_modules/
 nto-cli/
 /**/cli.exe
+/**/node_modules/
+/**/dist/

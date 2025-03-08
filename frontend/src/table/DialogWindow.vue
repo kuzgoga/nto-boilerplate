@@ -79,7 +79,6 @@ const emits = defineEmits<{
         </div>
         <template #footer>
             <Button severity="success" @click="async () => {
-                console.log(createItem)
                 if (props.updateMode) {
                     await props.service.update(createItem as T)
                     await emits('onSaveUpdate', createItem as T)
