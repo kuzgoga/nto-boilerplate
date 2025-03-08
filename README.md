@@ -20,10 +20,7 @@
 - [UPX](https://github.com/upx/upx/releases/latest) - для сжатия.
   **Необходимо зазеркалировать с Github и добавить в PATH!!!**
 - [Git](https://git-scm.com/)
-- Wails3:
-  Установка:
-  `go install -v github.com/wailsapp/wails/v3/cmd/wails3@latest`
-  **Необходимо зазеркалировать с Github и добавить в PATH!!!**
+- Wails3:`go install -v github.com/wailsapp/wails/v3/cmd/wails3@latest`
 - MinGw-64: https://jmeubank.github.io/tdm-gcc/
   **Необходимо зазеркалировать с Github!!!**
 
