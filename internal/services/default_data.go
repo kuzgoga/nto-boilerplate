@@ -3,11 +3,12 @@ package services
 import (
 	"app/internal/dialogs"
 	"fmt"
+	"time"
 )
 
 func InsertDefaultData() {
-	insertPosts()
 	insertAuthors()
+	insertPosts()
 }
 
 func InsertDefaultEntityData[T any](service Service[T], entities []T) {
@@ -22,16 +23,22 @@ func InsertDefaultEntityData[T any](service Service[T], entities []T) {
 func insertPosts() {
 	InsertDefaultEntityData(&PostService{}, []Post{
 		{
-			Id:   1,
-			Text: "Жителям Кузбасса запретили болеть.",
+			Id:       1,
+			Text:     "Жителям Кузбасса запретили болеть.",
+			Deadline: time.Now().Unix(),
+			AuthorId: 1,
 		},
 		{
-			Id:   2,
-			Text: "⚡️⚡️⚡️Дома будут летать.",
+			Id:       2,
+			Deadline: time.Now().Add(time.Hour * 24 * 5).Unix(),
+			Text:     "⚡️⚡️⚡️Дома будут летать.",
+			AuthorId: 2,
 		},
 		{
-			Id:   3,
-			Text: "В Кузбассе начали строить дома выше, чтобы жители были ближе к богу и солнцу.",
+			Id:       3,
+			Deadline: time.Now().Add(time.Hour * 24 * 6).Unix(),
+			Text:     "В Кузбассе начали строить дома выше, чтобы жители были ближе к богу и солнцу.",
+			AuthorId: 3,
 		},
 	})
 }
@@ -41,6 +48,14 @@ func insertAuthors() {
 		{
 			Id:   1,
 			Name: "ИА Кузбасс",
+		},
+		{
+			Id:   2,
+			Name: "ASTRA",
+		},
+		{
+			Id:   3,
+			Name: "ЧТД",
 		},
 	})
 }

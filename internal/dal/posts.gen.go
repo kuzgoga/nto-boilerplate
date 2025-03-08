@@ -28,7 +28,27 @@ func newPost(db *gorm.DB, opts ...gen.DOOption) post {
 	_post.ALL = field.NewAsterisk(tableName)
 	_post.Id = field.NewUint(tableName, "id")
 	_post.Text = field.NewString(tableName, "text")
+	_post.Deadline = field.NewInt64(tableName, "deadline")
 	_post.CreatedAt = field.NewInt64(tableName, "created_at")
+	_post.AuthorId = field.NewUint(tableName, "author_id")
+	_post.Author = postBelongsToAuthor{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("Author", "models.Author"),
+		Posts: struct {
+			field.RelationField
+			Author struct {
+				field.RelationField
+			}
+		}{
+			RelationField: field.NewRelation("Author.Posts", "models.Post"),
+			Author: struct {
+				field.RelationField
+			}{
+				RelationField: field.NewRelation("Author.Posts.Author", "models.Author"),
+			},
+		},
+	}
 
 	_post.fillFieldMap()
 
@@ -41,7 +61,10 @@ type post struct {
 	ALL       field.Asterisk
 	Id        field.Uint
 	Text      field.String
+	Deadline  field.Int64
 	CreatedAt field.Int64
+	AuthorId  field.Uint
+	Author    postBelongsToAuthor
 
 	fieldMap map[string]field.Expr
 }
@@ -60,7 +83,9 @@ func (p *post) updateTableName(table string) *post {
 	p.ALL = field.NewAsterisk(table)
 	p.Id = field.NewUint(table, "id")
 	p.Text = field.NewString(table, "text")
+	p.Deadline = field.NewInt64(table, "deadline")
 	p.CreatedAt = field.NewInt64(table, "created_at")
+	p.AuthorId = field.NewUint(table, "author_id")
 
 	p.fillFieldMap()
 
@@ -77,10 +102,13 @@ func (p *post) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (p *post) fillFieldMap() {
-	p.fieldMap = make(map[string]field.Expr, 3)
+	p.fieldMap = make(map[string]field.Expr, 6)
 	p.fieldMap["id"] = p.Id
 	p.fieldMap["text"] = p.Text
+	p.fieldMap["deadline"] = p.Deadline
 	p.fieldMap["created_at"] = p.CreatedAt
+	p.fieldMap["author_id"] = p.AuthorId
+
 }
 
 func (p post) clone(db *gorm.DB) post {
@@ -91,6 +119,84 @@ func (p post) clone(db *gorm.DB) post {
 func (p post) replaceDB(db *gorm.DB) post {
 	p.postDo.ReplaceDB(db)
 	return p
+}
+
+type postBelongsToAuthor struct {
+	db *gorm.DB
+
+	field.RelationField
+
+	Posts struct {
+		field.RelationField
+		Author struct {
+			field.RelationField
+		}
+	}
+}
+
+func (a postBelongsToAuthor) Where(conds ...field.Expr) *postBelongsToAuthor {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a postBelongsToAuthor) WithContext(ctx context.Context) *postBelongsToAuthor {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a postBelongsToAuthor) Session(session *gorm.Session) *postBelongsToAuthor {
+	a.db = a.db.Session(session)
+	return &a
+}
+
+func (a postBelongsToAuthor) Model(m *models.Post) *postBelongsToAuthorTx {
+	return &postBelongsToAuthorTx{a.db.Model(m).Association(a.Name())}
+}
+
+type postBelongsToAuthorTx struct{ tx *gorm.Association }
+
+func (a postBelongsToAuthorTx) Find() (result *models.Author, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a postBelongsToAuthorTx) Append(values ...*models.Author) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a postBelongsToAuthorTx) Replace(values ...*models.Author) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a postBelongsToAuthorTx) Delete(values ...*models.Author) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a postBelongsToAuthorTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a postBelongsToAuthorTx) Count() int64 {
+	return a.tx.Count()
 }
 
 type postDo struct{ gen.DO }

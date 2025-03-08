@@ -28,6 +28,24 @@ func newAuthor(db *gorm.DB, opts ...gen.DOOption) author {
 	_author.ALL = field.NewAsterisk(tableName)
 	_author.Id = field.NewUint(tableName, "id")
 	_author.Name = field.NewString(tableName, "name")
+	_author.Posts = authorHasManyPosts{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("Posts", "models.Post"),
+		Author: struct {
+			field.RelationField
+			Posts struct {
+				field.RelationField
+			}
+		}{
+			RelationField: field.NewRelation("Posts.Author", "models.Author"),
+			Posts: struct {
+				field.RelationField
+			}{
+				RelationField: field.NewRelation("Posts.Author.Posts", "models.Post"),
+			},
+		},
+	}
 
 	_author.fillFieldMap()
 
@@ -37,9 +55,10 @@ func newAuthor(db *gorm.DB, opts ...gen.DOOption) author {
 type author struct {
 	authorDo
 
-	ALL  field.Asterisk
-	Id   field.Uint
-	Name field.String
+	ALL   field.Asterisk
+	Id    field.Uint
+	Name  field.String
+	Posts authorHasManyPosts
 
 	fieldMap map[string]field.Expr
 }
@@ -74,9 +93,10 @@ func (a *author) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (a *author) fillFieldMap() {
-	a.fieldMap = make(map[string]field.Expr, 2)
+	a.fieldMap = make(map[string]field.Expr, 3)
 	a.fieldMap["id"] = a.Id
 	a.fieldMap["name"] = a.Name
+
 }
 
 func (a author) clone(db *gorm.DB) author {
@@ -87,6 +107,84 @@ func (a author) clone(db *gorm.DB) author {
 func (a author) replaceDB(db *gorm.DB) author {
 	a.authorDo.ReplaceDB(db)
 	return a
+}
+
+type authorHasManyPosts struct {
+	db *gorm.DB
+
+	field.RelationField
+
+	Author struct {
+		field.RelationField
+		Posts struct {
+			field.RelationField
+		}
+	}
+}
+
+func (a authorHasManyPosts) Where(conds ...field.Expr) *authorHasManyPosts {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a authorHasManyPosts) WithContext(ctx context.Context) *authorHasManyPosts {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a authorHasManyPosts) Session(session *gorm.Session) *authorHasManyPosts {
+	a.db = a.db.Session(session)
+	return &a
+}
+
+func (a authorHasManyPosts) Model(m *models.Author) *authorHasManyPostsTx {
+	return &authorHasManyPostsTx{a.db.Model(m).Association(a.Name())}
+}
+
+type authorHasManyPostsTx struct{ tx *gorm.Association }
+
+func (a authorHasManyPostsTx) Find() (result []*models.Post, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a authorHasManyPostsTx) Append(values ...*models.Post) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a authorHasManyPostsTx) Replace(values ...*models.Post) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a authorHasManyPostsTx) Delete(values ...*models.Post) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a authorHasManyPostsTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a authorHasManyPostsTx) Count() int64 {
+	return a.tx.Count()
 }
 
 type authorDo struct{ gen.DO }

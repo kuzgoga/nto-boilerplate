@@ -7,10 +7,16 @@ var Entities = []any{
 type Post struct {
 	Id        uint   `gorm:"primaryKey" ui:"hidden"`
 	Text      string `displayName:"Текст" ui:"label=Текст"`
+	Deadline  int64  `ui:"label=Дедлайн"`
 	CreatedAt int64  `gorm:"autoCreateTime" ui:"hidden"`
+	AuthorId  uint
+	Author    Author `ui:"label=Автор, data=Author, field=[Name]"`
 }
 
 type Author struct {
-	Id   uint   `gorm:"primaryKey" ui:"hidden"`
-	Name string `ui:"label=Имя"`
+	Id    uint   `gorm:"primaryKey" ui:"hidden"`
+	Name  string `ui:"label=Имя"`
+	Posts []Post `ui:"label=Посты, data=Post, field=[Text]"`
 }
+
+// TODO: correct processing the semicolon (get attention to quotes)
