@@ -5,10 +5,10 @@ import type { Scheme } from '../types/scheme.type';
 import type { IService } from '../types/service.type';
 import { manyStructsView } from '../utils/structs/structs-view.util';
 import { type UnwrapRef } from 'vue';
+import { toDate, toTimestamp } from '../utils/date/converters.util';
 
 const showCreate = defineModel<boolean>('show')
 const createItem = defineModel<T>('item')
-
 const items = defineModel<UnwrapRef<T[]>>('items')
 
 const props = defineProps<{
@@ -45,7 +45,10 @@ const emits = defineEmits<{
                         v-else-if="props.scheme[key]?.type?.primitive === 'number'" />
                     <InputText class="w-[300px]" v-model:model-value="<string>createItem![key]"
                         v-else-if="props.scheme[key].type?.primitive === 'string'" />
-                    <DatePicker class="w-[300px]" v-model:model-value="<Date>createItem![key]"
+                    <DatePicker class="w-[300px]" :default-value="toDate(createItem![key] as number)" @value-change="v => {
+                        createItem![key] = toTimestamp(v as Date) as any
+                        console.log(createItem![key])
+                    }" show-time
                         v-else-if="props.scheme[key].type?.primitive === 'date'" />
                     <Textarea class="w-[300px]" v-model="<string>createItem![key]"
                         v-else-if="props.scheme[key].type?.primitive === 'multiple'" />
@@ -76,12 +79,12 @@ const emits = defineEmits<{
         </div>
         <template #footer>
             <Button severity="success" @click="async () => {
+                console.log(createItem)
                 if (props.updateMode) {
                     await props.service.update(createItem as T)
                     await emits('onSaveUpdate', createItem as T)
                     await emits('onSave', createItem as T)
                 } else {
-                    if (createItem) createItem.Id = 0;
                     await props.service.create(createItem as T)
                     await emits('onSaveCreate', createItem as T)
                     await emits('onSave', createItem as T)

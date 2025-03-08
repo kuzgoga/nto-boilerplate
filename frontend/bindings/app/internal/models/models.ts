@@ -5,9 +5,6 @@
 // @ts-ignore: Unused imports
 import {Create as $Create} from "@wailsio/runtime";
 
-/**
- * Author A sample of comment
- */
 export class Author {
     "Id": number;
     "Name": string;

@@ -7,6 +7,8 @@ import type { TableEmits } from "../types/table-emits.type";
 import FloatingButton from "../components/buttons/FloatingButton.vue";
 import type { IEntity } from "../types/entity.type";
 import DialogWindow from "./DialogWindow.vue";
+import { timestampToDate } from "../utils/date/converters.util";
+import { viewDate } from "../utils/date/view.util";
 
 const props = defineProps<TableProps<T>>();
 
@@ -116,10 +118,10 @@ const updateSlotName = (key: any) => key + "Update";
                     <template #body="{ data }">
                         <p>
                             {{
-                                manyStructsView(
+                                viewDate(manyStructsView(
                                     data[key],
                                     props.scheme[key]?.type?.nested?.field,
-                                )
+                                ), scheme[key]?.type?.primitive)
                             }}
                         </p>
                     </template>
@@ -131,9 +133,9 @@ const updateSlotName = (key: any) => key + "Update";
                         <Button
                             severity="secondary"
                             icon="pi pi-pencil"
-                            @click="() => {
-                                emits('onUpdateOpen')
-                                emits('onOpen')
+                            @click="async () => {
+                                await emits('onUpdateOpen')
+                                await emits('onOpen')
                                 updateItem = data
                             }"
                         ></Button>
@@ -141,7 +143,7 @@ const updateSlotName = (key: any) => key + "Update";
                             severity="danger"
                             icon="pi pi-trash"
                             @click="async () => {
-                              emits('onDelete', data)
+                              await emits('onDelete', data)
                               await props.service.delete(data.Id)
                               items = await props.service.readAll() as UnwrapRef<T[]>
                             }"

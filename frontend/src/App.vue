@@ -4,5 +4,7 @@ import PostScheme from './post/PostScheme.vue';
 </script>
 
 <template>
-    <PostScheme />
+    <main class="w-screen h-screen">
+        <PostScheme />
+    </main>
 </template>

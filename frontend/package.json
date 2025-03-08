@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@primevue/themes": "^4.2.5",
+    "@wailsio/runtime": "3.0.0-alpha.66",
     "pinia": "^2.3.0",
     "primeicons": "^7.0.0",
+    "primelocale": "^2.0.3",
     "primevue": "^4.2.5",
     "vue": "^3.5.13"
   },

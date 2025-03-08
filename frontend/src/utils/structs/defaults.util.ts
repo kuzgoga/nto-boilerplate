@@ -1,6 +1,6 @@
 import type { IEntity } from "../../types/entity.type";
 import type { Scheme } from "../../types/scheme.type";
-import { getTomorrow } from "../date/getters";
+import { toTimestamp } from "../date/converters.util";
 
 export const getDefaultValues = <T extends IEntity>(scheme: Scheme<T>) => {
     const keys = Object.keys(scheme) as (keyof typeof scheme)[]
@@ -8,10 +8,11 @@ export const getDefaultValues = <T extends IEntity>(scheme: Scheme<T>) => {
 
     for (let key of keys) {
         const primitive = scheme[key]?.type?.primitive
-        if (primitive == 'string' || primitive == 'multiple') {
+        if (scheme[key].hidden) continue;
+        if ((primitive == 'string' || primitive == 'multiple')) {
             obj[key] = ''
         } else if (primitive == 'date') {
-            obj[key] = getTomorrow()
+            obj[key] = toTimestamp(new Date)
         } else if (primitive == 'boolean') {
             obj[key] = false
         } else if (primitive == 'number') {

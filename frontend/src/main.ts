@@ -4,9 +4,11 @@ import App from './App.vue'
 import { Config } from 'primevue'
 import Aura from '@primevue/themes/aura'
 import 'primeicons/primeicons.css'
+import { ru } from 'primelocale/js/ru.js'
 
 createApp(App).use(Config, {
     theme: {
-        preset: Aura
-    }
+        preset: Aura,
+    },
+    locale: ru
 }).mount('#app')

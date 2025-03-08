@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Table from '../table/Table.vue'
 import { onMounted, reactive } from 'vue'
-import { getDefaultValues } from '../utils/structs/defaults.util'
+import { getDefaultValues } from '../utils/structs/defaults.util.ts'
 import S from './post.service.ts'
 import type { Scheme } from '../types/scheme.type'
 import { Post } from '../../bindings/app/internal/services/models.ts'
@@ -9,36 +9,37 @@ import { Post } from '../../bindings/app/internal/services/models.ts'
 const service = new S
 
 onMounted(async () => {
-  	
+
 })
 
 
 const scheme: Scheme<Post> = reactive({
-Id:{
-  type: {
-    primitive: "number",
+  Id: {
+    hidden: true,
+    type: {
+      primitive: "number",
+    },
   },
-  hidden: true,
-}, 
-Text:{
-  type: {
-    primitive: "string",
+  Text: {
+    russian: "Текст",
+    type: {
+      primitive: "string",
+    },
   },
-}, 
-CreatedAt:{
-  type: {
-    primitive: "number",
+  CreatedAt: {
+    hidden: true,
+    type: {
+      primitive: "number",
+    },
   },
-}, 
-
 })
 
-const getDefaults = ()  => getDefaultValues(scheme)
+const getDefaults = () => getDefaultValues(scheme)
 
 </script>
 
 <template>
-	<main class="w-screen h-screen">
-		<Table :scheme :service :getDefaults></Table>
-	</main>
+  <main class="w-screen h-screen">
+    <Table :scheme :service :getDefaults></Table>
+  </main>
 </template>
