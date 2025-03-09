@@ -19,7 +19,7 @@ onMounted(async () => {
 })
 
 const scheme: Scheme<Post> = reactive({
-
+  entityId: 'PostId',
   Id: {
   hidden: true,
   type: {

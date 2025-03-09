@@ -1,11 +1,12 @@
 <script setup lang="ts" generic="T extends IEntity">
-import { Button, DatePicker, Dialog, InputNumber, InputText, MultiSelect, Select, Textarea, ToggleSwitch } from 'primevue';
+import { Button, DatePicker, Dialog, InputNumber, InputText, Select, Textarea, ToggleSwitch } from 'primevue';
 import type { IEntity } from '../types/entity.type';
 import type { Scheme } from '../types/scheme.type';
 import type { IService } from '../types/service.type';
 import { manyStructsView } from '../utils/structs/structs-view.util';
 import { type UnwrapRef } from 'vue';
 import { toDate, toTimestamp } from '../utils/date/converters.util';
+import MultiSelect from '../components/selects/MultiSelect.vue';
 
 const showCreate = defineModel<boolean>('show')
 const createItem = defineModel<T>('item')
@@ -22,9 +23,9 @@ type Key = keyof T
 const keys = Object.keys(props.scheme) as Key[]
 
 const emits = defineEmits<{
-    (e: 'onSave', data: any): void
-    (e: 'onSaveUpdate', data: any): void
-    (e: 'onSaveCreate', data: any): void
+    (e: 'onSave', data: T): void
+    (e: 'onSaveUpdate', data: T): void
+    (e: 'onSaveCreate', data: T): void
 }>()
 </script>
 
@@ -47,14 +48,13 @@ const emits = defineEmits<{
                         v-else-if="props.scheme[key].type?.primitive === 'string'" />
                     <DatePicker class="w-[300px]" :default-value="toDate(createItem![key] as number)" @value-change="v => {
                         createItem![key] = toTimestamp(v as Date) as any
-                        console.log(createItem![key])
                     }" show-time
                         v-else-if="props.scheme[key].type?.primitive === 'date'" />
                     <Textarea class="w-[300px]" v-model="<string>createItem![key]"
                         v-else-if="props.scheme[key].type?.primitive === 'multiple'" />
                     <ToggleSwitch class="w-[300px]" v-model:model-value="<boolean>createItem![key]"
                         v-else-if="props.scheme[key].type?.primitive === 'boolean'" />
-                    <Select v-else-if="props.scheme[key].type?.nested?.values && !props.scheme[key].type?.many"
+                    <Select v-else-if="props.scheme[key].type?.nested?.values && !props.scheme[key]?.many"
                         v-model:model-value="createItem![key]" :options="props.scheme[key].type.nested.values"
                         :placeholder="`Выберите ${props.scheme[key].russian}`" class="w-[300px]">
                         <template #option="{ option }">
@@ -64,21 +64,15 @@ const emits = defineEmits<{
                             {{ manyStructsView(value, props.scheme[key].type.nested.field) }}
                         </template>
                     </Select>
-                    <MultiSelect v-else-if="props.scheme[key].type?.many" v-model:model-value="createItem![key]"
-                        :options="props.scheme[key].type?.nested?.values" class="w-[300px] h-11"
-                        :placeholder="`Выберите ${props.scheme[key].russian}`">
-                        <template #option="{ option }">
-                            {{ manyStructsView(option, props.scheme[key]?.type?.nested?.field) }}
-                        </template>
-                        <template #value="{ value }">
-                            {{ manyStructsView(value, props.scheme[key]?.type?.nested?.field) }}
-                        </template>
-                    </MultiSelect>
+                    <MultiSelect v-else-if="props.scheme[key].type?.nested?.values && props.scheme[key]?.many" class="w-[300px]"
+                        v-model="<T[]>createItem![key]" :options="props.scheme[key].type.nested.values"
+                        :path="props.scheme[key].type.nested.field" :entity-id="props.scheme.entityId" />
                 </div>
             </div>
         </div>
         <template #footer>
             <Button severity="success" @click="async () => {
+                console.log(createItem)
                 if (props.updateMode) {
                     await props.service.update(createItem as T)
                     await emits('onSaveUpdate', createItem as T)

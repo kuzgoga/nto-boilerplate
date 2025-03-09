@@ -8,8 +8,8 @@ export interface ISchemeField<T extends IEntity> {
             field: string[]
             values: T[]
         }
-        many?: boolean
     }
+    many?: boolean
     russian?: string
     hidden?: boolean
     readonly?: boolean

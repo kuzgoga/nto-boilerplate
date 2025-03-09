@@ -15,10 +15,10 @@ const service = new Service
 
 onMounted(async () => {
   (scheme as any).Posts.type!.nested!.values = await postService.readAll()
-  console.log(scheme)
 })
 
 const scheme: Scheme<Author> = reactive({
+  entityId: "AuthorId",
   Id: {
     hidden: true,
     type: {
