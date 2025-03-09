@@ -18,7 +18,7 @@ const pushOrRemove = (option: T) => {
     } else {
         selected.value.push(option)
     }
-    setNullIds()
+    //setNullIds()
 }
 
 const setNullIds = () => {
@@ -28,7 +28,7 @@ const setNullIds = () => {
     })
 }
 
-onMounted(setNullIds)
+//onMounted(setNullIds)
 </script>
 
 <template>

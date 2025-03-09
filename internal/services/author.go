@@ -33,7 +33,12 @@ func (service *AuthorService) GetById(id uint) (*Author, error) {
 	return item, nil
 }
 func (service *AuthorService) Update(item Author) (Author, error) {
-	err := dal.Author.Preload(field.Associations).Save(&item)
+	var posts []*models.Post
+	for _, post := range item.Posts {
+		posts = append(posts, &post)
+	}
+	err := dal.Author.Posts.Model(&item).Replace(posts...)
+	_ = dal.Author.Save(&item)
 	return item, err
 }
 func (service *AuthorService) Delete(id uint) error {

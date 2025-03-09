@@ -16,6 +16,7 @@ onMounted(async () => {
 });
 
 const scheme: Scheme<Author> = reactive({
+  entityId: "AuthorId",
   Id: {
     hidden: true,
     type: {

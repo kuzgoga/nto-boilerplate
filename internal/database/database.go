@@ -4,7 +4,9 @@ import (
 	"app/internal/dal"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 	"log"
+	"os"
 	"sync"
 	"time"
 )
@@ -18,7 +20,19 @@ const Path = "database.db"
 
 func initialize() error {
 	var err error
-	db, err = gorm.Open(sqlite.Open("file:"+Path+"?_fk=1"), &gorm.Config{})
+	newLogger := logger.New(
+		log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
+		logger.Config{
+			SlowThreshold:             time.Second, // Slow SQL threshold
+			LogLevel:                  logger.Info, // Log level
+			IgnoreRecordNotFoundError: false,       // Ignore ErrRecordNotFound error for logger
+			ParameterizedQueries:      false,       // Don't include params in the SQL log
+			Colorful:                  true,        // Disable color
+		},
+	)
+	db, err = gorm.Open(sqlite.Open("file:"+Path+"?_fk=1"), &gorm.Config{
+		Logger: newLogger,
+	})
 	if err != nil {
 		return err
 	}
