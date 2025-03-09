@@ -62,6 +62,7 @@ func (service *AuthorService) Delete(id uint) error {
 	_, err := dal.Author.Unscoped().Where(dal.Author.Id.Eq(id)).Delete()
 	return err
 }
+
 func (service *AuthorService) Count() (int64, error) {
 	amount, err := dal.Author.Count()
 	return amount, err

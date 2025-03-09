@@ -32,6 +32,6 @@ type Comment struct {
 	Id       uint   `gorm:"primaryKey" ui:"hidden"`
 	Text     string `ui:"label:Текст;"`
 	AuthorId uint   `ui:"hidden"`
-	Author   Author `ui:"label:Автор; field:Name;" gorm:"foreignKey:Id;references:AuthorId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	Author   Author `ui:"label:Автор; field:Name;" gorm:"foreignKey:AuthorId;references:Id;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	Posts    []Post `ui:"label:Посты; field:Text;" gorm:"many2many:comments_post;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
