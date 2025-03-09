@@ -34,14 +34,15 @@ const scheme: Scheme<Post> = reactive({
     russian: "Дедлайн",
     date: true,
     type: {
-      primitive: "number",
+      primitive: "date",
     },
   },
 
   CreatedAt: {
+    readonly: true,
     date: true,
     type: {
-      primitive: "number",
+      primitive: "date",
     },
   },
 

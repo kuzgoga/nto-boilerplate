@@ -36,7 +36,7 @@ const scheme: Scheme<Author> = reactive({
     type: {
       nested: {
         values: [],
-        field: [""],
+        field: ["Text"],
       },
     },
   },
