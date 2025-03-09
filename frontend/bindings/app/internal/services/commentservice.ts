@@ -20,7 +20,7 @@ export function Count(): Promise<number> & { cancel(): void } {
 
 export function Create(item: $models.Comment): Promise<$models.Comment> & { cancel(): void } {
     let $resultPromise = $Call.ByID(4239106089, item) as any;
-    let $typingPromise = $resultPromise.then(($result) => {
+    let $typingPromise = $resultPromise.then(($result: any) => {
         return $$createType0($result);
     }) as any;
     $typingPromise.cancel = $resultPromise.cancel.bind($resultPromise);
@@ -34,7 +34,7 @@ export function Delete(id: number): Promise<void> & { cancel(): void } {
 
 export function GetAll(): Promise<($models.Comment | null)[]> & { cancel(): void } {
     let $resultPromise = $Call.ByID(1805763390) as any;
-    let $typingPromise = $resultPromise.then(($result) => {
+    let $typingPromise = $resultPromise.then(($result: any) => {
         return $$createType2($result);
     }) as any;
     $typingPromise.cancel = $resultPromise.cancel.bind($resultPromise);
@@ -43,7 +43,7 @@ export function GetAll(): Promise<($models.Comment | null)[]> & { cancel(): void
 
 export function GetById(id: number): Promise<$models.Comment | null> & { cancel(): void } {
     let $resultPromise = $Call.ByID(3217823099, id) as any;
-    let $typingPromise = $resultPromise.then(($result) => {
+    let $typingPromise = $resultPromise.then(($result: any) => {
         return $$createType1($result);
     }) as any;
     $typingPromise.cancel = $resultPromise.cancel.bind($resultPromise);
@@ -52,7 +52,7 @@ export function GetById(id: number): Promise<$models.Comment | null> & { cancel(
 
 export function Update(item: $models.Comment): Promise<$models.Comment> & { cancel(): void } {
     let $resultPromise = $Call.ByID(3080970936, item) as any;
-    let $typingPromise = $resultPromise.then(($result) => {
+    let $typingPromise = $resultPromise.then(($result: any) => {
         return $$createType0($result);
     }) as any;
     $typingPromise.cancel = $resultPromise.cancel.bind($resultPromise);

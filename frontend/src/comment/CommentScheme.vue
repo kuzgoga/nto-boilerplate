@@ -2,33 +2,26 @@
 import Table from "../table/Table.vue";
 import { onMounted, reactive } from "vue";
 import { getDefaultValues } from "../utils/structs/defaults.util";
-import Service from "./post.service.ts";
+import Service from "./comment.service.ts";
 import type { Scheme } from "../types/scheme.type";
-import { Post } from "../../bindings/app/internal/services";
+import { Comment } from "../../bindings/app/internal/services";
 import { ref } from "vue";
 import type { Validate } from "../types/validate.type";
 
 import AuthorService from "../author/author.service.ts";
 const authorService = new AuthorService();
 
-import PosttypeService from "../posttype/posttype.service.ts";
-const posttypeService = new PosttypeService();
-
-import CommentService from "../comment/comment.service.ts";
-const commentService = new CommentService();
+import PostService from "../post/post.service.ts";
+const postService = new PostService();
 
 const service = new Service();
 
-const items = ref<Post[]>([]);
+const items = ref<Comment[]>([]);
 
 const load = async () => {
   (scheme as any).Author.type!.nested!.values = await authorService.readAll();
 
-  (scheme as any).PostType.type!.nested!.values =
-    await posttypeService.readAll();
-
-  (scheme as any).Comments.type!.nested!.values =
-    await commentService.readAll();
+  (scheme as any).Posts.type!.nested!.values = await postService.readAll();
 
   items.value = await service.readAll();
   return items.value;
@@ -38,8 +31,8 @@ onMounted(async () => {
   load();
 });
 
-const scheme: Scheme<Post> = reactive({
-  entityId: "PostId",
+const scheme: Scheme<Comment> = reactive({
+  entityId: "CommentId",
 
   Id: {
     hidden: true,
@@ -52,22 +45,6 @@ const scheme: Scheme<Post> = reactive({
     russian: "Текст",
     type: {
       primitive: "string",
-    },
-  },
-
-  Deadline: {
-    russian: "Дедлайн",
-    date: true,
-    type: {
-      primitive: "date",
-    },
-  },
-
-  CreatedAt: {
-    readonly: true,
-    date: true,
-    type: {
-      primitive: "date",
     },
   },
 
@@ -88,25 +65,8 @@ const scheme: Scheme<Post> = reactive({
     },
   },
 
-  PostTypeId: {
-    hidden: true,
-    type: {
-      primitive: "number",
-    },
-  },
-
-  PostType: {
-    russian: "Тип",
-    type: {
-      nested: {
-        values: [],
-        field: ["Name"],
-      },
-    },
-  },
-
-  Comments: {
-    russian: "Комментарии",
+  Posts: {
+    russian: "Посты",
     many: true,
     type: {
       nested: {
@@ -119,7 +79,7 @@ const scheme: Scheme<Post> = reactive({
 
 const getDefaults = () => getDefaultValues(scheme);
 
-const validate: Validate<Post> = (entity) => {
+const validate: Validate<Comment> = (entity) => {
   return {
     status: "success",
   };
