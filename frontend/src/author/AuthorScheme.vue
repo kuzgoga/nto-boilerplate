@@ -83,6 +83,6 @@ const validate: Validate<Author> = (entity) => {
 
 <template>
   <main class="w-screen h-screen">
-    <Table :scheme :service :get-defaults :load :items :validate></Table>
+    <Table name="Author" :scheme :service :get-defaults :load :items :validate></Table>
   </main>
 </template>

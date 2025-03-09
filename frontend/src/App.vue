@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import AuthorScheme from "./author/AuthorScheme.vue";
 import { Dialog } from 'primevue';
 import { useErrorStore } from './stores/error.store';
 
@@ -14,6 +13,6 @@ const errorStore = useErrorStore()
             <h1 class="text-red-500 text-2xl">{{ errorStore.message }}</h1>
     </Dialog>
     <main class="w-screen h-screen">
-         <AuthorScheme></AuthorScheme>
+         
     </main>
 </template>

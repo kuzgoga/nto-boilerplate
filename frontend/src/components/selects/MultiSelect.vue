@@ -31,8 +31,8 @@ const setNullIds = () => {
 </script>
 
 <template>
-    <div class="relative">
-        <ul class="absolute max-h-48 h-auto overflow-y-auto background rounded-md p-3 w-full border-gray-500 border">
+    <div class="">
+        <ul class="max-h-48 h-auto overflow-y-auto background rounded-md p-3 w-full border-gray-500 border">
             <li v-for="option in options" :key="option.Id" class="flex items-center gap-2">
                 <Checkbox :checked="selected.some(item => item.Id == option.Id)" @click="pushOrRemove(option)" />
                 <label :for="option.Id.toString()">{{ structView(option, path) }}</label>
