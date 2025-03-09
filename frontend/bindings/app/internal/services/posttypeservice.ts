@@ -14,12 +14,12 @@ import * as models$0 from "../models/models.js";
 import * as $models from "./models.js";
 
 export function Count(): Promise<number> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(3109924027) as any;
+    let $resultPromise = $Call.ByID(554487955) as any;
     return $resultPromise;
 }
 
-export function Create(item: $models.Post): Promise<$models.Post> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(1443399856, item) as any;
+export function Create(item: $models.PostType): Promise<$models.PostType> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(1092898136, item) as any;
     let $typingPromise = $resultPromise.then(($result) => {
         return $$createType0($result);
     }) as any;
@@ -28,17 +28,12 @@ export function Create(item: $models.Post): Promise<$models.Post> & { cancel(): 
 }
 
 export function Delete(id: number): Promise<void> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(2924549135, id) as any;
+    let $resultPromise = $Call.ByID(2114913543, id) as any;
     return $resultPromise;
 }
 
-export function ExportToExcel(): Promise<void> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(75322242) as any;
-    return $resultPromise;
-}
-
-export function GetAll(): Promise<($models.Post | null)[]> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(65691059) as any;
+export function GetAll(): Promise<($models.PostType | null)[]> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(416231387) as any;
     let $typingPromise = $resultPromise.then(($result) => {
         return $$createType2($result);
     }) as any;
@@ -46,8 +41,8 @@ export function GetAll(): Promise<($models.Post | null)[]> & { cancel(): void } 
     return $typingPromise;
 }
 
-export function GetById(id: number): Promise<$models.Post | null> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(4074736792, id) as any;
+export function GetById(id: number): Promise<$models.PostType | null> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(3237123344, id) as any;
     let $typingPromise = $resultPromise.then(($result) => {
         return $$createType1($result);
     }) as any;
@@ -55,8 +50,8 @@ export function GetById(id: number): Promise<$models.Post | null> & { cancel(): 
     return $typingPromise;
 }
 
-export function Update(item: $models.Post): Promise<$models.Post> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(137798821, item) as any;
+export function Update(item: $models.PostType): Promise<$models.PostType> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(2773888269, item) as any;
     let $typingPromise = $resultPromise.then(($result) => {
         return $$createType0($result);
     }) as any;
@@ -65,6 +60,6 @@ export function Update(item: $models.Post): Promise<$models.Post> & { cancel(): 
 }
 
 // Private type creation functions
-const $$createType0 = models$0.Post.createFrom;
+const $$createType0 = models$0.PostType.createFrom;
 const $$createType1 = $Create.Nullable($$createType0);
 const $$createType2 = $Create.Array($$createType1);

@@ -37,6 +37,15 @@ func newAuthor(db *gorm.DB, opts ...gen.DOOption) author {
 			Posts struct {
 				field.RelationField
 			}
+			Comments struct {
+				field.RelationField
+				Author struct {
+					field.RelationField
+				}
+				Posts struct {
+					field.RelationField
+				}
+			}
 		}{
 			RelationField: field.NewRelation("Posts.Author", "models.Author"),
 			Posts: struct {
@@ -44,7 +53,44 @@ func newAuthor(db *gorm.DB, opts ...gen.DOOption) author {
 			}{
 				RelationField: field.NewRelation("Posts.Author.Posts", "models.Post"),
 			},
+			Comments: struct {
+				field.RelationField
+				Author struct {
+					field.RelationField
+				}
+				Posts struct {
+					field.RelationField
+				}
+			}{
+				RelationField: field.NewRelation("Posts.Author.Comments", "models.Comment"),
+				Author: struct {
+					field.RelationField
+				}{
+					RelationField: field.NewRelation("Posts.Author.Comments.Author", "models.Author"),
+				},
+				Posts: struct {
+					field.RelationField
+				}{
+					RelationField: field.NewRelation("Posts.Author.Comments.Posts", "models.Post"),
+				},
+			},
 		},
+		PostType: struct {
+			field.RelationField
+		}{
+			RelationField: field.NewRelation("Posts.PostType", "models.PostType"),
+		},
+		Comments: struct {
+			field.RelationField
+		}{
+			RelationField: field.NewRelation("Posts.Comments", "models.Comment"),
+		},
+	}
+
+	_author.Comments = authorHasManyComments{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("Comments", "models.Comment"),
 	}
 
 	_author.fillFieldMap()
@@ -59,6 +105,8 @@ type author struct {
 	Id    field.Uint
 	Name  field.String
 	Posts authorHasManyPosts
+
+	Comments authorHasManyComments
 
 	fieldMap map[string]field.Expr
 }
@@ -93,7 +141,7 @@ func (a *author) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (a *author) fillFieldMap() {
-	a.fieldMap = make(map[string]field.Expr, 3)
+	a.fieldMap = make(map[string]field.Expr, 4)
 	a.fieldMap["id"] = a.Id
 	a.fieldMap["name"] = a.Name
 
@@ -119,6 +167,21 @@ type authorHasManyPosts struct {
 		Posts struct {
 			field.RelationField
 		}
+		Comments struct {
+			field.RelationField
+			Author struct {
+				field.RelationField
+			}
+			Posts struct {
+				field.RelationField
+			}
+		}
+	}
+	PostType struct {
+		field.RelationField
+	}
+	Comments struct {
+		field.RelationField
 	}
 }
 
@@ -184,6 +247,77 @@ func (a authorHasManyPostsTx) Clear() error {
 }
 
 func (a authorHasManyPostsTx) Count() int64 {
+	return a.tx.Count()
+}
+
+type authorHasManyComments struct {
+	db *gorm.DB
+
+	field.RelationField
+}
+
+func (a authorHasManyComments) Where(conds ...field.Expr) *authorHasManyComments {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a authorHasManyComments) WithContext(ctx context.Context) *authorHasManyComments {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a authorHasManyComments) Session(session *gorm.Session) *authorHasManyComments {
+	a.db = a.db.Session(session)
+	return &a
+}
+
+func (a authorHasManyComments) Model(m *models.Author) *authorHasManyCommentsTx {
+	return &authorHasManyCommentsTx{a.db.Model(m).Association(a.Name())}
+}
+
+type authorHasManyCommentsTx struct{ tx *gorm.Association }
+
+func (a authorHasManyCommentsTx) Find() (result []*models.Comment, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a authorHasManyCommentsTx) Append(values ...*models.Comment) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a authorHasManyCommentsTx) Replace(values ...*models.Comment) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a authorHasManyCommentsTx) Delete(values ...*models.Comment) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a authorHasManyCommentsTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a authorHasManyCommentsTx) Count() int64 {
 	return a.tx.Count()
 }
 

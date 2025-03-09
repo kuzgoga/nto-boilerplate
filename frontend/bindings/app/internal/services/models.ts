@@ -12,5 +12,11 @@ import * as models$0 from "../models/models.js";
 export const Author = models$0.Author;
 export type Author = models$0.Author;
 
+export const Comment = models$0.Comment;
+export type Comment = models$0.Comment;
+
 export const Post = models$0.Post;
 export type Post = models$0.Post;
+
+export const PostType = models$0.PostType;
+export type PostType = models$0.PostType;

@@ -7,8 +7,10 @@ import (
 )
 
 func InsertDefaultData() {
+	insertPostTypes()
 	insertAuthors()
 	insertPosts()
+	insertComments()
 }
 
 func InsertDefaultEntityData[T any](service Service[T], entities []T) {
@@ -23,22 +25,25 @@ func InsertDefaultEntityData[T any](service Service[T], entities []T) {
 func insertPosts() {
 	InsertDefaultEntityData(&PostService{}, []Post{
 		{
-			Id:       1,
-			Text:     "Жителям Кузбасса запретили болеть.",
-			Deadline: time.Now().Unix(),
-			AuthorId: 1,
+			Id:         1,
+			Text:       "Жителям Кузбасса запретили болеть.",
+			Deadline:   time.Now().Unix(),
+			AuthorId:   1,
+			PostTypeId: 1,
 		},
 		{
-			Id:       2,
-			Deadline: time.Now().Add(time.Hour * 24 * 5).Unix(),
-			Text:     "⚡️⚡️⚡️Дома будут летать.",
-			AuthorId: 2,
+			Id:         2,
+			Deadline:   time.Now().Add(time.Hour * 24 * 5).Unix(),
+			Text:       "⚡️⚡️⚡️Дома будут летать.",
+			AuthorId:   2,
+			PostTypeId: 2,
 		},
 		{
-			Id:       3,
-			Deadline: time.Now().Add(time.Hour * 24 * 6).Unix(),
-			Text:     "В Кузбассе начали строить дома выше, чтобы жители были ближе к богу и солнцу.",
-			AuthorId: 3,
+			Id:         3,
+			Deadline:   time.Now().Add(time.Hour * 24 * 6).Unix(),
+			Text:       "В Кузбассе начали строить дома выше, чтобы жители были ближе к богу и солнцу.",
+			AuthorId:   3,
+			PostTypeId: 3,
 		},
 	})
 }
@@ -56,6 +61,46 @@ func insertAuthors() {
 		{
 			Id:   3,
 			Name: "ЧТД",
+		},
+	})
+}
+
+func insertComments() {
+	InsertDefaultEntityData(&CommentService{}, []Comment{
+		{
+			Id:       1,
+			Text:     "Это просто замечательно!",
+			AuthorId: 1,
+			Posts:    []Post{{Id: 1}},
+		},
+		{
+			Id:       2,
+			Text:     "Я тоже думаю, что это замечательно!",
+			AuthorId: 2,
+			Posts:    []Post{{Id: 2}},
+		},
+		{
+			Id:       3,
+			Text:     "Я тоже думаю, что это замечательно!",
+			AuthorId: 3,
+			Posts:    []Post{{Id: 3}},
+		},
+	})
+}
+
+func insertPostTypes() {
+	InsertDefaultEntityData(&PostTypeService{}, []PostType{
+		{
+			Id:   1,
+			Name: "Общество",
+		},
+		{
+			Id:   2,
+			Name: "Политика",
+		},
+		{
+			Id:   3,
+			Name: "Экономика",
 		},
 	})
 }

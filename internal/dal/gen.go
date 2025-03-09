@@ -16,39 +16,49 @@ import (
 )
 
 var (
-	Q      = new(Query)
-	Author *author
-	Post   *post
+	Q        = new(Query)
+	Author   *author
+	Comment  *comment
+	Post     *post
+	PostType *postType
 )
 
 func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	*Q = *Use(db, opts...)
 	Author = &Q.Author
+	Comment = &Q.Comment
 	Post = &Q.Post
+	PostType = &Q.PostType
 }
 
 func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
-		db:     db,
-		Author: newAuthor(db, opts...),
-		Post:   newPost(db, opts...),
+		db:       db,
+		Author:   newAuthor(db, opts...),
+		Comment:  newComment(db, opts...),
+		Post:     newPost(db, opts...),
+		PostType: newPostType(db, opts...),
 	}
 }
 
 type Query struct {
 	db *gorm.DB
 
-	Author author
-	Post   post
+	Author   author
+	Comment  comment
+	Post     post
+	PostType postType
 }
 
 func (q *Query) Available() bool { return q.db != nil }
 
 func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
-		db:     db,
-		Author: q.Author.clone(db),
-		Post:   q.Post.clone(db),
+		db:       db,
+		Author:   q.Author.clone(db),
+		Comment:  q.Comment.clone(db),
+		Post:     q.Post.clone(db),
+		PostType: q.PostType.clone(db),
 	}
 }
 
@@ -62,21 +72,27 @@ func (q *Query) WriteDB() *Query {
 
 func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
-		db:     db,
-		Author: q.Author.replaceDB(db),
-		Post:   q.Post.replaceDB(db),
+		db:       db,
+		Author:   q.Author.replaceDB(db),
+		Comment:  q.Comment.replaceDB(db),
+		Post:     q.Post.replaceDB(db),
+		PostType: q.PostType.replaceDB(db),
 	}
 }
 
 type queryCtx struct {
-	Author IAuthorDo
-	Post   IPostDo
+	Author   IAuthorDo
+	Comment  ICommentDo
+	Post     IPostDo
+	PostType IPostTypeDo
 }
 
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
-		Author: q.Author.WithContext(ctx),
-		Post:   q.Post.WithContext(ctx),
+		Author:   q.Author.WithContext(ctx),
+		Comment:  q.Comment.WithContext(ctx),
+		Post:     q.Post.WithContext(ctx),
+		PostType: q.PostType.WithContext(ctx),
 	}
 }
 

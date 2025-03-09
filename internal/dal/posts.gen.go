@@ -31,6 +31,7 @@ func newPost(db *gorm.DB, opts ...gen.DOOption) post {
 	_post.Deadline = field.NewInt64(tableName, "deadline")
 	_post.CreatedAt = field.NewInt64(tableName, "created_at")
 	_post.AuthorId = field.NewUint(tableName, "author_id")
+	_post.PostTypeId = field.NewUint(tableName, "post_type_id")
 	_post.Author = postBelongsToAuthor{
 		db: db.Session(&gorm.Session{}),
 
@@ -40,6 +41,18 @@ func newPost(db *gorm.DB, opts ...gen.DOOption) post {
 			Author struct {
 				field.RelationField
 			}
+			PostType struct {
+				field.RelationField
+			}
+			Comments struct {
+				field.RelationField
+				Author struct {
+					field.RelationField
+				}
+				Posts struct {
+					field.RelationField
+				}
+			}
 		}{
 			RelationField: field.NewRelation("Author.Posts", "models.Post"),
 			Author: struct {
@@ -47,7 +60,50 @@ func newPost(db *gorm.DB, opts ...gen.DOOption) post {
 			}{
 				RelationField: field.NewRelation("Author.Posts.Author", "models.Author"),
 			},
+			PostType: struct {
+				field.RelationField
+			}{
+				RelationField: field.NewRelation("Author.Posts.PostType", "models.PostType"),
+			},
+			Comments: struct {
+				field.RelationField
+				Author struct {
+					field.RelationField
+				}
+				Posts struct {
+					field.RelationField
+				}
+			}{
+				RelationField: field.NewRelation("Author.Posts.Comments", "models.Comment"),
+				Author: struct {
+					field.RelationField
+				}{
+					RelationField: field.NewRelation("Author.Posts.Comments.Author", "models.Author"),
+				},
+				Posts: struct {
+					field.RelationField
+				}{
+					RelationField: field.NewRelation("Author.Posts.Comments.Posts", "models.Post"),
+				},
+			},
 		},
+		Comments: struct {
+			field.RelationField
+		}{
+			RelationField: field.NewRelation("Author.Comments", "models.Comment"),
+		},
+	}
+
+	_post.PostType = postBelongsToPostType{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("PostType", "models.PostType"),
+	}
+
+	_post.Comments = postManyToManyComments{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("Comments", "models.Comment"),
 	}
 
 	_post.fillFieldMap()
@@ -58,13 +114,18 @@ func newPost(db *gorm.DB, opts ...gen.DOOption) post {
 type post struct {
 	postDo
 
-	ALL       field.Asterisk
-	Id        field.Uint
-	Text      field.String
-	Deadline  field.Int64
-	CreatedAt field.Int64
-	AuthorId  field.Uint
-	Author    postBelongsToAuthor
+	ALL        field.Asterisk
+	Id         field.Uint
+	Text       field.String
+	Deadline   field.Int64
+	CreatedAt  field.Int64
+	AuthorId   field.Uint
+	PostTypeId field.Uint
+	Author     postBelongsToAuthor
+
+	PostType postBelongsToPostType
+
+	Comments postManyToManyComments
 
 	fieldMap map[string]field.Expr
 }
@@ -86,6 +147,7 @@ func (p *post) updateTableName(table string) *post {
 	p.Deadline = field.NewInt64(table, "deadline")
 	p.CreatedAt = field.NewInt64(table, "created_at")
 	p.AuthorId = field.NewUint(table, "author_id")
+	p.PostTypeId = field.NewUint(table, "post_type_id")
 
 	p.fillFieldMap()
 
@@ -102,12 +164,13 @@ func (p *post) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (p *post) fillFieldMap() {
-	p.fieldMap = make(map[string]field.Expr, 6)
+	p.fieldMap = make(map[string]field.Expr, 9)
 	p.fieldMap["id"] = p.Id
 	p.fieldMap["text"] = p.Text
 	p.fieldMap["deadline"] = p.Deadline
 	p.fieldMap["created_at"] = p.CreatedAt
 	p.fieldMap["author_id"] = p.AuthorId
+	p.fieldMap["post_type_id"] = p.PostTypeId
 
 }
 
@@ -131,6 +194,21 @@ type postBelongsToAuthor struct {
 		Author struct {
 			field.RelationField
 		}
+		PostType struct {
+			field.RelationField
+		}
+		Comments struct {
+			field.RelationField
+			Author struct {
+				field.RelationField
+			}
+			Posts struct {
+				field.RelationField
+			}
+		}
+	}
+	Comments struct {
+		field.RelationField
 	}
 }
 
@@ -196,6 +274,148 @@ func (a postBelongsToAuthorTx) Clear() error {
 }
 
 func (a postBelongsToAuthorTx) Count() int64 {
+	return a.tx.Count()
+}
+
+type postBelongsToPostType struct {
+	db *gorm.DB
+
+	field.RelationField
+}
+
+func (a postBelongsToPostType) Where(conds ...field.Expr) *postBelongsToPostType {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a postBelongsToPostType) WithContext(ctx context.Context) *postBelongsToPostType {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a postBelongsToPostType) Session(session *gorm.Session) *postBelongsToPostType {
+	a.db = a.db.Session(session)
+	return &a
+}
+
+func (a postBelongsToPostType) Model(m *models.Post) *postBelongsToPostTypeTx {
+	return &postBelongsToPostTypeTx{a.db.Model(m).Association(a.Name())}
+}
+
+type postBelongsToPostTypeTx struct{ tx *gorm.Association }
+
+func (a postBelongsToPostTypeTx) Find() (result *models.PostType, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a postBelongsToPostTypeTx) Append(values ...*models.PostType) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a postBelongsToPostTypeTx) Replace(values ...*models.PostType) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a postBelongsToPostTypeTx) Delete(values ...*models.PostType) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a postBelongsToPostTypeTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a postBelongsToPostTypeTx) Count() int64 {
+	return a.tx.Count()
+}
+
+type postManyToManyComments struct {
+	db *gorm.DB
+
+	field.RelationField
+}
+
+func (a postManyToManyComments) Where(conds ...field.Expr) *postManyToManyComments {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a postManyToManyComments) WithContext(ctx context.Context) *postManyToManyComments {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a postManyToManyComments) Session(session *gorm.Session) *postManyToManyComments {
+	a.db = a.db.Session(session)
+	return &a
+}
+
+func (a postManyToManyComments) Model(m *models.Post) *postManyToManyCommentsTx {
+	return &postManyToManyCommentsTx{a.db.Model(m).Association(a.Name())}
+}
+
+type postManyToManyCommentsTx struct{ tx *gorm.Association }
+
+func (a postManyToManyCommentsTx) Find() (result []*models.Comment, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a postManyToManyCommentsTx) Append(values ...*models.Comment) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a postManyToManyCommentsTx) Replace(values ...*models.Comment) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a postManyToManyCommentsTx) Delete(values ...*models.Comment) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a postManyToManyCommentsTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a postManyToManyCommentsTx) Count() int64 {
 	return a.tx.Count()
 }
 

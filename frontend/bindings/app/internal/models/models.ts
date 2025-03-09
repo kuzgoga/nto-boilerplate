@@ -9,6 +9,7 @@ export class Author {
     "Id": number;
     "Name": string;
     "Posts": Post[];
+    "Comments": Comment[];
 
     /** Creates a new Author instance. */
     constructor($$source: Partial<Author> = {}) {
@@ -21,6 +22,9 @@ export class Author {
         if (!("Posts" in $$source)) {
             this["Posts"] = [];
         }
+        if (!("Comments" in $$source)) {
+            this["Comments"] = [];
+        }
 
         Object.assign(this, $$source);
     }
@@ -30,11 +34,60 @@ export class Author {
      */
     static createFrom($$source: any = {}): Author {
         const $$createField2_0 = $$createType1;
+        const $$createField3_0 = $$createType3;
         let $$parsedSource = typeof $$source === 'string' ? JSON.parse($$source) : $$source;
         if ("Posts" in $$parsedSource) {
             $$parsedSource["Posts"] = $$createField2_0($$parsedSource["Posts"]);
         }
+        if ("Comments" in $$parsedSource) {
+            $$parsedSource["Comments"] = $$createField3_0($$parsedSource["Comments"]);
+        }
         return new Author($$parsedSource as Partial<Author>);
+    }
+}
+
+export class Comment {
+    "Id": number;
+    "Text": string;
+    "AuthorId": number;
+    "Author": Author;
+    "Posts": Post[];
+
+    /** Creates a new Comment instance. */
+    constructor($$source: Partial<Comment> = {}) {
+        if (!("Id" in $$source)) {
+            this["Id"] = 0;
+        }
+        if (!("Text" in $$source)) {
+            this["Text"] = "";
+        }
+        if (!("AuthorId" in $$source)) {
+            this["AuthorId"] = 0;
+        }
+        if (!("Author" in $$source)) {
+            this["Author"] = (new Author());
+        }
+        if (!("Posts" in $$source)) {
+            this["Posts"] = [];
+        }
+
+        Object.assign(this, $$source);
+    }
+
+    /**
+     * Creates a new Comment instance from a string or object.
+     */
+    static createFrom($$source: any = {}): Comment {
+        const $$createField3_0 = $$createType4;
+        const $$createField4_0 = $$createType1;
+        let $$parsedSource = typeof $$source === 'string' ? JSON.parse($$source) : $$source;
+        if ("Author" in $$parsedSource) {
+            $$parsedSource["Author"] = $$createField3_0($$parsedSource["Author"]);
+        }
+        if ("Posts" in $$parsedSource) {
+            $$parsedSource["Posts"] = $$createField4_0($$parsedSource["Posts"]);
+        }
+        return new Comment($$parsedSource as Partial<Comment>);
     }
 }
 
@@ -45,6 +98,9 @@ export class Post {
     "CreatedAt": number;
     "AuthorId": number;
     "Author": Author;
+    "PostTypeId": number;
+    "PostType": PostType;
+    "Comments": Comment[];
 
     /** Creates a new Post instance. */
     constructor($$source: Partial<Post> = {}) {
@@ -66,6 +122,15 @@ export class Post {
         if (!("Author" in $$source)) {
             this["Author"] = (new Author());
         }
+        if (!("PostTypeId" in $$source)) {
+            this["PostTypeId"] = 0;
+        }
+        if (!("PostType" in $$source)) {
+            this["PostType"] = (new PostType());
+        }
+        if (!("Comments" in $$source)) {
+            this["Comments"] = [];
+        }
 
         Object.assign(this, $$source);
     }
@@ -74,16 +139,52 @@ export class Post {
      * Creates a new Post instance from a string or object.
      */
     static createFrom($$source: any = {}): Post {
-        const $$createField5_0 = $$createType2;
+        const $$createField5_0 = $$createType4;
+        const $$createField7_0 = $$createType5;
+        const $$createField8_0 = $$createType3;
         let $$parsedSource = typeof $$source === 'string' ? JSON.parse($$source) : $$source;
         if ("Author" in $$parsedSource) {
             $$parsedSource["Author"] = $$createField5_0($$parsedSource["Author"]);
         }
+        if ("PostType" in $$parsedSource) {
+            $$parsedSource["PostType"] = $$createField7_0($$parsedSource["PostType"]);
+        }
+        if ("Comments" in $$parsedSource) {
+            $$parsedSource["Comments"] = $$createField8_0($$parsedSource["Comments"]);
+        }
         return new Post($$parsedSource as Partial<Post>);
+    }
+}
+
+export class PostType {
+    "Id": number;
+    "Name": string;
+
+    /** Creates a new PostType instance. */
+    constructor($$source: Partial<PostType> = {}) {
+        if (!("Id" in $$source)) {
+            this["Id"] = 0;
+        }
+        if (!("Name" in $$source)) {
+            this["Name"] = "";
+        }
+
+        Object.assign(this, $$source);
+    }
+
+    /**
+     * Creates a new PostType instance from a string or object.
+     */
+    static createFrom($$source: any = {}): PostType {
+        let $$parsedSource = typeof $$source === 'string' ? JSON.parse($$source) : $$source;
+        return new PostType($$parsedSource as Partial<PostType>);
     }
 }
 
 // Private type creation functions
 const $$createType0 = Post.createFrom;
 const $$createType1 = $Create.Array($$createType0);
-const $$createType2 = Author.createFrom;
+const $$createType2 = Comment.createFrom;
+const $$createType3 = $Create.Array($$createType2);
+const $$createType4 = Author.createFrom;
+const $$createType5 = PostType.createFrom;
