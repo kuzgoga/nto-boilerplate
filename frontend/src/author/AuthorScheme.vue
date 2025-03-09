@@ -1,24 +1,21 @@
 <script setup lang="ts">
-import Table from '../table/Table.vue'
-import {onMounted, reactive} from 'vue'
-import {getDefaultValues} from '../utils/structs/defaults.util'
-import Service from './author.service.ts'
-import type {Scheme} from '../types/scheme.type'
-import {Author} from '../../bindings/app/internal/services'
+import Table from "../table/Table.vue";
+import { onMounted, reactive } from "vue";
+import { getDefaultValues } from "../utils/structs/defaults.util";
+import Service from "./author.service.ts";
+import type { Scheme } from "../types/scheme.type";
+import { Author } from "../../bindings/app/internal/services";
 
-import PostService from '../post/post.service.ts'
+import PostService from "../post/post.service.ts";
+const postService = new PostService();
 
-const postService = new PostService
-
-
-const service = new Service
+const service = new Service();
 
 onMounted(async () => {
-  (scheme as any).Posts.type!.nested!.values = await postService.readAll()
-})
+  (scheme as any).Posts.type!.nested!.values = await postService.readAll();
+});
 
 const scheme: Scheme<Author> = reactive({
-  entityId: "AuthorId",
   Id: {
     hidden: true,
     type: {
@@ -39,15 +36,13 @@ const scheme: Scheme<Author> = reactive({
     type: {
       nested: {
         values: [],
-        field: ['Text']
+        field: [""],
       },
     },
   },
+});
 
-})
-
-const getDefaults = () => getDefaultValues(scheme)
-
+const getDefaults = () => getDefaultValues(scheme);
 </script>
 
 <template>
