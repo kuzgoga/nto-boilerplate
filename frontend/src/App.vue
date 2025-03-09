@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import PostScheme from './post/PostScheme.vue';
 import AuthorScheme from "./author/AuthorScheme.vue";
 import { Dialog } from 'primevue';
 import { useErrorStore } from './stores/error.store';

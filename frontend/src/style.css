@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 
-html, body {
+html, body, .background {
     background: white;
 }
 
 @media (prefers-color-scheme: dark) {
-    html, body {
+    html, body, .background {
         background: #121212;
     }
 }

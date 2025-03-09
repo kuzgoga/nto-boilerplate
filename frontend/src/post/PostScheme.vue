@@ -1,18 +1,26 @@
 <script setup lang="ts">
 import Table from "../table/Table.vue";
-import { onMounted, reactive } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { getDefaultValues } from "../utils/structs/defaults.util";
 import Service from "./post.service.ts";
 import type { Scheme } from "../types/scheme.type";
 import { Post } from "../../bindings/app/internal/services";
-
 import AuthorService from "../author/author.service.ts";
+import type { Validate } from "../types/validate.type.ts";
 const authorService = new AuthorService();
 
 const service = new Service();
 
-onMounted(async () => {
+const load = async () => {
   (scheme as any).Author.type!.nested!.values = await authorService.readAll();
+  items.value = await service.readAll();
+  return items.value;
+};
+
+const items = ref<Post[]>([]);
+
+onMounted(async () => {
+  load()
 });
 
 const scheme: Scheme<Post> = reactive({
@@ -67,10 +75,16 @@ const scheme: Scheme<Post> = reactive({
 });
 
 const getDefaults = () => getDefaultValues(scheme);
+
+const validate: Validate<Post> = (entity) => {
+  return {
+    status: 'success'
+  }
+};
 </script>
 
 <template>
   <main class="w-screen h-screen">
-    <Table :scheme :service :get-defaults></Table>
+    <Table :scheme :service :get-defaults :validate :load :items></Table>
   </main>
 </template>
