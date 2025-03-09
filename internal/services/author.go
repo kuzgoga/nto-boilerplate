@@ -15,14 +15,20 @@ type Author = models.Author
 
 func (service *AuthorService) Create(item Author) (Author, error) {
 	ReplaceEmptySlicesWithNil(&item)
-	err := dal.Author.Preload(field.Associations).Create(&item)
+	err := dal.Author.Create(&item)
+	if err != nil {
+		return item, err
+	}
+	err = AppendAssociations(database.GetInstance(), &item)
 	return item, err
 }
+
 func (service *AuthorService) GetAll() ([]*Author, error) {
 	var authors []*Author
 	authors, err := dal.Author.Preload(field.Associations).Find()
 	return authors, err
 }
+
 func (service *AuthorService) GetById(id uint) (*Author, error) {
 	item, err := dal.Author.Preload(field.Associations).Where(dal.Author.Id.Eq(id)).First()
 	if err != nil {
