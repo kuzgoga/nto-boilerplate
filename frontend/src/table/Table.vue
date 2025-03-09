@@ -7,15 +7,12 @@ import type { TableEmits } from "../types/table-emits.type";
 import FloatingButton from "../components/buttons/FloatingButton.vue";
 import type { IEntity } from "../types/entity.type";
 import DialogWindow from "./DialogWindow.vue";
-import { timestampToDate } from "../utils/date/converters.util";
 import { viewDate } from "../utils/date/view.util";
 
 const props = defineProps<TableProps<T>>();
 
-const items = ref<T[]>([]);
-
 onMounted(async () => {
-    items.value = await props.service.readAll();
+    props.load()
 });
 
 type Key = keyof T;
@@ -71,12 +68,14 @@ const updateSlotName = (key: any) => key + "Update";
 
 <template>
     <DialogWindow
-        :scheme="props.scheme"
-        :service="props.service"
-        :get-defaults="props.getDefaults"
+        :load
+        :items
+        :validate
+        :scheme
+        :service
+        :get-defaults
         v-model:item="<T>createItem"
         v-model:show="showCreate"
-        v-model:items="items"
         @on-save="data => emits('onSave', data)"
         @on-save-create="data => emits('onSaveCreate', data)"
     >
@@ -88,13 +87,15 @@ const updateSlotName = (key: any) => key + "Update";
         </template>
     </DialogWindow>
     <DialogWindow
-        :scheme="props.scheme"
+        :load
+        :items
+        :validate
+        :scheme
         update-mode
-        :service="props.service"
-        :get-defaults="props.getDefaults"
+        :service
+        :get-defaults
         v-model:item="<T>updateItem"
         v-model:show="showUpdate"
-        v-model:items="items"
         @on-save="data => emits('onSave', data)"
         @on-save-update="data => emits('onSaveUpdate', data)"
     >
@@ -145,7 +146,7 @@ const updateSlotName = (key: any) => key + "Update";
                             @click="async () => {
                               await emits('onDelete', data)
                               await props.service.delete(data.Id)
-                              items = await props.service.readAll() as UnwrapRef<T[]>
+                              await load()
                             }"
                         ></Button>
                     </div>

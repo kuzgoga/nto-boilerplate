@@ -2,7 +2,6 @@
 import { structView } from '../../utils/structs/structs-view.util';
 import type { IEntity } from '../../types/entity.type';
 import Checkbox from '../checkboxes/Checkbox.vue';
-import { onMounted, watch } from 'vue';
 
 const { entityId } = defineProps<{
     options: T[]
@@ -33,8 +32,7 @@ const setNullIds = () => {
 
 <template>
     <div class="relative">
-        <p class="flex items-center h-8 p-3">{{ structView(selected, path) }}</p>
-        <ul class="absolute max-h-20 overflow-y-auto bg-white rounded-md p-3 w-full border">
+        <ul class="absolute max-h-48 h-auto overflow-y-auto bg-white rounded-md p-3 w-full border">
             <li v-for="option in options" :key="option.Id" class="flex items-center gap-2">
                 <Checkbox :checked="selected.some(item => item.Id == option.Id)" @click="pushOrRemove(option)" />
                 <label :for="option.Id.toString()">{{ structView(option, path) }}</label>

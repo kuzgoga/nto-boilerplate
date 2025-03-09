@@ -70,6 +70,6 @@ const getDefaults = () => getDefaultValues(scheme);
 
 <template>
   <main class="w-screen h-screen">
-    <Table :scheme :service :getDefaults></Table>
+    <Table :scheme :service :get-defaults></Table>
   </main>
 </template>
