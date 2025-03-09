@@ -9,9 +9,12 @@ import { toDate, toTimestamp } from '../utils/date/converters.util';
 import MultiSelect from '../components/selects/MultiSelect.vue';
 import { alertWindow } from '../utils/js/alert.utils';
 import type { Validate } from '../types/validate.type';
+import { useErrorStore } from '../stores/error.store';
 
 const showCreate = defineModel<boolean>('show')
 const createItem = defineModel<T>('item')
+
+const errorStore = useErrorStore()
 
 const props = defineProps<{
     scheme: Scheme<T>,
@@ -36,7 +39,7 @@ async function handleSave() {
     const mode = props.updateMode ? 'update' : 'create';
     const result = props.validate(createItem.value as T, mode);
     if (result.status === 'error') {
-        alertWindow(result.message);
+        errorStore.summon(result.message);
         return;
     }
     try {
@@ -50,7 +53,7 @@ async function handleSave() {
             await emits('onSave', createItem.value as T);
         }
     } catch (e) {
-        alertWindow(e.message);
+        errorStore.summon(e.message)
         return
     }
     props.load()
@@ -98,7 +101,7 @@ async function handleSave() {
             </div>
         </div>
         <template #footer>
-            <Button severity="success" class="mt-5" @click="handleSave">Сохранить</Button>
+            <Button class="mt-5" @click="handleSave">Сохранить</Button>
         </template>
     </Dialog>
 </template>
