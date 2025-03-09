@@ -2,6 +2,7 @@ package services
 
 import (
 	"app/internal/dal"
+	"app/internal/database"
 	"app/internal/models"
 	"errors"
 
@@ -13,6 +14,7 @@ type AuthorService struct{}
 type Author = models.Author
 
 func (service *AuthorService) Create(item Author) (Author, error) {
+	ReplaceEmptySlicesWithNil(&item)
 	err := dal.Author.Preload(field.Associations).Create(&item)
 	return item, err
 }
@@ -32,15 +34,24 @@ func (service *AuthorService) GetById(id uint) (*Author, error) {
 	}
 	return item, nil
 }
+
 func (service *AuthorService) Update(item Author) (Author, error) {
-	var posts []*models.Post
-	for _, post := range item.Posts {
-		posts = append(posts, &post)
+	ReplaceEmptySlicesWithNil(&item)
+
+	_, err := dal.Author.Updates(&item)
+	if err != nil {
+		return item, err
 	}
-	err := dal.Author.Posts.Model(&item).Replace(posts...)
-	_ = dal.Author.Save(&item)
+
+	err = UpdateAssociations(database.GetInstance(), &item)
+
+	if err != nil {
+		return item, err
+	}
+
 	return item, err
 }
+
 func (service *AuthorService) Delete(id uint) error {
 	_, err := dal.Author.Unscoped().Where(dal.Author.Id.Eq(id)).Delete()
 	return err

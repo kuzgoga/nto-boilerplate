@@ -2,13 +2,14 @@ package database
 
 import (
 	"app/internal/dal"
-	"gorm.io/driver/sqlite"
-	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 	"log"
 	"os"
 	"sync"
 	"time"
+
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 var (
@@ -31,7 +32,8 @@ func initialize() error {
 		},
 	)
 	db, err = gorm.Open(sqlite.Open("file:"+Path+"?_fk=1"), &gorm.Config{
-		Logger: newLogger,
+		Logger:               newLogger,
+		FullSaveAssociations: false,
 	})
 	if err != nil {
 		return err
