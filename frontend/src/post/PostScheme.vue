@@ -43,9 +43,10 @@ const scheme: Scheme<Post> = reactive({
 
     Id: {
         hidden: true,
+        russian: 'Id',
         type: {
             primitive: "number",
-        },
+        }
     },
 
     Text: {
@@ -113,6 +114,9 @@ const scheme: Scheme<Post> = reactive({
                 field: ["Text"],
             },
         },
+        customWindow: {
+            create: true,
+        }
     },
 });
 
@@ -127,6 +131,10 @@ const validate: Validate<Post> = (entity) => {
 
 <template>
     <main class="w-screen h-screen">
-        <Table :scheme :service :get-defaults :load :items :validate></Table>
+        <Table :scheme :service :get-defaults :load :items :validate>
+            <template #CommentsCreate="{ data }">
+                <p>{{ data.Comments }}</p>
+            </template>
+        </Table>
     </main>
 </template>

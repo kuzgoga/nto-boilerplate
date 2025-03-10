@@ -79,45 +79,24 @@ watch(() => props.items, () => {
 </script>
 
 <template>
-    <DialogWindow
-        :name
-        :load
-        :items
-        :validate
-        :scheme
-        :service
-        :get-defaults
-        v-model:item="<T>createItem"
-        v-model:show="showCreate"
-        @on-save="data => emits('onSave', data)"
-        @on-save-create="data => emits('onSaveCreate', data)"
-    >
-        <template v-for="key in keys" #[key]>
-            <slot :name="<string>key"></slot>
+    <DialogWindow :name :load :items :validate :scheme :service :get-defaults v-model:item="<T>createItem"
+        v-model:show="showCreate" @on-save="data => emits('onSave', data)"
+        @on-save-create="data => emits('onSaveCreate', data)">
+        <template v-for="key in keys" #[key]="{ data }">
+            <slot :name="<string>key" :data></slot>
         </template>
-        <template v-for="key in keys" #[createSlotName(key)]>
-            <slot :name="createSlotName(key)"></slot>
+        <template v-for="key in keys" #[createSlotName(key)]="{ data }">
+            <slot :name="createSlotName(key)" :data></slot>
         </template>
     </DialogWindow>
-    <DialogWindow
-        :name
-        :load
-        :items
-        :validate
-        :scheme
-        update-mode
-        :service
-        :get-defaults
-        v-model:item="<T>updateItem"
-        v-model:show="showUpdate"
-        @on-save="data => emits('onSave', data)"
-        @on-save-update="data => emits('onSaveUpdate', data)"
-    >
-        <template v-for="key in keys" #[key]>
-            <slot :name="<string>key"></slot>
+    <DialogWindow :name :load :items :validate :scheme update-mode :service :get-defaults v-model:item="<T>updateItem"
+        v-model:show="showUpdate" @on-save="data => emits('onSave', data)"
+        @on-save-update="data => emits('onSaveUpdate', data)">
+        <template v-for="key in keys" #[key]="{ data }">
+            <slot :name="<string>key" :data></slot>
         </template>
-        <template v-for="key in keys" #[updateSlotName(key)]>
-            <slot :name="updateSlotName(key)"></slot>
+        <template v-for="key in keys" #[updateSlotName(key)]="{ data }">
+            <slot :name="updateSlotName(key)" :data></slot>
         </template>
     </DialogWindow>
     <div>
@@ -126,10 +105,7 @@ watch(() => props.items, () => {
                 <p>{{ props.name }}</p>
             </template>
             <template v-for="key in keys">
-                <Column
-                    :header="props.scheme[key]?.russian"
-                    v-if="!props.scheme[key].hidden"
-                >
+                <Column :header="props.scheme[key]?.russian" v-if="!props.scheme[key].hidden">
                     <template #body="{ data }">
                         <p class="">
                             {{
@@ -145,24 +121,16 @@ watch(() => props.items, () => {
             <Column header="Действия">
                 <template #body="{ data }">
                     <div class="flex gap-2">
-                        <Button
-                            severity="secondary"
-                            icon="pi pi-pencil"
-                            @click="async () => {
-                                await emits('onUpdateOpen')
-                                await emits('onOpen')
-                                updateItem = data
-                            }"
-                        ></Button>
-                        <Button
-                            severity="danger"
-                            icon="pi pi-trash"
-                            @click="async () => {
-                              await emits('onDelete', data)
-                              await props.service.delete(data.Id)
-                              await load()
-                            }"
-                        ></Button>
+                        <Button severity="secondary" icon="pi pi-pencil" @click="async () => {
+                            await emits('onUpdateOpen')
+                            await emits('onOpen')
+                            updateItem = data
+                        }"></Button>
+                        <Button severity="danger" icon="pi pi-trash" @click="async () => {
+                            await emits('onDelete', data)
+                            await props.service.delete(data.Id)
+                            await load()
+                        }"></Button>
                     </div>
                 </template>
             </Column>

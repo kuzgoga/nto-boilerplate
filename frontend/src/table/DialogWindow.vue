@@ -71,10 +71,10 @@ async function handleSave() {
                 class="flex items-center gap-5">
                 <h1 class="w-[200px]">{{ props.scheme[key].russian }}</h1>
                 <div v-if="props.scheme[key]?.customWindow?.[props.updateMode ? 'update' : 'create']">
-                    <slot :name="<string>key + (props.updateMode ? 'Update' : 'Create')"></slot>
+                    <slot :name="<string>key + (props.updateMode ? 'Update' : 'Create')" :data="editableItem"></slot>
                 </div>
                 <div v-else-if="props.scheme[key]?.customWindow?.common">
-                    <slot :name="<string>key"></slot>
+                    <slot :name="<string>key" :data="editableItem"></slot>
                 </div>
                 <InputNumber class="w-[300px]" v-model:model-value="<number>editableItem![key]"
                     v-else-if="props.scheme[key]?.type?.primitive === 'number'" />
