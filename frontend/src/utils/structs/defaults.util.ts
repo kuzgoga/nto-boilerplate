@@ -16,7 +16,7 @@ export const getDefaultValues = <T extends IEntity>(scheme: Scheme<T>) => {
         } else if (primitive == 'boolean') {
             obj[key] = false
         } else if (primitive == 'number') {
-            obj[key] = 1
+            obj[key] = 0
         } else if (scheme[key]?.many) {
             obj[key] = []
         } else if (scheme[key]?.type?.nested?.values) {

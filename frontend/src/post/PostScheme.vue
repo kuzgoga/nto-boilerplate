@@ -4,7 +4,7 @@ import { onMounted, reactive } from "vue";
 import { getDefaultValues } from "../utils/structs/defaults.util";
 import Service from "./post.service.ts";
 import type { Scheme } from "../types/scheme.type";
-import { Post } from "../../bindings/app/internal/services";
+import { Author, Post } from "../../bindings/app/internal/services";
 import { ref } from "vue";
 import type { Validate } from "../types/validate.type";
 
@@ -120,7 +120,9 @@ const scheme: Scheme<Post> = reactive({
     },
 });
 
-const getDefaults = () => getDefaultValues(scheme);
+const getDefaults = () => {
+    return ({...getDefaultValues(scheme), AuthorId: 1, PostTypeId: 1});
+};
 
 const validate: Validate<Post> = (entity) => {
     return {
