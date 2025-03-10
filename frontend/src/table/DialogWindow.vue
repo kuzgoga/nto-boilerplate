@@ -37,7 +37,7 @@ const emits = defineEmits<{
 
 async function handleSave() {
     const mode = props.updateMode ? 'update' : 'create';
-    const result = props.validate(createItem.value as T, mode);
+    const result = await props.validate(createItem.value as T, mode);
     if (result.status === 'error') {
         errorStore.summon(result.message);
         return;
