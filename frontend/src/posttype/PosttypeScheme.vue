@@ -7,49 +7,51 @@ import type { Scheme } from "../types/scheme.type";
 import { PostType } from "../../bindings/app/internal/services";
 import { ref } from "vue";
 import type { Validate } from "../types/validate.type";
+import { ImportFromExcel } from "../../bindings/app/internal/services/posttypeservice.ts";
 
 const service = new Service();
 
 const items = ref<PostType[]>([]);
 
 const load = async () => {
-  items.value = await service.readAll();
-  return items.value;
+    items.value = await service.readAll();
+    return items.value;
 };
 
 onMounted(async () => {
-  load();
+    await load();
+    await ImportFromExcel();
 });
 
 const scheme: Scheme<PostType> = reactive({
-  entityId: "PostTypeId",
+    entityId: "PostTypeId",
 
-  Id: {
-    hidden: true,
-    type: {
-      primitive: "number",
+    Id: {
+        hidden: true,
+        type: {
+            primitive: "number",
+        },
     },
-  },
 
-  Name: {
-    russian: "Название",
-    type: {
-      primitive: "string",
+    Name: {
+        russian: "Название",
+        type: {
+            primitive: "string",
+        },
     },
-  },
 });
 
 const getDefaults = () => getDefaultValues(scheme);
 
 const validate: Validate<PostType> = (entity) => {
-  return {
-    status: "success",
-  };
+    return {
+        status: "success",
+    };
 };
 </script>
 
 <template>
-  <main class="w-screen h-screen">
-    <Table :scheme :service :get-defaults :load :items :validate></Table>
-  </main>
+    <main class="w-screen h-screen">
+        <Table :scheme :service :get-defaults :load :items :validate></Table>
+    </main>
 </template>

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"app/internal/dialogs"
 	"app/internal/services"
 	"embed"
 	"github.com/wailsapp/wails/v3/pkg/application"
@@ -14,7 +13,7 @@ var assets embed.FS
 func main() {
 	app := application.New(application.Options{
 		Name:        "nto_starterkit",
-		Description: "A demo of using raw HTML & CSS",
+		Description: "NTO toolkit template",
 		Services:    append([]application.Service{services.MigratorService}, services.ExportedServices...),
 		Assets: application.AssetOptions{
 			Handler: application.AssetFileServerFS(assets),
@@ -29,16 +28,15 @@ func main() {
 	// 'Mac' options tailor the window when running on macOS.
 	// 'BackgroundColour' is the background colour of the window.
 	// 'URL' is the URL that will be loaded into the webview.
-	window := app.NewWebviewWindowWithOptions(application.WebviewWindowOptions{
+	app.NewWebviewWindowWithOptions(application.WebviewWindowOptions{
 		Title: "Завод \"Белочка\"",
 		Mac: application.MacWindow{
 			InvisibleTitleBarHeight: 50,
 			Backdrop:                application.MacBackdropTranslucent,
 			TitleBar:                application.MacTitleBarHiddenInset,
 		},
-		URL:              "/",
+		URL: "/",
 	})
-	dialogs.Init(window)
 
 	err := app.Run()
 

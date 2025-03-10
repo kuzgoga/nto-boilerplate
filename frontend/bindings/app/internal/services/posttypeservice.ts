@@ -50,6 +50,11 @@ export function GetById(id: number): Promise<$models.PostType | null> & { cancel
     return $typingPromise;
 }
 
+export function ImportFromExcel(): Promise<void> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(1671814244) as any;
+    return $resultPromise;
+}
+
 export function Update(item: $models.PostType): Promise<$models.PostType> & { cancel(): void } {
     let $resultPromise = $Call.ByID(2773888269, item) as any;
     let $typingPromise = $resultPromise.then(($result: any) => {

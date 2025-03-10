@@ -13,7 +13,7 @@ type Post struct {
 	Id         uint      `gorm:"primaryKey" ui:"hidden"`
 	Text       string    `ui:"label:Текст"`
 	Deadline   int64     `ui:"label:Дедлайн;datatype:datetime;"`
-	CreatedAt  int64     `gorm:"autoCreateTime" ui:"readonly;datatype:datetime;"`
+	CreatedAt  int64     `gorm:"autoCreateTime" ui:"label:Время создания; readonly; datatype:datetime;"`
 	AuthorId   uint      `ui:"hidden" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	Author     Author    `ui:"label:Автор; field:Name;"`
 	PostTypeId uint      `ui:"hidden"`

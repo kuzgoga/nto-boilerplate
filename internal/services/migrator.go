@@ -6,10 +6,11 @@ import (
 	"context"
 	"crypto/sha256"
 	"fmt"
-	"github.com/wailsapp/wails/v3/pkg/application"
 	"io"
 	"log/slog"
 	"os"
+
+	"github.com/wailsapp/wails/v3/pkg/application"
 )
 
 type Migrator struct{}
@@ -77,9 +78,9 @@ func Migrate(entities ...any) error {
 	err = db.AutoMigrate(entities...)
 
 	if err != nil {
-		slog.Info("Error occurred while migrations: %s. Recreate database...", err)
+		slog.Info(fmt.Sprintf("Error occurred while migrations: %s, Recreate database...", err))
 		if err = createDatabase(entities...); err != nil {
-			slog.Error("Error occurred again: %s. Panic!", err)
+			slog.Error(fmt.Sprintf("Error occurred again: %s. Panic!", err))
 			return err
 		}
 	} else {
@@ -87,7 +88,7 @@ func Migrate(entities ...any) error {
 		var hashAfterMigration string
 		hashAfterMigration, err = CalculateFileSha256Checksum(database.Path)
 		if err != nil {
-			slog.Error("Failed to calc hash: %s", err)
+			slog.Error(fmt.Sprintf("Failed to calc hash: %s", err))
 			return err
 		}
 
@@ -95,7 +96,7 @@ func Migrate(entities ...any) error {
 			slog.Info("Hashes before and after migrations are different. Recreate database...")
 			err = createDatabase(entities...)
 			if err != nil {
-				slog.Error("Failed to create new database: %s", err)
+				slog.Error(fmt.Sprintf("Failed to create new database: %s", err))
 				return err
 			}
 		}

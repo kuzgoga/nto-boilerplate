@@ -22,112 +22,111 @@ const service = new Service();
 const items = ref<Post[]>([]);
 
 const load = async () => {
-  (scheme as any).Author.type!.nested!.values = await authorService.readAll();
+    (scheme as any).Author.type!.nested!.values = await authorService.readAll();
 
-  (scheme as any).PostType.type!.nested!.values =
-    await posttypeService.readAll();
+    (scheme as any).PostType.type!.nested!.values =
+        await posttypeService.readAll();
 
-  (scheme as any).Comments.type!.nested!.values =
-    await commentService.readAll();
+    (scheme as any).Comments.type!.nested!.values =
+        await commentService.readAll();
 
-  items.value = await service.readAll();
-  return items.value;
+    items.value = await service.readAll();
+    return items.value;
 };
 
 onMounted(async () => {
-  load();
+    await load();
 });
 
 const scheme: Scheme<Post> = reactive({
-  entityId: "PostId",
+    entityId: "PostId",
 
-  Id: {
-    hidden: true,
-    type: {
-      primitive: "number",
+    Id: {
+        hidden: true,
+        type: {
+            primitive: "number",
+        },
     },
-  },
 
-  Text: {
-    russian: "Текст",
-    type: {
-      primitive: "string",
+    Text: {
+        russian: "Текст",
+        type: {
+            primitive: "string",
+        },
     },
-  },
 
-  Deadline: {
-    russian: "Дедлайн",
-    date: true,
-    type: {
-      primitive: "date",
+    Deadline: {
+        russian: "Дедлайн",
+        date: true,
+        type: {
+            primitive: "date",
+        },
     },
-  },
 
-  CreatedAt: {
-    readonly: true,
-    date: true,
-    type: {
-      primitive: "date",
+    CreatedAt: {
+        russian: "Дата создания",
+        type: {
+            primitive: "date",
+        },
     },
-  },
 
-  AuthorId: {
-    hidden: true,
-    type: {
-      primitive: "number",
+    AuthorId: {
+        hidden: true,
+        type: {
+            primitive: "number",
+        },
     },
-  },
 
-  Author: {
-    russian: "Автор",
-    type: {
-      nested: {
-        values: [],
-        field: ["Name"],
-      },
+    Author: {
+        russian: "Автор",
+        type: {
+            nested: {
+                values: [],
+                field: ["Name"],
+            },
+        },
     },
-  },
 
-  PostTypeId: {
-    hidden: true,
-    type: {
-      primitive: "number",
+    PostTypeId: {
+        hidden: true,
+        type: {
+            primitive: "number",
+        },
     },
-  },
 
-  PostType: {
-    russian: "Тип",
-    type: {
-      nested: {
-        values: [],
-        field: ["Name"],
-      },
+    PostType: {
+        russian: "Тип",
+        type: {
+            nested: {
+                values: [],
+                field: ["Name"],
+            },
+        },
     },
-  },
 
-  Comments: {
-    russian: "Комментарии",
-    many: true,
-    type: {
-      nested: {
-        values: [],
-        field: ["Text"],
-      },
+    Comments: {
+        russian: "Комментарии",
+        many: true,
+        type: {
+            nested: {
+                values: [],
+                field: ["Text"],
+            },
+        },
     },
-  },
 });
 
 const getDefaults = () => getDefaultValues(scheme);
 
 const validate: Validate<Post> = (entity) => {
-  return {
-    status: "success",
-  };
+    return {
+        status: "success",
+    };
 };
 </script>
 
 <template>
-  <main class="w-screen h-screen">
-    <Table :scheme :service :get-defaults :load :items :validate></Table>
-  </main>
+    <main class="w-screen h-screen">
+        <Table :scheme :service :get-defaults :load :items :validate></Table>
+    </main>
 </template>

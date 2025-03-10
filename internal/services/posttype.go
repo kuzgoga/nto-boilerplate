@@ -3,8 +3,13 @@ package services
 import (
 	"app/internal/dal"
 	"app/internal/database"
+	"app/internal/dialogs"
+	"app/internal/extras/excel"
 	"app/internal/models"
 	"errors"
+	"os/signal"
+	"strconv"
+	"syscall"
 
 	"gorm.io/gen/field"
 	"gorm.io/gorm"
@@ -58,4 +63,31 @@ func (service *PostTypeService) Delete(id uint) error {
 func (service *PostTypeService) Count() (int64, error) {
 	amount, err := dal.PostType.Count()
 	return amount, err
+}
+
+func (service *PostTypeService) ImportFromExcel() error {
+	signal.Ignore(syscall.SIGSEGV)
+	filepath, err := dialogs.OpenFileDialog("Импорт данных")
+	if err != nil {
+		return err
+	}
+	err = excel.ImportFromSpreadsheet(filepath, excel.Importer{
+		SheetName: "Тип поста",
+		Loader: func(rowIndex int, row []string) error {
+			id, err := strconv.Atoi(row[0])
+			if err != nil {
+				return err
+			}
+
+			service.Create(PostType{
+				Id:   uint(id),
+				Name: row[1],
+			})
+			return nil
+		},
+	})
+	if err != nil {
+		return err
+	}
+	return nil
 }
