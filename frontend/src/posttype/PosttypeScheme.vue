@@ -7,7 +7,6 @@ import type { Scheme } from "../types/scheme.type";
 import { PostType } from "../../bindings/app/internal/services";
 import { ref } from "vue";
 import type { Validate } from "../types/validate.type";
-import { ImportFromExcel } from "../../bindings/app/internal/services/posttypeservice.ts";
 
 const service = new Service();
 
@@ -20,7 +19,6 @@ const load = async () => {
 
 onMounted(async () => {
     await load();
-    await ImportFromExcel();
 });
 
 const scheme: Scheme<PostType> = reactive({
@@ -48,10 +46,17 @@ const validate: Validate<PostType> = (entity) => {
         status: "success",
     };
 };
+
+const colorize = (data: PostType): string => {
+    if (data.Name === "test") {
+        return "red";
+    }
+
+}
 </script>
 
 <template>
     <main class="w-screen h-screen">
-        <Table :scheme :service :get-defaults :load :items :validate></Table>
+        <Table :scheme :service :get-defaults :load :items :validate :colorize></Table>
     </main>
 </template>

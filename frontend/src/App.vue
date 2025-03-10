@@ -2,9 +2,7 @@
 import { Dialog } from "primevue";
 import { useErrorStore } from "./stores/error.store";
 import CommentScheme from "./comment/CommentScheme.vue";
-import PostScheme from "./post/PostScheme.vue";
 import PosttypeScheme from "./posttype/PosttypeScheme.vue";
-import AuthorScheme from "./author/AuthorScheme.vue";
 
 const errorStore = useErrorStore();
 </script>
@@ -19,9 +17,6 @@ const errorStore = useErrorStore();
         <h1 class="text-red-500 text-2xl">{{ errorStore.message }}</h1>
     </Dialog>
     <main class="w-screen h-screen">
-        <CommentScheme></CommentScheme>
-        <PostScheme></PostScheme>
         <PosttypeScheme></PosttypeScheme>
-        <AuthorScheme></AuthorScheme>
     </main>
 </template>

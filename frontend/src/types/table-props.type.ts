@@ -11,4 +11,5 @@ export interface TableProps<T extends IEntity> {
     validate: Validate<T>
     load(): Promise<T[]>
     items: T[]
+    colorize?: (data: T) => string
 }

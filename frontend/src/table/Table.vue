@@ -64,6 +64,18 @@ const slots = defineSlots();
 
 const createSlotName = (key: any) => key + "Create";
 const updateSlotName = (key: any) => key + "Update";
+
+watch(() => props.items, () => {
+    if (props.colorize) {
+        const trs = document.querySelectorAll("tr");
+        props.items.forEach(item => {
+            const tr = trs[item.Id];
+            if (tr) {
+                tr.style.backgroundColor = props.colorize(item);
+            }
+        })
+    }
+})
 </script>
 
 <template>
@@ -117,7 +129,7 @@ const updateSlotName = (key: any) => key + "Update";
                     v-if="!props.scheme[key].hidden"
                 >
                     <template #body="{ data }">
-                        <p>
+                        <p class="">
                             {{
                                 viewDate(manyStructsView(
                                     data[key],
