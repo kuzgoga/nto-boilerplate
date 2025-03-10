@@ -80,6 +80,7 @@ watch(() => props.items, () => {
 
 <template>
     <DialogWindow
+        :name
         :load
         :items
         :validate
@@ -99,6 +100,7 @@ watch(() => props.items, () => {
         </template>
     </DialogWindow>
     <DialogWindow
+        :name
         :load
         :items
         :validate

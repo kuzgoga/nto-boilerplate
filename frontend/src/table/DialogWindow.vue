@@ -24,6 +24,7 @@ const props = defineProps<{
     validate: Validate<T>
     items: T[]
     load(): Promise<T[]>
+    name?: string
 }>()
 
 type Key = keyof T
@@ -64,6 +65,9 @@ async function handleSave() {
 
 <template>
     <Dialog v-model:visible="showCreate">
+        <template #header>
+            <h1>{{ props.updateMode ? 'Изменить' : 'Создать' }} {{ props.name?.toLowerCase() }}</h1>
+        </template>
         <div class="flex flex-col justify-start gap-5 min-h-[40vh]">
             <div v-for="key in keys" v-show="!props.scheme[key].hidden && !props.scheme[key].readonly"
                 class="flex items-center gap-5">
