@@ -1,12 +1,12 @@
 export type TableEmits = {
-    (e: 'onCreateOpen'): void
-    (e: 'onCreateClose', data: any): void
-    (e: 'onUpdateOpen'): void
-    (e: 'onUpdateClose', data: any): void
-    (e: 'onOpen'): void
-    (e: 'onClose', data: any): void
-    (e: 'onDelete', data: any): void
-    (e: 'onSaveUpdate', data: any): void
-    (e: 'onSaveCreate', data: any): void
-    (e: 'onSave', data: any): void
+    (e: 'onCreateOpen'): Promise<void> | void
+    (e: 'onCreateClose', data: any): Promise<void> | void
+    (e: 'onUpdateOpen'): Promise<void> | void
+    (e: 'onUpdateClose', data: any): Promise<void> | void
+    (e: 'onOpen'): Promise<void> | void
+    (e: 'onClose', data: any): Promise<void> | void
+    (e: 'onDelete', data: any): Promise<void> | void
+    (e: 'onSaveUpdate', data: any): Promise<void> | void
+    (e: 'onSaveCreate', data: any): Promise<void> | void
+    (e: 'onSave', data: any): Promise<void> | void
 }

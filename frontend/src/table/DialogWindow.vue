@@ -4,15 +4,13 @@ import type { IEntity } from '../types/entity.type';
 import type { Scheme } from '../types/scheme.type';
 import type { IService } from '../types/service.type';
 import { manyStructsView } from '../utils/structs/structs-view.util';
-import { type UnwrapRef } from 'vue';
 import { toDate, toTimestamp } from '../utils/date/converters.util';
 import MultiSelect from '../components/selects/MultiSelect.vue';
-import { alertWindow } from '../utils/js/alert.utils';
 import type { Validate } from '../types/validate.type';
 import { useErrorStore } from '../stores/error.store';
 
 const showCreate = defineModel<boolean>('show')
-const createItem = defineModel<T>('item')
+const editableItem = defineModel<T>('item')
 
 const errorStore = useErrorStore()
 
@@ -31,27 +29,27 @@ type Key = keyof T
 const keys = Object.keys(props.scheme) as Key[]
 
 const emits = defineEmits<{
-    (e: 'onSave', data: T): void
-    (e: 'onSaveUpdate', data: T): void
-    (e: 'onSaveCreate', data: T): void
+    (e: 'onSave', data: T): Promise<void> | void
+    (e: 'onSaveUpdate', data: T): Promise<void> | void
+    (e: 'onSaveCreate', data: T): Promise<void> | void
 }>()
 
 async function handleSave() {
     const mode = props.updateMode ? 'update' : 'create';
-    const result = await props.validate(createItem.value as T, mode);
+    const result = await props.validate(editableItem.value as T, mode);
     if (result.status === 'error') {
         errorStore.summon(result.message);
         return;
     }
     try {
         if (props.updateMode) {
-            await props.service.update.call(props.service, createItem.value as T);
-            await emits('onSaveUpdate', createItem.value as T);
-            await emits('onSave', createItem.value as T);
+            await props.service.update.call(props.service, editableItem.value as T);
+            await emits('onSaveUpdate', editableItem.value as T);
+            await emits('onSave', editableItem.value as T);
         } else {
-            await props.service.create.call(props.service, createItem.value as T);
-            await emits('onSaveCreate', createItem.value as T);
-            await emits('onSave', createItem.value as T);
+            await props.service.create.call(props.service, editableItem.value as T);
+            await emits('onSaveCreate', editableItem.value as T);
+            await emits('onSave', editableItem.value as T);
         }
     } catch (e) {
         errorStore.summon(e.message)
@@ -78,19 +76,19 @@ async function handleSave() {
                 <div v-else-if="props.scheme[key]?.customWindow?.common">
                     <slot :name="<string>key"></slot>
                 </div>
-                <InputNumber class="w-[300px]" v-model:model-value="<number>createItem![key]"
+                <InputNumber class="w-[300px]" v-model:model-value="<number>editableItem![key]"
                     v-else-if="props.scheme[key]?.type?.primitive === 'number'" />
-                <InputText class="w-[300px]" v-model:model-value="<string>createItem![key]"
+                <InputText class="w-[300px]" v-model:model-value="<string>editableItem![key]"
                     v-else-if="props.scheme[key].type?.primitive === 'string'" />
-                <DatePicker class="w-[300px]" :default-value="toDate(createItem![key] as number)" @value-change="v => {
-                    createItem![key] = toTimestamp(v as Date) as any
+                <DatePicker class="w-[300px]" :default-value="toDate(editableItem![key] as number)" @value-change="v => {
+                    editableItem![key] = toTimestamp(v as Date) as any
                 }" show-time v-else-if="props.scheme[key].type?.primitive === 'date'" />
-                <Textarea class="w-[300px]" v-model="<string>createItem![key]"
+                <Textarea class="w-[300px]" v-model="<string>editableItem![key]"
                     v-else-if="props.scheme[key].type?.primitive === 'multiple'" />
-                <ToggleSwitch class="w-[300px]" v-model:model-value="<boolean>createItem![key]"
+                <ToggleSwitch class="w-[300px]" v-model:model-value="<boolean>editableItem![key]"
                     v-else-if="props.scheme[key].type?.primitive === 'boolean'" />
                 <Select v-else-if="props.scheme[key].type?.nested?.values && !props.scheme[key]?.many"
-                    v-model:model-value="createItem![key]" :options="props.scheme[key].type.nested.values"
+                    v-model:model-value="editableItem![key]" :options="props.scheme[key].type.nested.values"
                     :placeholder="`Выберите ${props.scheme[key].russian}`" class="w-[300px]">
                     <template #option="{ option }">
                         {{ manyStructsView(option, props.scheme[key].type.nested.field) }}
@@ -100,7 +98,7 @@ async function handleSave() {
                     </template>
                 </Select>
                 <MultiSelect v-else-if="props.scheme[key].type?.nested?.values && props.scheme[key]?.many"
-                    class="w-[300px]" v-model="<T[]>createItem![key]" :options="props.scheme[key].type.nested.values"
+                    class="w-[300px]" v-model="<T[]>editableItem![key]" :options="props.scheme[key].type.nested.values"
                     :path="props.scheme[key].type.nested.field" :entity-id="props.scheme.entityId" />
             </div>
         </div>
