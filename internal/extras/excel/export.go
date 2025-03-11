@@ -188,11 +188,9 @@ func SerializeNestedField(fieldInfo reflect.StructField, fieldValue reflect.Valu
 	}
 
 	if uiTag.HasParam("field") {
-		slog.Info("Found `field` tag")
 		var result string
 		fieldPath := uiTag.GetParam("field").Value
 		if fieldInfo.Type.Kind() == reflect.Slice {
-			slog.Info("Found `slice` tag")
 			var items = make([]string, fieldValue.Len())
 			for i := 0; i < fieldValue.Len(); i++ {
 				item := fieldValue.Index(i)
@@ -210,10 +208,8 @@ func SerializeNestedField(fieldInfo reflect.StructField, fieldValue reflect.Valu
 			}
 			result = fmt.Sprintf("%v", nestedFieldValue)
 		}
-		slog.Info(fmt.Sprintf("Field %s value: %v", fieldPath, result))
 		return &result, nil
 	} else {
-		slog.Error("Field `field` tag not found")
 		return nil, nil
 	}
 }
