@@ -22,7 +22,7 @@ const pushOrRemove = (option: T) => {
 
 const setNullIds = () => {
     selected.value = selected.value.map(item => {
-        item[entityId] = 0
+        (item as any)[entityId] = 0
         return item
     })
 }

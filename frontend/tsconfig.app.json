@@ -5,11 +5,9 @@
     "allowImportingTsExtensions": true,
     "noEmit": true,
     /* Linting */
-    "strict": false,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "noFallthroughCasesInSwitch": false,
-    "noUncheckedSideEffectImports": false,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+    "strictNullChecks": true,
     "lib": ["ES2015", "DOM"]
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],

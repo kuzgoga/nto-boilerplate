@@ -71,7 +71,7 @@ watch(() => props.items, () => {
         props.items.forEach(item => {
             const tr = trs[item.Id];
             if (tr) {
-                tr.style.backgroundColor = props.colorize(item);
+                tr.style.backgroundColor = props.colorize!(item);
             }
         })
     }

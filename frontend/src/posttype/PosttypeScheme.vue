@@ -51,7 +51,7 @@ const colorize = (data: PostType): string => {
     if (data.Name === "test") {
         return "red";
     }
-
+    return ''
 }
 </script>
 

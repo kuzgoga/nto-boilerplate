@@ -38,7 +38,7 @@ async function handleSave() {
     const mode = props.updateMode ? 'update' : 'create';
     const result = await props.validate(editableItem.value as T, mode);
     if (result.status === 'error') {
-        errorStore.summon(result.message);
+        errorStore.summon(result.message ?? 'Ошибка валидации');
         return;
     }
     try {
@@ -52,7 +52,7 @@ async function handleSave() {
             await emits('onSave', editableItem.value as T);
         }
     } catch (e) {
-        errorStore.summon(e.message)
+        errorStore.summon((e as Error).message ?? 'Ошибка сохранения');
         return
     }
     props.load()
