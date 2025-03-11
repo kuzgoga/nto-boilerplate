@@ -86,7 +86,6 @@ func ExportEntityToSpreadsheet[T any](file *excelize.File, sheetName string, ent
 		return err
 	}
 
-	// TODO: process composite objects
 	// TODO: appearance
 	for i, item := range items {
 		structValue := reflect.ValueOf(item).Elem()
@@ -126,11 +125,97 @@ func ExportEntityToSpreadsheet[T any](file *excelize.File, sheetName string, ent
 				if err != nil {
 					return err
 				}
+			} else {
+				cellName, err := GetCellNameByIndices(j+columnOffset, i+1)
+				if err != nil {
+					return err
+				}
+
+				structInfo := structValue.Type().Field(j)
+				structVal := structValue.Field(j)
+
+				value, err := SerializeNestedField(structInfo, structVal)
+				if err != nil {
+					return err
+				}
+
+				err = file.SetCellValue(sheetName, cellName, *value)
+				if err != nil {
+					return err
+				}
 			}
 		}
 	}
 
 	return nil
+}
+
+func getNestedFieldValue(obj reflect.Value, path string) (any, error) {
+	fields := strings.Split(path, ".")
+	val := obj
+
+	for _, field := range fields {
+		if field == "" {
+			continue
+		}
+
+		if val.Kind() == reflect.Ptr {
+			val = val.Elem()
+		}
+
+		val = val.FieldByName(field)
+
+		if !val.IsValid() {
+			return nil, fmt.Errorf("field %s not found", field)
+		}
+	}
+	return val.Interface(), nil
+}
+
+func SerializeNestedField(fieldInfo reflect.StructField, fieldValue reflect.Value) (*string, error) {
+	tag, err := fogg.Parse(string(fieldInfo.Tag))
+	if err != nil {
+		return nil, err
+	}
+
+	var uiTag fogg.Tag
+
+	if tag.HasTag("ui") && tag.GetTag("ui").HasParam("field") {
+		uiTag = *tag.GetTag("ui")
+	} else {
+		slog.Error("Fail to extract Field tag")
+		return nil, nil
+	}
+
+	if uiTag.HasParam("field") {
+		slog.Info("Found `field` tag")
+		var result string
+		fieldPath := uiTag.GetParam("field").Value
+		if fieldInfo.Type.Kind() == reflect.Slice {
+			slog.Info("Found `slice` tag")
+			var items = make([]string, fieldValue.Len())
+			for i := 0; i < fieldValue.Len(); i++ {
+				item := fieldValue.Index(i)
+				nestedFieldValue, err := getNestedFieldValue(item, fieldPath)
+				if err != nil {
+					return nil, err
+				}
+				items[i] = fmt.Sprintf("%v", nestedFieldValue)
+			}
+			result = strings.Join(items, ", ")
+		} else {
+			nestedFieldValue, err := getNestedFieldValue(fieldValue, fieldPath)
+			if err != nil {
+				return nil, err
+			}
+			result = fmt.Sprintf("%v", nestedFieldValue)
+		}
+		slog.Info(fmt.Sprintf("Field %s value: %v", fieldPath, result))
+		return &result, nil
+	} else {
+		slog.Error("Field `field` tag not found")
+		return nil, nil
+	}
 }
 
 func GetHeaderCellNameByIndex(column int) (string, error) {
@@ -168,11 +253,6 @@ func ExportHeaders(entity any) (TableHeaders, error) {
 
 		uiTag := tag.GetTag("ui")
 		if uiTag == nil {
-			headers.IgnoredFieldsIndexes = append(headers.IgnoredFieldsIndexes, i)
-			continue
-		}
-
-		if !isPrimitiveType(v.Field(i).Type) {
 			headers.IgnoredFieldsIndexes = append(headers.IgnoredFieldsIndexes, i)
 			continue
 		}
@@ -288,6 +368,11 @@ func WriteData(file *excelize.File, filename string) error {
 	if err != nil {
 		return err
 	}
+
+	if filepath == "" {
+		dialogs.InfoDialog("Экспорт данных", "Операция отменена")
+	}
+
 	if err := file.SaveAs(filepath); err != nil {
 		return err
 	}
