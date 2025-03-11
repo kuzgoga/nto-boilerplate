@@ -86,6 +86,11 @@ func ExportEntityToSpreadsheet[T any](file *excelize.File, sheetName string, ent
 		return err
 	}
 
+	dataStyleId, err := LoadDataStyle(file)
+	if err != nil {
+		return err
+	}
+
 	// TODO: appearance
 	for i, item := range items {
 		structValue := reflect.ValueOf(item).Elem()
@@ -140,6 +145,11 @@ func ExportEntityToSpreadsheet[T any](file *excelize.File, sheetName string, ent
 				}
 
 				err = file.SetCellValue(sheetName, cellName, *value)
+				if err != nil {
+					return err
+				}
+
+				err = file.SetCellStyle(sheetName, cellName, cellName, dataStyleId)
 				if err != nil {
 					return err
 				}
@@ -297,42 +307,6 @@ func GetStyleId(f *excelize.File, style *excelize.Style) (int, error) {
 	}
 
 	return styleId, nil
-}
-
-func LoadHeadersStyle(file *excelize.File) (int, error) {
-	headersStyle := excelize.Style{
-		Alignment: &excelize.Alignment{
-			Horizontal: "center",
-			Vertical:   "center",
-		},
-		Border: []excelize.Border{
-			{
-				Type:  "left",
-				Color: "000000",
-				Style: 1,
-			},
-			{
-				Type:  "right",
-				Color: "000000",
-				Style: 1,
-			},
-			{
-				Type:  "top",
-				Color: "000000",
-				Style: 1,
-			},
-			{
-				Type:  "bottom",
-				Color: "000000",
-				Style: 1,
-			},
-		},
-		Font: &excelize.Font{
-			Bold:      true,
-			VertAlign: "center",
-		},
-	}
-	return GetStyleId(file, &headersStyle)
 }
 
 func ApplyStyleHeaders(file *excelize.File, sheetName string, headers TableHeaders) error {
