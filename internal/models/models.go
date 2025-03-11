@@ -10,14 +10,14 @@ type PostType struct {
 }
 
 type Post struct {
-	Id         uint      `gorm:"primaryKey" ui:"hidden"`
+	Id         uint      `gorm:"primaryKey" ui:"hidden;label:\"Номер поста\""`
 	Text       string    `ui:"label:Текст"`
 	Deadline   int64     `ui:"label:Дедлайн;datatype:datetime;"`
-	CreatedAt  int64     `gorm:"autoCreateTime" ui:"label:Время создания; readonly; datatype:datetime;"`
+	CreatedAt  int64     `gorm:"autoCreateTime" ui:"label:Время создания;readonly;datatype:datetime;"`
 	AuthorId   uint      `ui:"hidden" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	Author     Author    `ui:"label:Автор; field:Name;"`
-	PostTypeId uint      `ui:"hidden"`
-	PostType   PostType  `ui:"label:Тип; field:Name;" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	PostTypeId uint      `ui:"hidden; excel:Номер типа поста;"`
+	PostType   PostType  `ui:"label:Тип поста; field:Name;" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	Comments   []Comment `ui:"label:Комментарии; field:Text;" gorm:"many2many:comments_post;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
 

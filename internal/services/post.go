@@ -4,7 +4,7 @@ import (
 	"app/internal/dal"
 	"app/internal/database"
 	"app/internal/dialogs"
-	excel "app/internal/extras/excel"
+	"app/internal/extras/excel"
 	"app/internal/models"
 	"errors"
 	"fmt"
@@ -64,7 +64,12 @@ func (service *PostService) Count() (int64, error) {
 	return amount, err
 }
 func (service *PostService) ExportToExcel() {
-	err := excel.ExportEntityToSpreadsheet("report.xlsx", "Посты", Post{}, service.GetAll)
+	exporter := excel.Exporter[Post]{
+		SheetName: "Посты",
+		Entity:    Post{},
+		Provider:  service.GetAll,
+	}
+	err := excel.ExportEntitiesToSpreadsheet("report.xlsx", exporter)
 	if err != nil {
 		dialogs.ErrorDialog("Ошибка экспорта", fmt.Sprintf("Ошибка при экспорте данных: %s", err))
 	}

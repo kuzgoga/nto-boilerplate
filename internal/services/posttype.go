@@ -7,12 +7,9 @@ import (
 	"app/internal/extras/excel"
 	"app/internal/models"
 	"errors"
-	"os/signal"
-	"strconv"
-	"syscall"
-
 	"gorm.io/gen/field"
 	"gorm.io/gorm"
+	"strconv"
 )
 
 type PostTypeService struct {
@@ -66,7 +63,6 @@ func (service *PostTypeService) Count() (int64, error) {
 }
 
 func (service *PostTypeService) ImportFromExcel() error {
-	signal.Ignore(syscall.SIGSEGV)
 	filepath, err := dialogs.OpenFileDialog("Импорт данных")
 	if err != nil {
 		return err
@@ -79,10 +75,13 @@ func (service *PostTypeService) ImportFromExcel() error {
 				return err
 			}
 
-			service.Create(PostType{
+			_, err = service.Create(PostType{
 				Id:   uint(id),
 				Name: row[1],
 			})
+			if err != nil {
+				return err
+			}
 			return nil
 		},
 	})

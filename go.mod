@@ -1,10 +1,11 @@
 module app
 
-go 1.22.4
+go 1.22.12
 
 toolchain go1.23.4
 
 require (
+	github.com/kuzgoga/fogg v0.1.2
 	github.com/wailsapp/wails/v3 v3.0.0-alpha.9
 	github.com/xuri/excelize/v2 v2.9.0
 	gorm.io/driver/sqlite v1.5.7

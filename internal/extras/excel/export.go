@@ -2,7 +2,9 @@ package excel
 
 import (
 	"app/internal/dialogs"
+	"errors"
 	"fmt"
+	"github.com/kuzgoga/fogg"
 	"github.com/xuri/excelize/v2"
 	"log/slog"
 	"reflect"
@@ -13,10 +15,10 @@ import (
 
 type TableHeaders struct {
 	Headers              []string
-	IgnoredFieldsIndices []int
+	IgnoredFieldsIndexes []int
 }
 
-func isPrimitive(valueType reflect.Type) bool {
+func isPrimitiveType(valueType reflect.Type) bool {
 	switch valueType.Kind() {
 	case reflect.Bool,
 		reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
@@ -29,7 +31,20 @@ func isPrimitive(valueType reflect.Type) bool {
 	}
 }
 
-func ExportEntityToSpreadsheet[T any](filename, sheetName string, entity T, provider func() ([]*T, error)) error {
+func DeleteDefaultSheet(file *excelize.File) error {
+	sheetId, err := file.GetSheetIndex("Sheet1")
+	if err != nil {
+		return err
+	}
+	if sheetId != -1 {
+		if err := file.DeleteSheet("Sheet1"); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func ExportEntitiesToSpreadsheet(filename string, exporters ...ExporterInterface) error {
 	file := excelize.NewFile()
 	defer func() {
 		if err := file.Close(); err != nil {
@@ -37,10 +52,27 @@ func ExportEntityToSpreadsheet[T any](filename, sheetName string, entity T, prov
 		}
 	}()
 
-	if _, err := file.NewSheet(sheetName); err != nil {
+	for _, exporter := range exporters {
+		err := ExportEntityToSpreadsheet(file, exporter.GetSheetName(), exporter.GetEntity(), exporter.GetProvider())
+		if err != nil {
+			return err
+		}
+	}
+
+	if err := DeleteDefaultSheet(file); err != nil {
 		return err
 	}
-	if err := file.DeleteSheet("Sheet1"); err != nil {
+
+	err := WriteData(file, filename)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func ExportEntityToSpreadsheet[T any](file *excelize.File, sheetName string, entity T, provider func() ([]any, error)) error {
+	_, err := file.NewSheet(sheetName)
+	if err != nil {
 		return err
 	}
 
@@ -59,42 +91,43 @@ func ExportEntityToSpreadsheet[T any](filename, sheetName string, entity T, prov
 	for i, item := range items {
 		structValue := reflect.ValueOf(item).Elem()
 
+		columnOffset := 0
 		for j := 0; j < structValue.NumField(); j++ {
-			if slices.Contains(headers.IgnoredFieldsIndices, j) {
+			if slices.Contains(headers.IgnoredFieldsIndexes, j) {
+				columnOffset--
 				continue
 			}
+
 			field := structValue.Field(j)
-			if isPrimitive(field.Type()) {
+			tagLiteral := string(structValue.Type().Field(j).Tag)
+			tag, err := fogg.Parse(tagLiteral)
+
+			if err != nil {
+				return err
+			}
+
+			if isPrimitiveType(field.Type()) {
 				fieldValue := field.Interface()
-				cellName, err := GetCellNameByIndices(j, i+1)
+				cellName, err := GetCellNameByIndices(j+columnOffset, i+1)
 				if err != nil {
 					return err
 				}
 
-				cellType := structValue.Type().Field(j).Tag.Get(CellTypeTag)
+				datatype := tag.GetTag("ui").GetParamOr("datatype", "")
 
-				var cellValue any
-
-				switch cellType {
-				case TimestampTag:
-					cellValue = time.Unix(field.Int(), 0)
-				case DurationTag:
-					cellValue = time.Duration(field.Int())
-				default:
-					cellValue = fieldValue
+				if datatype == timestampTag {
+					err = file.SetCellValue(sheetName, cellName, time.Unix(fieldValue.(int64), 0))
+				} else {
+					err = file.SetCellValue(sheetName, cellName, fieldValue)
 				}
 
-				slog.Debug("Field %s value: %v, %s\n", cellName, cellValue, cellType)
-				err = file.SetCellValue(sheetName, cellName, cellValue)
+				slog.Info(fmt.Sprintf("Field %s value: %v, %s\n", cellName, fieldValue, datatype))
+
 				if err != nil {
 					return err
 				}
 			}
 		}
-	}
-
-	if err := WriteData(file, filename); err != nil {
-		return err
 	}
 
 	return nil
@@ -124,23 +157,43 @@ func GetCellNameByIndices(column int, row int) (string, error) {
 	return cellName, nil
 }
 
-func ExportHeaders(entity any) TableHeaders {
+func ExportHeaders(entity any) (TableHeaders, error) {
 	headers := TableHeaders{}
 	v := reflect.TypeOf(entity)
 	for i := range v.NumField() {
-		field := v.Field(i)
-		displayName := field.Tag.Get("displayName")
-		if displayName != "" {
-			headers.Headers = append(headers.Headers, displayName)
+		tag, err := fogg.Parse(string(v.Field(i).Tag))
+		if err != nil {
+			return headers, errors.New(fmt.Sprintf("Error occured while tag parsing `%s`: %s", err, string(v.Field(i).Tag)))
+		}
+
+		uiTag := tag.GetTag("ui")
+		if uiTag == nil {
+			headers.IgnoredFieldsIndexes = append(headers.IgnoredFieldsIndexes, i)
+			continue
+		}
+
+		if !isPrimitiveType(v.Field(i).Type) {
+			headers.IgnoredFieldsIndexes = append(headers.IgnoredFieldsIndexes, i)
+			continue
+		}
+
+		label := uiTag.GetParamOr("label", uiTag.GetParamOr(excelNameTag, ""))
+
+		if label != "" {
+			headers.Headers = append(headers.Headers, label)
 		} else {
-			headers.IgnoredFieldsIndices = append(headers.IgnoredFieldsIndices, i)
+			headers.IgnoredFieldsIndexes = append(headers.IgnoredFieldsIndexes, i)
 		}
 	}
-	return headers
+	return headers, nil
 }
 
 func WriteHeaders(sheetName string, entity any, file *excelize.File) (TableHeaders, error) {
-	headers := ExportHeaders(entity)
+	headers, err := ExportHeaders(entity)
+	if err != nil {
+		return headers, err
+	}
+
 	for i, header := range headers.Headers {
 		cellName, err := GetHeaderCellNameByIndex(i)
 		if err != nil {
@@ -152,17 +205,19 @@ func WriteHeaders(sheetName string, entity any, file *excelize.File) (TableHeade
 			return headers, err
 		}
 	}
-	err := ApplyStyleHeaders(file, sheetName, headers)
+
+	err = ApplyStyleHeaders(file, sheetName, headers)
 	if err != nil {
 		return headers, err
 	}
+
 	return headers, nil
 }
 
 func GetStyleId(f *excelize.File, style *excelize.Style) (int, error) {
 	styleId, err := f.NewStyle(style)
 	if err != nil {
-		return 0, fmt.Errorf("ошибка при создании стиля: %w", err)
+		return 0, fmt.Errorf("error occured while creating a style: %w", err)
 	}
 
 	return styleId, nil

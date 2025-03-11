@@ -29,6 +29,7 @@ func (service *CommentService) GetAll() ([]*Comment, error) {
 	comments, err := dal.Comment.Preload(field.Associations).Find()
 	return comments, err
 }
+
 func (service *CommentService) GetById(id uint) (*Comment, error) {
 	item, err := dal.Comment.Preload(field.Associations).Where(dal.Comment.Id.Eq(id)).First()
 	if err != nil {
@@ -40,6 +41,7 @@ func (service *CommentService) GetById(id uint) (*Comment, error) {
 	}
 	return item, nil
 }
+
 func (service *CommentService) Update(item Comment) (Comment, error) {
 	ReplaceEmptySlicesWithNil(&item)
 	err := dal.Comment.Preload(field.Associations).Save(&item)
@@ -55,6 +57,7 @@ func (service *CommentService) Update(item Comment) (Comment, error) {
 
 	return item, err
 }
+
 func (service *CommentService) Delete(id uint) error {
 	_, err := dal.Comment.Unscoped().Where(dal.Comment.Id.Eq(id)).Delete()
 	return err

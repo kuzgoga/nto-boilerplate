@@ -1,10 +1,4 @@
 package excel
 
-const (
-	CellTypeTag = "cellType"
-)
-
-const (
-	TimestampTag = "timestamp"
-	DurationTag  = "duration"
-)
+const excelNameTag string = "excel"
+const timestampTag string = "datetime"
