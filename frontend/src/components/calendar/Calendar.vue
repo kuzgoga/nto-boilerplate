@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Qalendar } from "qalendar";
+import { CalendarEvent } from "./event.class";
 
 const config = {
   month: {
@@ -9,10 +10,14 @@ const config = {
   defaultMode: 'month',
   isSilent: true,
 };
+
+defineProps<{
+  events: CalendarEvent[]
+}>()
 </script>
 
 <template>
-  <Qalendar :config></Qalendar>
+  <Qalendar :config :events></Qalendar>
 </template>
 
 <style>
