@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { Dialog } from "primevue";
 import { useErrorStore } from "./stores/error.store";
-import CommentScheme from "./comment/CommentScheme.vue";
-import PosttypeScheme from "./posttype/PosttypeScheme.vue";
-import PostScheme from "./post/PostScheme.vue";
+import { RouterView, useRoute } from "vue-router";
 
 const errorStore = useErrorStore();
+
+const route = useRoute();
 </script>
 
 <template>
@@ -18,6 +18,6 @@ const errorStore = useErrorStore();
         <h1 class="text-red-500 text-2xl">{{ errorStore.message }}</h1>
     </Dialog>
     <main class="w-screen h-screen">
-       <PostScheme></PostScheme>
+       <RouterView />
     </main>
 </template>
