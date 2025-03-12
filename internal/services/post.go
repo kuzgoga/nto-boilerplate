@@ -75,3 +75,6 @@ func (service *PostService) ExportToExcel() {
 		dialogs.ErrorDialog("Ошибка экспорта", fmt.Sprintf("Ошибка при экспорте данных: %s", err))
 	}
 }
+func (service *PostService) SortedByOrder(fieldsSortOrder map[string]string) ([]*Post, error) {
+	return utils.SortByOrder(fieldsSortOrder, Post{})
+}

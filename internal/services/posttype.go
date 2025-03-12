@@ -91,3 +91,6 @@ func (service *PostTypeService) ImportFromExcel() error {
 	}
 	return nil
 }
+func (service *PostTypeService) SortedByOrder(fieldsSortOrder map[string]string) ([]*PostType, error) {
+	return utils.SortByOrder(fieldsSortOrder, PostType{})
+}
