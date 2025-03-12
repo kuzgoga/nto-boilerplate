@@ -31,7 +31,7 @@ const load = async () => {
 
 onMounted(async () => {
   await load();
-  console.log(await SortedByOrder({"Name": "ASC"}))
+  console.log(await SortedByOrder({"Comments": "DESC"}))
 });
 
 const scheme: Scheme<Author> = reactive({

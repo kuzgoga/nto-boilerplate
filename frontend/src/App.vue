@@ -2,6 +2,8 @@
 import { Dialog } from "primevue";
 import { useErrorStore } from "./stores/error.store";
 import { RouterView } from "vue-router";
+import AuthorScheme from "./author/AuthorScheme.vue";
+import PostScheme from "./post/PostScheme.vue";
 
 const errorStore = useErrorStore();
 </script>
@@ -17,5 +19,6 @@ const errorStore = useErrorStore();
     </Dialog>
     <main class="w-screen h-screen">
        <RouterView />
+      <PostScheme />
     </main>
 </template>

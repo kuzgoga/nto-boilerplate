@@ -15,6 +15,8 @@ import PosttypeService from "../posttype/posttype.service.ts";
 const posttypeService = new PosttypeService();
 
 import CommentService from "../comment/comment.service.ts";
+import {SortedByOrder} from "../../bindings/app/internal/services/postservice.ts";
+
 const commentService = new CommentService();
 
 const service = new Service();
@@ -36,6 +38,7 @@ const load = async () => {
 
 onMounted(async () => {
     await load();
+    console.log(await SortedByOrder({"Author": "DESC", "Text": "ASC"}));
 });
 
 const scheme: Scheme<Post> = reactive({
