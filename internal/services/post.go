@@ -6,6 +6,7 @@ import (
 	"app/internal/dialogs"
 	"app/internal/extras/excel"
 	"app/internal/models"
+	"app/internal/utils"
 	"errors"
 	"fmt"
 
@@ -17,12 +18,12 @@ type PostService struct{}
 type Post = models.Post
 
 func (service *PostService) Create(item Post) (Post, error) {
-	ReplaceEmptySlicesWithNil(&item)
+	utils.ReplaceEmptySlicesWithNil(&item)
 	err := dal.Post.Preload(field.Associations).Create(&item)
 	if err != nil {
 		return item, err
 	}
-	err = AppendAssociations(database.GetInstance(), &item)
+	err = utils.AppendAssociations(database.GetInstance(), &item)
 	return item, err
 }
 func (service *PostService) GetAll() ([]*Post, error) {
@@ -43,12 +44,12 @@ func (service *PostService) GetById(id uint) (*Post, error) {
 }
 
 func (service *PostService) Update(item Post) (Post, error) {
-	ReplaceEmptySlicesWithNil(&item)
+	utils.ReplaceEmptySlicesWithNil(&item)
 	err := dal.Post.Preload(field.Associations).Save(&item)
 	if err != nil {
 		return item, err
 	}
-	err = UpdateAssociations(database.GetInstance(), &item)
+	err = utils.UpdateAssociations(database.GetInstance(), &item)
 	if err != nil {
 		return item, err
 	}

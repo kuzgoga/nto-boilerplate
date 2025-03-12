@@ -329,7 +329,7 @@ func ApplyStyleHeaders(file *excelize.File, sheetName string, headers TableHeade
 }
 
 func WriteData(file *excelize.File, filename string) error {
-	filepath, err := dialogs.SaveFileDialog("Экспорт данных", filename)
+	filepath, err := dialogs.SaveFileDialog(filename)
 
 	if !strings.HasSuffix(filepath, ".xlsx") {
 		filepath += ".xlsx"

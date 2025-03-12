@@ -5,6 +5,7 @@ import { getDefaultValues } from "../utils/structs/defaults.util";
 import Service from "./author.service.ts";
 import type { Scheme } from "../types/scheme.type";
 import { Author } from "../../bindings/app/internal/services";
+import { SortedByOrder } from "../../bindings/app/internal/services/authorservice.ts";
 import { ref } from "vue";
 import type { Validate } from "../types/validate.type";
 
@@ -29,7 +30,8 @@ const load = async () => {
 };
 
 onMounted(async () => {
-  load();
+  await load();
+  console.log(await SortedByOrder({"Name": "ASC"}))
 });
 
 const scheme: Scheme<Author> = reactive({

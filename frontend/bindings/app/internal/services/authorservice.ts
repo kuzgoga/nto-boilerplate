@@ -50,6 +50,15 @@ export function GetById(id: number): Promise<$models.Author | null> & { cancel()
     return $typingPromise;
 }
 
+export function SortedByOrder(fieldsSortOrder: { [_: string]: string }): Promise<($models.Author | null)[]> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(3046628691, fieldsSortOrder) as any;
+    let $typingPromise = $resultPromise.then(($result: any) => {
+        return $$createType2($result);
+    }) as any;
+    $typingPromise.cancel = $resultPromise.cancel.bind($resultPromise);
+    return $typingPromise;
+}
+
 export function Update(item: $models.Author): Promise<$models.Author> & { cancel(): void } {
     let $resultPromise = $Call.ByID(2240704960, item) as any;
     let $typingPromise = $resultPromise.then(($result: any) => {

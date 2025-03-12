@@ -6,6 +6,7 @@ import (
 	"app/internal/dialogs"
 	"app/internal/extras/excel"
 	"app/internal/models"
+	"app/internal/utils"
 	"errors"
 	"gorm.io/gen/field"
 	"gorm.io/gorm"
@@ -17,12 +18,12 @@ type PostTypeService struct {
 type PostType = models.PostType
 
 func (service *PostTypeService) Create(item PostType) (PostType, error) {
-	ReplaceEmptySlicesWithNil(&item)
+	utils.ReplaceEmptySlicesWithNil(&item)
 	err := dal.PostType.Preload(field.Associations).Create(&item)
 	if err != nil {
 		return item, err
 	}
-	err = AppendAssociations(database.GetInstance(), &item)
+	err = utils.AppendAssociations(database.GetInstance(), &item)
 	return item, err
 }
 func (service *PostTypeService) GetAll() ([]*PostType, error) {
@@ -42,12 +43,12 @@ func (service *PostTypeService) GetById(id uint) (*PostType, error) {
 	return item, nil
 }
 func (service *PostTypeService) Update(item PostType) (PostType, error) {
-	ReplaceEmptySlicesWithNil(&item)
+	utils.ReplaceEmptySlicesWithNil(&item)
 	err := dal.PostType.Preload(field.Associations).Save(&item)
 	if err != nil {
 		return item, err
 	}
-	err = UpdateAssociations(database.GetInstance(), &item)
+	err = utils.UpdateAssociations(database.GetInstance(), &item)
 	if err != nil {
 		return item, err
 	}

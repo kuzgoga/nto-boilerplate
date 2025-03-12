@@ -4,6 +4,7 @@ import (
 	"app/internal/dal"
 	"app/internal/database"
 	"app/internal/models"
+	"app/internal/utils"
 	"errors"
 
 	"gorm.io/gen/field"
@@ -15,12 +16,12 @@ type CommentService struct {
 type Comment = models.Comment
 
 func (service *CommentService) Create(item Comment) (Comment, error) {
-	ReplaceEmptySlicesWithNil(&item)
+	utils.ReplaceEmptySlicesWithNil(&item)
 	err := dal.Comment.Preload(field.Associations).Create(&item)
 	if err != nil {
 		return item, err
 	}
-	err = AppendAssociations(database.GetInstance(), &item)
+	err = utils.AppendAssociations(database.GetInstance(), &item)
 	return item, err
 }
 
@@ -43,13 +44,13 @@ func (service *CommentService) GetById(id uint) (*Comment, error) {
 }
 
 func (service *CommentService) Update(item Comment) (Comment, error) {
-	ReplaceEmptySlicesWithNil(&item)
+	utils.ReplaceEmptySlicesWithNil(&item)
 	err := dal.Comment.Preload(field.Associations).Save(&item)
 	if err != nil {
 		return item, err
 	}
 
-	err = UpdateAssociations(database.GetInstance(), &item)
+	err = utils.UpdateAssociations(database.GetInstance(), &item)
 
 	if err != nil {
 		return item, err

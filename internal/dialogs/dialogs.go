@@ -18,7 +18,7 @@ func ErrorDialog(title string, message string) {
 	application.ErrorDialog().SetTitle(title).SetMessage(message).Show()
 }
 
-func SaveFileDialog(title string, filename string) (string, error) {
+func SaveFileDialog(filename string) (string, error) {
 	selection, err := application.SaveFileDialog().SetFilename(filename).PromptForSingleSelection()
 	if err != nil {
 		return "", err
