@@ -5,3 +5,4 @@ nto-cli/
 /**/cli.exe
 /**/node_modules/
 /**/dist/
+.xlsx
