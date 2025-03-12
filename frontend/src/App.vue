@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { Dialog } from "primevue";
 import { useErrorStore } from "./stores/error.store";
-import { RouterView, useRoute } from "vue-router";
-import PosttypeScheme from "./posttype/PosttypeScheme.vue";
+import { RouterView } from "vue-router";
 
 const errorStore = useErrorStore();
-
-const route = useRoute();
 </script>
 
 <template>
@@ -20,6 +17,5 @@ const route = useRoute();
     </Dialog>
     <main class="w-screen h-screen">
        <RouterView />
-      <PosttypeScheme />
     </main>
 </template>
