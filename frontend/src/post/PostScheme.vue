@@ -15,7 +15,7 @@ import PosttypeService from "../posttype/posttype.service.ts";
 const posttypeService = new PosttypeService();
 
 import CommentService from "../comment/comment.service.ts";
-import {SortedByOrder} from "../../bindings/app/internal/services/postservice.ts";
+import { SortedByOrder } from "../../bindings/app/internal/services/postservice.ts";
 
 const commentService = new CommentService();
 
@@ -38,7 +38,7 @@ const load = async () => {
 
 onMounted(async () => {
     await load();
-    console.log(await SortedByOrder({"Author": "DESC", "Text": "ASC"}));
+    console.log(await SortedByOrder({ "Author": "DESC", "Text": "ASC" }));
 });
 
 const scheme: Scheme<Post> = reactive({
@@ -124,7 +124,7 @@ const scheme: Scheme<Post> = reactive({
 });
 
 const getDefaults = () => {
-    return ({...getDefaultValues(scheme), AuthorId: 1, PostTypeId: 1});
+    return ({ ...getDefaultValues(scheme), AuthorId: 1, PostTypeId: 1 });
 };
 
 const validate: Validate<Post> = (entity) => {
@@ -135,11 +135,9 @@ const validate: Validate<Post> = (entity) => {
 </script>
 
 <template>
-    <main class="w-screen h-screen">
-        <Table :scheme :service :get-defaults :load :items :validate>
-            <template #CommentsCreate="{ data }">
-                <p>{{ data.Comments }}</p>
-            </template>
-        </Table>
-    </main>
+    <Table :scheme :service :get-defaults :load :items :validate>
+        <template #CommentsCreate="{ data }">
+            <p>{{ data.Comments }}</p>
+        </template>
+    </Table>
 </template>

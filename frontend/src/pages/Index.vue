@@ -1,22 +1,15 @@
 <script setup lang="ts">
-import Calendar from '../components/calendar/Calendar.vue';
-import { CalendarEvent } from '../components/calendar/event.class';
+import { Button } from 'primevue';
+import NavCard from '../components/cards/NavCard.vue';
 
-const events: CalendarEvent[] = []
-
-const newEvent = new CalendarEvent(
-  "Advanced algebra",
-  "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores assumenda corporis doloremque et expedita molestias necessitatibus quam quas temporibus veritatis. Deserunt excepturi illum nobis perferendis praesentium repudiandae saepe sapiente voluptatem!",
-  new Date("2025-03-11T12:05:00"),
-  new Date("2025-03-12T13:35:00"),
-  {
-    color: 'pink',
-  }
-)
-
-events.push(newEvent)
 </script>
 
 <template>
-  <Calendar :events="events" />
+  <div class="flex w-screen h-screen items-center gap-5 justify-center">
+    <NavCard :title="'Пользователь'" :to="'/user'" :content="'Может кидать зигу и не может пользоваться туалетной бумагой'" />
+  </div>
+  <footer class="fixed w-full bottom-10 flex items-center justify-center gap-2">
+    <Button severity="secondary">Импортировать данные</Button>
+    <Button severity="secondary">Экспортировать данные</Button>
+  </footer>
 </template>

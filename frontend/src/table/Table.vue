@@ -100,14 +100,17 @@ watch(() => props.items, () => {
         </template>
     </DialogWindow>
     <div>
-        <DataTable :value="<[]>items">
+        <DataTable :value="<[]>items" paginator :rows="10">
             <template #header v-if="props.name">
                 <p>{{ props.name }}</p>
             </template>
             <template v-for="key in keys">
                 <Column :header="props.scheme[key]?.russian" v-if="!props.scheme[key].hidden">
                     <template #body="{ data }">
-                        <p class="">
+                        <p class="truncate max-w-56" v-tooltip="viewDate(manyStructsView(
+                            data[key],
+                            props.scheme[key]?.type?.nested?.field,
+                        ), scheme[key]?.type?.primitive)">
                             {{
                                 viewDate(manyStructsView(
                                     data[key],

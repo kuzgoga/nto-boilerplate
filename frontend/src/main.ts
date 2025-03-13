@@ -7,8 +7,9 @@ import 'primeicons/primeicons.css'
 import { ru } from 'primelocale/js/ru.js'
 import { createPinia } from 'pinia'
 import { router } from './router/router'
+import Tooltip from 'primevue/tooltip'
 
-createApp(App).use(router).use(createPinia()).use(Config, {
+createApp(App).directive('tooltip', Tooltip).use(router).use(createPinia()).use(Config, {
     theme: {
         preset: Aura,
     },

@@ -2,8 +2,7 @@
 import { Dialog } from "primevue";
 import { useErrorStore } from "./stores/error.store";
 import { RouterView } from "vue-router";
-import AuthorScheme from "./author/AuthorScheme.vue";
-import PostScheme from "./post/PostScheme.vue";
+import VHeader from "./components/headers/VHeader.vue";
 
 const errorStore = useErrorStore();
 </script>
@@ -17,8 +16,8 @@ const errorStore = useErrorStore();
         <template #header> Ошибка </template>
         <h1 class="text-red-500 text-2xl">{{ errorStore.message }}</h1>
     </Dialog>
-    <main class="w-screen h-screen">
+    <VHeader v-if="$route?.matched?.length > 1" />
+    <main>
        <RouterView />
-      <PostScheme />
     </main>
 </template>
