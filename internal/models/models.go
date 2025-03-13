@@ -18,7 +18,7 @@ type Post struct {
 	Author     Author    `ui:"label:Автор; field:Name;"`
 	PostTypeId uint      `ui:"hidden; excel:Номер типа поста;"`
 	PostType   PostType  `ui:"label:Тип поста; field:Name;" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
-	Comments   []Comment `ui:"label:Комментарии;field:Text;" gorm:"many2many:comments_post;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	Comments   []Comment `ui:"label:Комментарии; field:Text;" gorm:"many2many:comments_post;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
 
 type Author struct {

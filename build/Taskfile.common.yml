@@ -1,6 +1,27 @@
 version: '3'
 
 tasks:
+  go:gen:dal:
+    summary: Runs GORM Gen for crud generating
+    dir: internal/gen
+    sources:
+      - ../models/*.go
+    generates:
+      - ../dal/*.go
+    cmds:
+      - go run gen.go
+
+  go:gen:crudgen:
+    summary: Runs crudgen for crud generating
+    sources:
+      - internal/models/*.go
+    generates:
+      - internal/services/*.go
+    deps:
+      - go:gen:dal
+    cmds:
+      - crudgen -p internal
+
   go:mod:tidy:
     summary: Runs `go mod tidy`
     internal: true
@@ -40,6 +61,8 @@ tasks:
 
   generate:bindings:
     summary: Generates bindings for the frontend
+    deps:
+      - go:gen:crudgen
     sources:
       - "**/*.go"
       - go.mod

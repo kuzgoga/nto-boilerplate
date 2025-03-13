@@ -7,8 +7,6 @@ import type { Scheme } from "../types/scheme.type";
 import { PostType } from "../../bindings/app/internal/services";
 import { ref } from "vue";
 import type { Validate } from "../types/validate.type";
-import { ImportFromExcel } from "../../bindings/app/internal/services/posttypeservice.ts";
-import { ExportToExcel } from "../../bindings/app/internal/services/postservice.ts";
 
 const service = new Service();
 
@@ -21,7 +19,6 @@ const load = async () => {
 
 onMounted(async () => {
     await load();
-    await ExportToExcel();
 });
 
 const scheme: Scheme<PostType> = reactive({
