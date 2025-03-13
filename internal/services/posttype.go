@@ -3,14 +3,11 @@ package services
 import (
 	"app/internal/dal"
 	"app/internal/database"
-	"app/internal/dialogs"
-	"app/internal/extras/excel"
 	"app/internal/models"
 	"app/internal/utils"
 	"errors"
 	"gorm.io/gen/field"
 	"gorm.io/gorm"
-	"strconv"
 )
 
 type PostTypeService struct {
@@ -63,34 +60,6 @@ func (service *PostTypeService) Count() (int64, error) {
 	return amount, err
 }
 
-func (service *PostTypeService) ImportFromExcel() error {
-	filepath, err := dialogs.OpenFileDialog("Импорт данных")
-	if err != nil {
-		return err
-	}
-	err = excel.ImportFromSpreadsheet(filepath, excel.Importer{
-		SheetName: "Тип поста",
-		Loader: func(rowIndex int, row []string) error {
-			id, err := strconv.Atoi(row[0])
-			if err != nil {
-				return err
-			}
-
-			_, err = service.Create(PostType{
-				Id:   uint(id),
-				Name: row[1],
-			})
-			if err != nil {
-				return err
-			}
-			return nil
-		},
-	})
-	if err != nil {
-		return err
-	}
-	return nil
-}
 func (service *PostTypeService) SortedByOrder(fieldsSortOrder map[string]string) ([]*PostType, error) {
 	return utils.SortByOrder(fieldsSortOrder, PostType{})
 }

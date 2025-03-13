@@ -13,7 +13,7 @@ var assets embed.FS
 func main() {
 	app := application.New(application.Options{
 		Name:        "nto_starterkit",
-		Description: "NTO toolkit template",
+		Description: "Toolkit template",
 		Services:    append([]application.Service{services.MigratorService}, services.ExportedServices...),
 		Assets: application.AssetOptions{
 			Handler: application.AssetFileServerFS(assets),

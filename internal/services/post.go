@@ -3,13 +3,9 @@ package services
 import (
 	"app/internal/dal"
 	"app/internal/database"
-	"app/internal/dialogs"
-	"app/internal/extras/excel"
 	"app/internal/models"
 	"app/internal/utils"
 	"errors"
-	"fmt"
-
 	"gorm.io/gen/field"
 	"gorm.io/gorm"
 )
@@ -64,17 +60,7 @@ func (service *PostService) Count() (int64, error) {
 	amount, err := dal.Post.Count()
 	return amount, err
 }
-func (service *PostService) ExportToExcel() {
-	exporter := excel.Exporter[Post]{
-		SheetName: "Посты",
-		Entity:    Post{},
-		Provider:  service.GetAll,
-	}
-	err := excel.ExportEntitiesToSpreadsheet("report.xlsx", exporter)
-	if err != nil {
-		dialogs.ErrorDialog("Ошибка экспорта", fmt.Sprintf("Ошибка при экспорте данных: %s", err))
-	}
-}
+
 func (service *PostService) SortedByOrder(fieldsSortOrder map[string]string) ([]*Post, error) {
 	return utils.SortByOrder(fieldsSortOrder, Post{})
 }
