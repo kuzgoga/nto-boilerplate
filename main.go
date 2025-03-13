@@ -14,7 +14,7 @@ func main() {
 	app := application.New(application.Options{
 		Name:        "nto_starterkit",
 		Description: "Toolkit template",
-		Services:    append([]application.Service{services.MigratorService}, services.ExportedServices...),
+		Services:    append(services.ExportedServices, services.MigratorService, services.ExcelService),
 		Assets: application.AssetOptions{
 			Handler: application.AssetFileServerFS(assets),
 		},

@@ -12,8 +12,8 @@ import (
 
 // SortByOrder Order items by specified field and a sort type
 // Example: SortByOrder(map[string]string{"name": "ASC"}, &models.Post{})
-// ASC - по возрастанию (от А до Я)
-// DESC - по убыванию (от Я до А)
+// ASC - по возрастанию (или от А до Я)
+// DESC - по убыванию (или от Я до А)
 func SortByOrder[T any](fieldsSortOrder map[string]string, entity T) ([]*T, error) {
 	var (
 		orderQuery []string
