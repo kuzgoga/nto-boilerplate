@@ -16,7 +16,7 @@ const errorStore = useErrorStore();
         <template #header> Ошибка </template>
         <h1 class="text-red-500 text-2xl">{{ errorStore.message }}</h1>
     </Dialog>
-    <VHeader v-if="$route?.matched?.length > 1" />
+    <VHeader v-if="$route?.matched?.length > 1"  />
     <main>
        <RouterView />
     </main>

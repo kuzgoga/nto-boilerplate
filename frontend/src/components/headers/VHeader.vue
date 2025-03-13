@@ -1,25 +1,23 @@
 <script lang="ts" setup>
 import { Button, Toolbar } from 'primevue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
+import { useNavModalStore } from '../../stores/nav-modal.store';
 
 const route = useRoute()
-const router = useRouter()
 
-const logout = () => {
-    localStorage.removeItem('app-selection')
-    router.replace('/')
-}
-
+const navModalStore = useNavModalStore()
 </script>
 
 <template>
     <header >
-        <Toolbar>
+        <Toolbar style="border-radius: 0; border-top: none; border-left: none; border-right: none">
             <template #start>
                 <p class="font-bold">{{ $route.matched?.[$route.matched.length - 2]?.name }} / {{ route.name }}</p>
             </template>
             <template #end>
-                <Button severity="danger" :size="'small'" @click="logout">Выйти</Button>
+                <Button severity="secondary" size="small" @click="navModalStore.changeVisibility">
+                    <span class="pi pi-list"></span>
+                </Button>
             </template>
         </Toolbar>
     </header>

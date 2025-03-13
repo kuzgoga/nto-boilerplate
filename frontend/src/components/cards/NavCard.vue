@@ -4,11 +4,6 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter()
 
-const navigateTo = (path: string) => {
-  localStorage.setItem('app-selection', path)
-  router.push(path)
-}
-
 defineProps<{
     to: string
     title: string
@@ -25,7 +20,7 @@ defineProps<{
         <p class="w-56">{{ content }}</p>
       </template>
       <template #footer>
-        <Button @click="navigateTo(to)" severity="contrast" size="small">Перейти</Button>
+        <Button @click="router.push(to)" severity="contrast" size="small">Перейти</Button>
       </template>
     </Card>
 </template>
