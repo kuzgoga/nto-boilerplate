@@ -11,7 +11,7 @@ type ExcelModule struct{}
 
 var ExcelService = application.NewService(&ExcelModule{})
 
-func ImportAllEntities() error {
+func (s *ExcelModule) ImportAllEntities() error {
 	postTypeService := PostTypeService{}
 	filepath, err := dialogs.OpenFileDialog("Импорт данных")
 	if err != nil {
@@ -41,7 +41,7 @@ func ImportAllEntities() error {
 	return nil
 }
 
-func ExportAllEntities() error {
+func (s *ExcelModule) ExportAllEntities() error {
 	postService := PostService{}
 	exporter := excel.Exporter[Post]{
 		SheetName: "Посты",
