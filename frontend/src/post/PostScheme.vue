@@ -135,9 +135,9 @@ const validate: Validate<Post> = (entity) => {
 </script>
 
 <template>
-    <Table :scheme :service :get-defaults :load :items :validate>
+    <Table :scheme :service :get-defaults :load :items :validate >
         <template #CommentsCreate="{ data }">
-            <p>{{ data.Comments }}</p>
+            <p>{{ data }}</p>
         </template>
     </Table>
 </template>
