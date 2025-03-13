@@ -61,8 +61,6 @@ tasks:
 
   generate:bindings:
     summary: Generates bindings for the frontend
-    deps:
-      - go:gen:crudgen
     sources:
       - "**/*.go"
       - go.mod
