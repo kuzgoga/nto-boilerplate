@@ -17,7 +17,7 @@ func (s *ExcelModule) ImportAllEntities() error {
 	if err != nil {
 		return err
 	}
-	err = excel.ImportFromSpreadsheet(filepath, excel.Importer{
+	err = excel.ImportEntitiesFromSpreadsheet(filepath, excel.Importer{
 		SheetName: "Тип поста",
 		Loader: func(rowIndex int, row []string) error {
 			id, err := strconv.Atoi(row[0])
