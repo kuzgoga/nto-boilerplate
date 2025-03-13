@@ -29,7 +29,7 @@ func newComment(db *gorm.DB, opts ...gen.DOOption) comment {
 	_comment.Id = field.NewUint(tableName, "id")
 	_comment.Text = field.NewString(tableName, "text")
 	_comment.AuthorId = field.NewUint(tableName, "author_id")
-	_comment.Author = commentHasOneAuthor{
+	_comment.Author = commentBelongsToAuthor{
 		db: db.Session(&gorm.Session{}),
 
 		RelationField: field.NewRelation("Author", "models.Author"),
@@ -109,7 +109,7 @@ type comment struct {
 	Id       field.Uint
 	Text     field.String
 	AuthorId field.Uint
-	Author   commentHasOneAuthor
+	Author   commentBelongsToAuthor
 
 	Posts commentManyToManyPosts
 
@@ -164,7 +164,7 @@ func (c comment) replaceDB(db *gorm.DB) comment {
 	return c
 }
 
-type commentHasOneAuthor struct {
+type commentBelongsToAuthor struct {
 	db *gorm.DB
 
 	field.RelationField
@@ -192,7 +192,7 @@ type commentHasOneAuthor struct {
 	}
 }
 
-func (a commentHasOneAuthor) Where(conds ...field.Expr) *commentHasOneAuthor {
+func (a commentBelongsToAuthor) Where(conds ...field.Expr) *commentBelongsToAuthor {
 	if len(conds) == 0 {
 		return &a
 	}
@@ -205,27 +205,27 @@ func (a commentHasOneAuthor) Where(conds ...field.Expr) *commentHasOneAuthor {
 	return &a
 }
 
-func (a commentHasOneAuthor) WithContext(ctx context.Context) *commentHasOneAuthor {
+func (a commentBelongsToAuthor) WithContext(ctx context.Context) *commentBelongsToAuthor {
 	a.db = a.db.WithContext(ctx)
 	return &a
 }
 
-func (a commentHasOneAuthor) Session(session *gorm.Session) *commentHasOneAuthor {
+func (a commentBelongsToAuthor) Session(session *gorm.Session) *commentBelongsToAuthor {
 	a.db = a.db.Session(session)
 	return &a
 }
 
-func (a commentHasOneAuthor) Model(m *models.Comment) *commentHasOneAuthorTx {
-	return &commentHasOneAuthorTx{a.db.Model(m).Association(a.Name())}
+func (a commentBelongsToAuthor) Model(m *models.Comment) *commentBelongsToAuthorTx {
+	return &commentBelongsToAuthorTx{a.db.Model(m).Association(a.Name())}
 }
 
-type commentHasOneAuthorTx struct{ tx *gorm.Association }
+type commentBelongsToAuthorTx struct{ tx *gorm.Association }
 
-func (a commentHasOneAuthorTx) Find() (result *models.Author, err error) {
+func (a commentBelongsToAuthorTx) Find() (result *models.Author, err error) {
 	return result, a.tx.Find(&result)
 }
 
-func (a commentHasOneAuthorTx) Append(values ...*models.Author) (err error) {
+func (a commentBelongsToAuthorTx) Append(values ...*models.Author) (err error) {
 	targetValues := make([]interface{}, len(values))
 	for i, v := range values {
 		targetValues[i] = v
@@ -233,7 +233,7 @@ func (a commentHasOneAuthorTx) Append(values ...*models.Author) (err error) {
 	return a.tx.Append(targetValues...)
 }
 
-func (a commentHasOneAuthorTx) Replace(values ...*models.Author) (err error) {
+func (a commentBelongsToAuthorTx) Replace(values ...*models.Author) (err error) {
 	targetValues := make([]interface{}, len(values))
 	for i, v := range values {
 		targetValues[i] = v
@@ -241,7 +241,7 @@ func (a commentHasOneAuthorTx) Replace(values ...*models.Author) (err error) {
 	return a.tx.Replace(targetValues...)
 }
 
-func (a commentHasOneAuthorTx) Delete(values ...*models.Author) (err error) {
+func (a commentBelongsToAuthorTx) Delete(values ...*models.Author) (err error) {
 	targetValues := make([]interface{}, len(values))
 	for i, v := range values {
 		targetValues[i] = v
@@ -249,11 +249,11 @@ func (a commentHasOneAuthorTx) Delete(values ...*models.Author) (err error) {
 	return a.tx.Delete(targetValues...)
 }
 
-func (a commentHasOneAuthorTx) Clear() error {
+func (a commentBelongsToAuthorTx) Clear() error {
 	return a.tx.Clear()
 }
 
-func (a commentHasOneAuthorTx) Count() int64 {
+func (a commentBelongsToAuthorTx) Count() int64 {
 	return a.tx.Count()
 }
 
