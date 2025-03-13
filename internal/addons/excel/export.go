@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"github.com/kuzgoga/fogg"
 	"github.com/xuri/excelize/v2"
+	"golang.org/x/text/language"
+	"golang.org/x/text/message"
 	"log/slog"
 	"reflect"
 	"slices"
@@ -17,6 +19,8 @@ type TableHeaders struct {
 	Headers              []string
 	IgnoredFieldsIndexes []int
 }
+
+var p = message.NewPrinter(language.Russian)
 
 func isPrimitiveType(valueType reflect.Type) bool {
 	switch valueType.Kind() {
@@ -48,7 +52,7 @@ func ExportEntitiesToSpreadsheet(filename string, exporters ...ExporterInterface
 	file := excelize.NewFile()
 	defer func() {
 		if err := file.Close(); err != nil {
-			slog.Error("Error while closing excel file: ", err)
+			slog.Error(p.Sprintf("Error while closing excel file: %s", err))
 		}
 	}()
 
@@ -125,7 +129,7 @@ func ExportEntityToSpreadsheet[T any](file *excelize.File, sheetName string, ent
 					err = file.SetCellValue(sheetName, cellName, fieldValue)
 				}
 
-				slog.Info(fmt.Sprintf("Field %s value: %v, %s\n", cellName, fieldValue, datatype))
+				slog.Info(p.Sprintf("Field %s value: %v, %s\n", cellName, fieldValue, datatype))
 
 				if err != nil {
 					return err
@@ -176,7 +180,7 @@ func getNestedFieldValue(obj reflect.Value, path string) (any, error) {
 		val = val.FieldByName(field)
 
 		if !val.IsValid() {
-			return nil, fmt.Errorf("field %s not found", field)
+			return nil, errors.New(p.Sprintf("field %s not found", field))
 		}
 	}
 	return val.Interface(), nil
@@ -193,7 +197,7 @@ func SerializeNestedField(fieldInfo reflect.StructField, fieldValue reflect.Valu
 	if tag.HasTag("ui") && tag.GetTag("ui").HasParam("field") {
 		uiTag = *tag.GetTag("ui")
 	} else {
-		slog.Error("Fail to extract Field tag")
+		slog.Error(p.Sprintf("Fail to extract Field tag"))
 		return nil, nil
 	}
 
@@ -254,7 +258,7 @@ func ExportHeaders(entity any) (TableHeaders, error) {
 	for i := range v.NumField() {
 		tag, err := fogg.Parse(string(v.Field(i).Tag))
 		if err != nil {
-			return headers, errors.New(fmt.Sprintf("Error occured while tag parsing `%s`: %s", err, string(v.Field(i).Tag)))
+			return headers, errors.New(p.Sprintf("Error occurred while tag parsing `%s`: %s", err, string(v.Field(i).Tag)))
 		}
 
 		uiTag := tag.GetTag("ui")
@@ -303,7 +307,7 @@ func WriteHeaders(sheetName string, entity any, file *excelize.File) (TableHeade
 func GetStyleId(f *excelize.File, style *excelize.Style) (int, error) {
 	styleId, err := f.NewStyle(style)
 	if err != nil {
-		return 0, fmt.Errorf("error occured while creating a style: %w", err)
+		return 0, errors.New(p.Sprintf("error occurred while creating a style: %w", err))
 	}
 
 	return styleId, nil

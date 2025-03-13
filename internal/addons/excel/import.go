@@ -1,7 +1,7 @@
 package excel
 
 import (
-	"fmt"
+	"errors"
 	"log/slog"
 
 	"github.com/xuri/excelize/v2"
@@ -15,7 +15,7 @@ type Importer struct {
 
 func ImportEntitiesFromSpreadsheet(path string, importers ...Importer) error {
 	for _, importer := range importers {
-		err := ImportEntitiesFromSpreadsheet(path, importer)
+		err := ImportFromSpreadsheet(path, importer)
 		if err != nil {
 			return err
 		}
@@ -28,12 +28,17 @@ func ImportFromSpreadsheet(filepath string, importer Importer) error {
 	defer func() {
 		err := f.Close()
 		if err != nil {
-			slog.Error(fmt.Sprintf("Failed to close file: %s", err))
+			slog.Error(p.Sprintf("Failed to close file: %s", err))
 		}
 	}()
 
 	if err != nil {
 		return err
+	}
+
+	sheetIndex, err := f.GetSheetIndex("MySheet")
+	if err != nil || sheetIndex == -1 {
+		return errors.New(p.Sprintf("Sheet `%s` not found", importer.SheetName))
 	}
 
 	rows, err := f.GetRows(importer.SheetName)

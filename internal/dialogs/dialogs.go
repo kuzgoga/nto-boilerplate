@@ -1,8 +1,6 @@
 package dialogs
 
 import (
-	"fmt"
-
 	"github.com/wailsapp/wails/v3/pkg/application"
 )
 
@@ -27,11 +25,6 @@ func SaveFileDialog(filename string) (string, error) {
 }
 
 func OpenFileDialog(title string) (string, error) {
-	defer func() {
-		if r := recover(); r != nil {
-			fmt.Println("Recovered in f", r)
-		}
-	}()
 	dialog := application.OpenFileDialog()
 	dialog.SetTitle(title)
 	dialog.CanChooseDirectories(false)

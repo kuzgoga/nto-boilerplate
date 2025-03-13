@@ -5,15 +5,15 @@ import (
 	"errors"
 	"fmt"
 	"github.com/kuzgoga/fogg"
+	"golang.org/x/text/language"
+	"golang.org/x/text/message"
 	"gorm.io/gorm/clause"
 	"reflect"
 	"strings"
 )
 
-// SortByOrder Order items by specified field and a sort type
-// Example: SortByOrder(map[string]string{"name": "ASC"}, &models.Post{})
-// ASC - по возрастанию (или от А до Я)
-// DESC - по убыванию (или от Я до А)
+var p = message.NewPrinter(language.Russian)
+
 func SortByOrder[T any](fieldsSortOrder map[string]string, entity T) ([]*T, error) {
 	var (
 		orderQuery []string
@@ -26,24 +26,24 @@ func SortByOrder[T any](fieldsSortOrder map[string]string, entity T) ([]*T, erro
 		field, fieldExist := structInfo.FieldByName(name)
 
 		if !fieldExist {
-			return nil, errors.New(fmt.Sprintf("Field `%s` not found", name))
+			return nil, errors.New(p.Sprintf("Field %s not found", name))
 		}
 
 		if strings.ToUpper(order) != "ASC" && strings.ToUpper(order) != "DESC" {
-			return nil, errors.New(fmt.Sprintf("Field `%s` can only be sorted by ASC or DESC", name))
+			return nil, errors.New(p.Sprintf("Field `%s` can only be sorted by ASC or DESC", name))
 		}
 
 		tag, err := fogg.Parse(string(field.Tag))
 		if err != nil {
-			return nil, errors.New(fmt.Sprintf("Failed to parse tag for `%s` failed: %s", name, err))
+			return nil, errors.New(p.Sprintf("Failed to parse tag for `%s` failed: %s", name, err))
 		}
 
 		if !tag.HasTag("ui") {
-			return nil, errors.New(fmt.Sprintf("Field `%s` doesn't have ui tag", name))
+			return nil, errors.New(p.Sprintf("Field `%s` doesn't have ui tag", name))
 		}
 
 		if field.Type.Kind() == reflect.Slice {
-			return nil, errors.New(fmt.Sprintf("Field `%s` is array and cannot be used for sorting", name))
+			return nil, errors.New(p.Sprintf("Field `%s` is array and cannot be used for sorting", name))
 		}
 
 		fieldPath := tag.GetTag("ui").GetParamOr("field", "")
@@ -53,11 +53,11 @@ func SortByOrder[T any](fieldsSortOrder map[string]string, entity T) ([]*T, erro
 			fieldsPathParts := strings.Split(fieldPath, ".")
 
 			if len(fieldsPathParts) > 1 {
-				return nil, errors.New(fmt.Sprintf("Too complex fieldPath for structure `%s`", name))
+				return nil, errors.New(p.Sprintf("Too complex fieldPath for structure `%s`", name))
 			}
 
 			if len(fieldsPathParts) == 0 {
-				return nil, errors.New(fmt.Sprintf("Invalid field path for `%s` field", name))
+				return nil, errors.New(p.Sprintf("Invalid field path for `%s` field", name))
 			}
 
 			joinPathParts := append([]string{field.Type.Name()}, fieldsPathParts...)

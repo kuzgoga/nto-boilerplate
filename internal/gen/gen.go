@@ -8,7 +8,7 @@ import (
 
 func main() {
 	g := gen.NewGenerator(gen.Config{
-		OutPath:       "../dal", // output directory, default value is ./query
+		OutPath:       "../dal",
 		Mode:          gen.WithDefaultQuery | gen.WithQueryInterface | gen.WithoutContext,
 		FieldNullable: true,
 		WithUnitTest:  true,
