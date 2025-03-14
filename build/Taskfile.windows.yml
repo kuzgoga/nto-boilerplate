@@ -18,10 +18,10 @@ tasks:
       - cmd: rm -f *.syso
         platforms: [linux, darwin]
     vars:
-      BUILD_FLAGS: '{{if eq .PRODUCTION "true"}}-tags "production sqlite_icu" -trimpath -ldflags="-w -s -H windowsgui"{{else}}-gcflags=all="-l" -tags "sqlite_icu"{{end}}'
+      BUILD_FLAGS: '{{if eq .PRODUCTION "true"}}-tags "production" -trimpath -ldflags="-w -s -H windowsgui"{{else}}-gcflags=all="-l" {{end}}'
     env:
       GOOS: windows
-      CGO_ENABLED: 1
+      CGO_ENABLED: 0
       GOARCH: '{{.ARCH | default ARCH}}'
       PRODUCTION: '{{.PRODUCTION | default "false"}}'
 
