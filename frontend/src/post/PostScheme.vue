@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Table from "../table/Table.vue";
-import { onMounted, reactive } from "vue";
+import {onMounted, reactive, watch} from "vue";
 import { getDefaultValues } from "../utils/structs/defaults.util";
 import Service from "./post.service.ts";
 import type { Scheme } from "../types/scheme.type";
@@ -16,6 +16,7 @@ const posttypeService = new PosttypeService();
 
 import CommentService from "../comment/comment.service.ts";
 import { SortedByOrder } from "../../bindings/app/internal/services/postservice.ts";
+import {getDefaultSortOptions} from "../utils/structs/default-sort-options.util.ts";
 
 const commentService = new CommentService();
 
@@ -32,13 +33,12 @@ const load = async () => {
     (scheme as any).Comments.type!.nested!.values =
         await commentService.readAll();
 
-    items.value = await service.readAll();
+    items.value = await service.sort(sortOptions.value) ;
     return items.value;
 };
 
 onMounted(async () => {
     await load();
-    console.log(await SortedByOrder({ "Author": "DESC", "Text": "ASC" }));
 });
 
 const scheme: Scheme<Post> = reactive({
@@ -116,9 +116,6 @@ const scheme: Scheme<Post> = reactive({
                 values: [],
                 field: ["Text"],
             },
-        },
-        customWindow: {
-            create: true,
         }
     },
 });
@@ -132,12 +129,16 @@ const validate: Validate<Post> = (entity) => {
         status: "success",
     };
 };
+
+const search = async (input: string) => {
+    
+}
+
+const sortOptions = ref(getDefaultSortOptions(scheme))
+
+
 </script>
 
 <template>
-    <Table :scheme :service :get-defaults :load :items :validate >
-        <template #CommentsCreate="{ data }">
-            <p>{{ data }}</p>
-        </template>
-    </Table>
+    <Table :scheme :service :get-defaults :load :items :validate @on-search="search" v-model:sort-options="sortOptions"></Table>
 </template>

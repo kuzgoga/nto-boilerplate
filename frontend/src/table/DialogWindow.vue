@@ -62,7 +62,7 @@ async function handleSave() {
 </script>
 
 <template>
-    <Dialog v-model:visible="showCreate">
+    <Dialog v-model:visible="showCreate" class="w-[500px]">
         <template #header>
             <h1>{{ props.updateMode ? 'Изменить' : 'Создать' }} {{ props.name?.toLowerCase() }}</h1>
         </template>

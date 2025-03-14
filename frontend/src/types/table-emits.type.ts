@@ -9,4 +9,5 @@ export type TableEmits = {
     (e: 'onSaveUpdate', data: any): Promise<void> | void
     (e: 'onSaveCreate', data: any): Promise<void> | void
     (e: 'onSave', data: any): Promise<void> | void
+    (e: 'onSearch', input: string): Promise<void> | void
 }

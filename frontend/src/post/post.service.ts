@@ -4,10 +4,11 @@ import {
   Delete,
   GetById,
   Update,
-  Count,
+  Count, SortedByOrder,
 } from "../../bindings/app/internal/services/postservice.ts";
 import type { Post } from "../../bindings/app/internal/services";
 import type { IService } from "../types/service.type.ts";
+import type {SortOptions} from "../types/sort-options.type.ts";
 
 export default class PostService implements IService<Post> {
   async read(id: number) {
@@ -32,5 +33,9 @@ export default class PostService implements IService<Post> {
 
   async count() {
     return await Count();
+  }
+
+  async sort(options: SortOptions<Post>) {
+    return await SortedByOrder(options) as Post[]
   }
 }
