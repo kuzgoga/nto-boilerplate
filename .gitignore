@@ -6,3 +6,6 @@ nto-cli/
 /**/node_modules/
 /**/dist/
 .xlsx
+build/appimage
+build/nfpm
+build/nsis
