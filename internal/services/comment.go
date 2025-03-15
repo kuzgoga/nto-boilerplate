@@ -61,6 +61,6 @@ func (service *CommentService) Count() (int64, error) {
 	amount, err := dal.Comment.Count()
 	return amount, err
 }
-func (service *CommentService) SortedByOrder(fieldsSortOrder map[string]string) ([]*Comment, error) {
+func (service *CommentService) SortedByOrder(fieldsSortOrder []utils.SortField) ([]*Comment, error) {
 	return utils.SortByOrder(fieldsSortOrder, Comment{})
 }

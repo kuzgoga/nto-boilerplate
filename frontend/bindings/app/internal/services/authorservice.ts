@@ -8,6 +8,9 @@ import {Call as $Call, Create as $Create} from "@wailsio/runtime";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore: Unused imports
 import * as models$0 from "../models/models.js";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore: Unused imports
+import * as utils$0 from "../utils/models.js";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore: Unused imports
@@ -50,8 +53,8 @@ export function GetById(id: number): Promise<$models.Author | null> & { cancel()
     return $typingPromise;
 }
 
-export function SortedByOrder(fieldsSortOrder: { [_: string]: string }): Promise<($models.Author | null)[]> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(3046628691, fieldsSortOrder) as any;
+export function SortedByOrder(fieldsSortingOrder: utils$0.SortField[]): Promise<($models.Author | null)[]> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(3046628691, fieldsSortingOrder) as any;
     let $typingPromise = $resultPromise.then(($result: any) => {
         return $$createType2($result);
     }) as any;

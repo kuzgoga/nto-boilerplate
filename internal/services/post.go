@@ -61,6 +61,6 @@ func (service *PostService) Count() (int64, error) {
 	return amount, err
 }
 
-func (service *PostService) SortedByOrder(fieldsSortOrder map[string]string) ([]*Post, error) {
+func (service *PostService) SortedByOrder(fieldsSortOrder []utils.SortField) ([]*Post, error) {
 	return utils.SortByOrder(fieldsSortOrder, Post{})
 }

@@ -61,6 +61,6 @@ func (service *AuthorService) Count() (int64, error) {
 	amount, err := dal.Author.Count()
 	return amount, err
 }
-func (service *AuthorService) SortedByOrder(fieldsSortOrder map[string]string) ([]*Author, error) {
-	return utils.SortByOrder(fieldsSortOrder, Author{})
+func (service *AuthorService) SortedByOrder(fieldsSortingOrder []utils.SortField) ([]*Author, error) {
+	return utils.SortByOrder(fieldsSortingOrder, Author{})
 }
