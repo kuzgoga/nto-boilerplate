@@ -19,7 +19,12 @@ defineProps<{
   <ul class="flex flex-col gap-2 native-border secondary-background  p-3 rounded-md">
     <li v-for="optionKey in optionsKeys" class="flex items-center justify-between w-full">
       <h1>{{ scheme[optionKey].russian }}</h1>
-      <Select size="small" class="w-24" :options="['ASC', 'DESC']" v-model="options![optionKey]" @value-change="load"></Select>
+      <Select size="small" class="w-24" :options="['ASC', 'DESC']" v-model="options![optionKey]" @value-change="load">
+        <template #value="{ value }">
+          <span class="pi pi-sort-amount-up-alt" v-if="value == 'ASC'"></span>
+          <span class="pi pi-sort-amount-down" v-else></span>
+        </template>
+      </Select>
     </li>
   </ul>
 </template>
