@@ -85,7 +85,7 @@ func SortByOrder[T any](fieldsSortingOrder []SortField, entity T) ([]*T, error) 
 			if err != nil {
 				return nil, errors.New(p.Sprintf("Failed to get column name: %s", err))
 			}
-			orderQuery = append(orderQuery, fmt.Sprintf("%s.%s %s", tableName, columnName, item.Order))
+			orderQuery = append(orderQuery, fmt.Sprintf("`%s`.`%s` %s", tableName, columnName, item.Order))
 		} else {
 			fieldsPathParts := strings.Split(fieldPath, ".")
 
@@ -98,6 +98,10 @@ func SortByOrder[T any](fieldsSortingOrder []SortField, entity T) ([]*T, error) 
 			}
 
 			joinPathParts := append([]string{field.Type.Name()}, fieldsPathParts...)
+			for i, part := range joinPathParts {
+				joinPathParts[i] = "`" + part + "`"
+			}
+
 			joinField := strings.Join(joinPathParts, ".")
 			joinTable := field.Type.Name()
 			joins = append(joins, joinTable)
@@ -116,8 +120,6 @@ func SortByOrder[T any](fieldsSortingOrder []SortField, entity T) ([]*T, error) 
 	}
 
 	result := db.Preload(clause.Associations).Find(&items)
-	fmt.Printf("Sort order: %#v\n", fieldsSortingOrder)
-	fmt.Printf("Result items: \n")
 	for _, item := range items {
 		fmt.Printf("%#v\n", *item)
 	}

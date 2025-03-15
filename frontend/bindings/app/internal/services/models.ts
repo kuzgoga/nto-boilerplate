@@ -9,14 +9,35 @@ import {Create as $Create} from "@wailsio/runtime";
 // @ts-ignore: Unused imports
 import * as models$0 from "../models/models.js";
 
-export const Author = models$0.Author;
-export type Author = models$0.Author;
+export const Customer = models$0.Customer;
+export type Customer = models$0.Customer;
 
-export const Comment = models$0.Comment;
-export type Comment = models$0.Comment;
+export const Order = models$0.Order;
+export type Order = models$0.Order;
 
-export const Post = models$0.Post;
-export type Post = models$0.Post;
+export const PrepTask = models$0.PrepTask;
+export type PrepTask = models$0.PrepTask;
 
-export const PostType = models$0.PostType;
-export type PostType = models$0.PostType;
+export const ProductType = models$0.ProductType;
+export type ProductType = models$0.ProductType;
+
+export const Shift = models$0.Shift;
+export type Shift = models$0.Shift;
+
+export const Task = models$0.Task;
+export type Task = models$0.Task;
+
+export const TeamTask = models$0.TeamTask;
+export type TeamTask = models$0.TeamTask;
+
+export const TeamType = models$0.TeamType;
+export type TeamType = models$0.TeamType;
+
+export const WorkArea = models$0.WorkArea;
+export type WorkArea = models$0.WorkArea;
+
+export const Worker = models$0.Worker;
+export type Worker = models$0.Worker;
+
+export const Workshop = models$0.Workshop;
+export type Workshop = models$0.Workshop;

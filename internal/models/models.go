@@ -1,37 +1,115 @@
 package models
 
 var Entities = []any{
-	&Post{}, &Author{}, &PostType{}, &Comment{},
+	&Customer{}, &Order{}, &PrepTask{}, &ProductType{}, &Shift{}, &Task{}, &TeamTask{}, &WorkArea{}, &Worker{}, &Workshop{}, &TeamType{},
 }
 
-type PostType struct {
-	Id   uint   `gorm:"primaryKey" ui:"hidden"`
-	Name string `ui:"label:Название;"`
+type Customer struct {
+	Id      uint    `gorm:"primaryKey" ui:"label:ID;readonly"`
+	Title   string  `ui:"label:Название"`
+	Contact string  `ui:"label:Контакт"`
+	Orders  []Order `gorm:"constraint:OnDelete:CASCADE;" ui:"hidden"`
 }
 
-type Post struct {
-	Id         uint      `gorm:"primaryKey" ui:"hidden;label:\"Номер поста\""`
-	Text       string    `ui:"label:Текст"`
-	Deadline   int64     `ui:"label:Дедлайн;datatype:datetime;"`
-	CreatedAt  int64     `gorm:"autoCreateTime" ui:"label:Время создания;readonly;datatype:datetime;"`
-	AuthorId   uint      `ui:"hidden" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
-	Author     Author    `ui:"label:Автор; field:Name;"`
-	PostTypeId uint      `ui:"hidden; excel:Номер типа поста;"`
-	PostType   PostType  `ui:"label:Тип поста; field:Name;" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
-	Comments   []Comment `ui:"label:Комментарии; field:Text;" gorm:"many2many:comments_post;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+type Order struct {
+	Id            uint        `gorm:"primaryKey" ui:"label:ID;readonly"`
+	Status        string      `ui:"label:Статус"`
+	Description   string      `ui:"label:Описание"`
+	ProductTypeId int         `gorm:"not null;" ui:"hidden"`
+	ProductType   ProductType `gorm:"not null;foreignKey:ProductTypeId;references:Id;constraint:OnDelete:CASCADE;" ui:"label:Тип;field:Name"`
+	ProductAmount uint        `ui:"label:Количество продукции"`
+	CustomerId    uint        `gorm:"not null;" ui:"hidden"`
+	Customer      Customer    `gorm:"not null;foreignKey:CustomerId;references:Id;constraint:OnDelete:CASCADE;" ui:"label:Клиент;field:Title"`
+	Tasks         []Task      `gorm:"constraint:OnDelete:CASCADE" ui:"hidden"`
+	CreatedAt     int64       `gorm:"autoCreateTime" ui:"label:Дата создания;readonly;datatype:datetime"`
+	DeadlineDate  int64       `ui:"label:Крайний срок;datatype:datetime"`
 }
 
-type Author struct {
-	Id       uint      `gorm:"primaryKey" ui:"hidden"`
-	Name     string    `ui:"label:Имя;"`
-	Posts    []Post    `ui:"label:Посты; field:Text;" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
-	Comments []Comment `ui:"label:Комментарии; field:Text;" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+type PrepTask struct {
+	Id          uint     `gorm:"primaryKey" ui:"label:ID;readonly"`
+	Status      string   `gorm:"default:'Создано'" ui:"label:Статус"`
+	Description string   `ui:"label:Описание"`
+	TaskId      uint     `gorm:"not null;" ui:"hidden"`
+	Task        Task     `gorm:"foreignKey:TaskId;references:Id;constraint:OnDelete:CASCADE;" ui:"label:Задача;field:Description"`
+	WorkAreaId  uint     `gorm:"not null;" ui:"hidden"`
+	WorkArea    WorkArea `gorm:"foreignKey:WorkAreaId;references:Id;constraint:OnDelete:CASCADE;" ui:"label:Рабочая зона;field:Name"`
+	CreatedAt   int64    `gorm:"autoCreationTime" ui:"label:Дата создания;readonly;datatype:datetime"`
+	Deadline    int64    `ui:"label:Крайний срок;datatype:datetime"`
 }
 
-type Comment struct {
-	Id       uint   `gorm:"primaryKey" ui:"hidden"`
-	Text     string `ui:"label:Текст;"`
-	AuthorId uint   `ui:"hidden"`
-	Author   Author `ui:"label:Автор; field:Name;" gorm:"foreignKey:AuthorId;references:Id;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
-	Posts    []Post `ui:"label:Посты; field:Text;" gorm:"many2many:comments_post;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+type ProductType struct {
+	Id   uint   `gorm:"primaryKey" ui:"label:ID;readonly"`
+	Name string `gorm:"not null" ui:"label:Название"`
+}
+
+type Shift struct {
+	Id            uint        `gorm:"primaryKey" ui:"label:ID;readonly"`
+	Description   string      `ui:"label:Описание"`
+	ProductTypeId uint        `ui:"hidden"`
+	ProductType   ProductType `ui:"field:Name"`
+	ProductAmount uint        `ui:"label:Количество продукции"`
+	ShiftDate     int64       `ui:"label:Дата смены;datatype:datetime"`
+	WorkAreaId    uint        `ui:"hidden"`
+	WorkArea      WorkArea    `ui:"field:Name"`
+	CreatedAt     int64       `gorm:"autoCreateTime" ui:"label:Дата создания;readonly;datatype:datetime"`
+}
+
+type Task struct {
+	Id              uint        `gorm:"primaryKey" ui:"label:ID;readonly"`
+	Description     string      `ui:"label:Описание"`
+	ProductTypeId   uint        `gorm:"not null;" ui:"hidden"`
+	ProductType     ProductType `gorm:"foreignKey:ProductTypeId;references:Id;constraint:OnDelete:CASCADE;" ui:"label:Тип;field:Name"`
+	Workshops       []*Workshop `gorm:"many2many:workshop_task;constraint:OnDelete:CASCADE;" ui:"hidden"`
+	OrderId         uint        `gorm:"not null;" ui:"hidden"`
+	Order           Order       `gorm:"foreignKey:OrderId;references:Id;constraint:OnDelete:CASCADE;" ui:"label:Заказ;field:Description"`
+	PrepTasks       []PrepTask  `gorm:"constraint:OnDelete:CASCADE;" ui:"hidden"`
+	ProductionStart int64       `ui:"label:Дата начала производства;datatype:datetime"`
+	CreatedAt       int64       `gorm:"autoCreateTime" ui:"label:Дата создания;readonly;datatype:datetime"`
+	Amount          uint        `ui:"label:Количество"`
+}
+
+type TeamTask struct {
+	Id            uint      `gorm:"primaryKey" ui:"label:ID;readonly"`
+	TeamTypeId    uint      `ui:"hidden"`
+	TeamType      TeamType  `ui:"field:Name"`
+	TeamLeaderId  uint      `ui:"hidden"`
+	TeamLeader    Worker    `ui:"field:Name"`
+	TeamMembers   []*Worker `gorm:"many2many:worker_team_tasks;constraint:OnDelete:CASCADE;OnUpdate:CASCADE;" ui:"hidden"`
+	WorkStartDate int64     `ui:"label:Дата начала работ;datatype:datetime"`
+	WorkAreaId    uint      `ui:"hidden"`
+	WorkArea      WorkArea  `ui:"field:Name"`
+	ShiftDuties   string    `gorm:"check:shift_duties IN ('1/1','2/2')" ui:"label:Обязанности смены"`
+}
+
+type TeamType struct {
+	Id   uint   `gorm:"primaryKey" ui:"label:ID;readonly"`
+	Name string `gorm:"not null" ui:"label:Название"`
+}
+
+type WorkArea struct {
+	Id          uint       `gorm:"primaryKey" ui:"label:ID;readonly"`
+	Name        string     `ui:"label:Наименование"`
+	Description string     `ui:"label:Описание"`
+	Performance uint       `ui:"label:Производительность"`
+	WorkshopId  uint       `gorm:"not null;" ui:"hidden"`
+	Workshop    Workshop   `gorm:"foreignKey:WorkshopId;references:Id;" ui:"label:Цех;field:Name"`
+	PrepTasks   []PrepTask `gorm:"constraint:OnDelete:CASCADE;" ui:"hidden"`
+	Shifts      []Shift    `gorm:"constraint:OnDelete:CASCADE;" ui:"hidden"`
+	TeamTasks   []TeamTask `gorm:"foreignKey:Id;constraint:OnDelete:CASCADE;" ui:"hidden"`
+}
+
+type Worker struct {
+	Id         uint        `gorm:"primaryKey" ui:"label:ID;readonly"`
+	Name       string      `ui:"label:Имя"`
+	TeamTasks  []*TeamTask `gorm:"many2many:worker_team_tasks;constraint:OnDelete:CASCADE;OnUpdate:CASCADE;" ui:"hidden"`
+	Workshop   Workshop    `gorm:"foreignKey:WorkshopId;references:Id;" ui:"field:Name"`
+	WorkshopId uint        `ui:"hidden"`
+}
+
+type Workshop struct {
+	Id        uint       `gorm:"primaryKey" ui:"label:ID;readonly"`
+	Name      string     `ui:"label:Наименование"`
+	WorkAreas []WorkArea `gorm:"constraint:OnDelete:CASCADE;" ui:"hidden"`
+	Tasks     []*Task    `gorm:"many2many:workshop_task;constraint:OnDelete:CASCADE;" ui:"hidden"`
+	Workers   []Worker   `gorm:"constraint:OnDelete:CASCADE;" ui:"hidden"`
 }
