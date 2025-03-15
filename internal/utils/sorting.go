@@ -120,9 +120,6 @@ func SortByOrder[T any](fieldsSortingOrder []SortField, entity T) ([]*T, error) 
 	}
 
 	result := db.Preload(clause.Associations).Find(&items)
-	for _, item := range items {
-		fmt.Printf("%#v\n", *item)
-	}
 
 	if result.Error != nil {
 		return items, result.Error
