@@ -20,7 +20,7 @@
 - [UPX](https://github.com/upx/upx/releases/latest) - для сжатия.
   **Необходимо зазеркалировать с Github и добавить в PATH!!!**
 - [Git](https://git-scm.com/)
-- Wails3:`go install -v github.com/wailsapp/wails/v3/cmd/wails3@latest`
+- Wails3
 - MinGw-64: https://jmeubank.github.io/tdm-gcc/
   **Необходимо зазеркалировать с Github!!!**
 
@@ -34,15 +34,24 @@
 wails3 dev
 ```
 
-DevServer также можно открыть по адресу http://localhost:34115.
-Этот инструмент предоставляет возможность вызывать Go код прямо из инструментов разработчика.
-
 ### Генерация TS биндингов
 
 Для обновления API для TypeScript используйте команду:
 
 ```
 wails3 generate bindings -ts
+```
+
+## Начало работы
+Установите следующие утилиты перед началом работы:
+```shell
+go install -v github.com/wailsapp/wails/v3/cmd/wails3@latest
+```
+```shell
+go install github.com/opbnq-q/nto-cli@latest
+```
+```shell
+go install git.gogacoder.ru/NTO/crudgen@latest
 ```
 
 ## Сборка
