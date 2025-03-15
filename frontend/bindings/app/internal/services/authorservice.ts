@@ -53,6 +53,15 @@ export function GetById(id: number): Promise<$models.Author | null> & { cancel()
     return $typingPromise;
 }
 
+export function SearchByAllTextFields(phrase: string): Promise<($models.Author | null)[]> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(3812644109, phrase) as any;
+    let $typingPromise = $resultPromise.then(($result: any) => {
+        return $$createType2($result);
+    }) as any;
+    $typingPromise.cancel = $resultPromise.cancel.bind($resultPromise);
+    return $typingPromise;
+}
+
 export function SortedByOrder(fieldsSortingOrder: utils$0.SortField[]): Promise<($models.Author | null)[]> & { cancel(): void } {
     let $resultPromise = $Call.ByID(3046628691, fieldsSortingOrder) as any;
     let $typingPromise = $resultPromise.then(($result: any) => {

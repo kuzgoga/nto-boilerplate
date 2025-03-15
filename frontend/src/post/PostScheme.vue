@@ -131,7 +131,7 @@ const validate: Validate<Post> = (entity) => {
 };
 
 const search = async (input: string) => {
-    
+    items.value = await service.search(input)
 }
 
 const sortOptions = ref(getDefaultSortOptions(scheme))

@@ -10,6 +10,7 @@ import type { Post } from "../../bindings/app/internal/services";
 import type { IService } from "../types/service.type.ts";
 import type {SortOptions} from "../types/sort-options.type.ts";
 import {SortField} from "../../bindings/app/internal/utils";
+import { SearchByAllTextFields } from "../../bindings/app/internal/services/postservice.ts";
 
 export default class PostService implements IService<Post> {
   async read(id: number) {
@@ -38,5 +39,9 @@ export default class PostService implements IService<Post> {
 
   async sort(options: SortOptions<Post>) {
     return await SortedByOrder(Object.entries(options).map(item => ({Name: item[0], Order: item[1]}))) as Post[]
+  }
+
+  async search(input: string): Promise<Post[]> {
+    return await SearchByAllTextFields(input) as Post[]
   }
 }
