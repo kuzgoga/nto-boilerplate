@@ -10,6 +10,7 @@ tasks:
       - ../dal/*.go
     cmds:
       - go run gen.go
+    method: none
 
   go:gen:crudgen:
     summary: Runs crudgen for crud generating
@@ -21,6 +22,7 @@ tasks:
       - go:gen:dal
     cmds:
       - crudgen -p internal
+    method: none
 
   go:mod:tidy:
     summary: Runs `go mod tidy`

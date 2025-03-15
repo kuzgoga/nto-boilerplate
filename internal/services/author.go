@@ -64,3 +64,6 @@ func (service *AuthorService) Count() (int64, error) {
 func (service *AuthorService) SortedByOrder(fieldsSortingOrder []utils.SortField) ([]*Author, error) {
 	return utils.SortByOrder(fieldsSortingOrder, Author{})
 }
+func (service *AuthorService) SearchByAllTextFields(phrase string) ([]*Author, error) {
+	return utils.FindPhraseByStringFields[Author](phrase, Author{})
+}

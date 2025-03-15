@@ -63,3 +63,6 @@ func (service *PostTypeService) Count() (int64, error) {
 func (service *PostTypeService) SortedByOrder(fieldsSortOrder []utils.SortField) ([]*PostType, error) {
 	return utils.SortByOrder(fieldsSortOrder, PostType{})
 }
+func (service *PostTypeService) SearchByAllTextFields(phrase string) ([]*PostType, error) {
+	return utils.FindPhraseByStringFields[PostType](phrase, PostType{})
+}

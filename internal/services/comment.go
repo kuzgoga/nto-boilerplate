@@ -61,6 +61,9 @@ func (service *CommentService) Count() (int64, error) {
 	amount, err := dal.Comment.Count()
 	return amount, err
 }
-func (service *CommentService) SortedByOrder(fieldsSortOrder []utils.SortField) ([]*Comment, error) {
-	return utils.SortByOrder(fieldsSortOrder, Comment{})
+func (service *CommentService) SortedByOrder(fieldsSortingOrder []utils.SortField) ([]*Comment, error) {
+	return utils.SortByOrder(fieldsSortingOrder, Comment{})
+}
+func (service *CommentService) SearchByAllTextFields(phrase string) ([]*Comment, error) {
+	return utils.FindPhraseByStringFields[Comment](phrase, Comment{})
 }
