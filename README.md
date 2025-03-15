@@ -49,8 +49,14 @@ wails3 generate bindings -ts
 
 Для финальной сборки запустите эту команду в директории проекта:
 
+На Linux/Mac OS:
 ```
 PRODUCTION=true wails3 build
+```
+
+На Windows:
+```
+$env:PRODUCTION="true"; wails3 build
 ```
 
 **Перед релизом не забыть**:
