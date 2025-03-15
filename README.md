@@ -8,7 +8,7 @@
 - [x] Excel export
 - [ ] Models validation logic (callbacks and other stuff)
 - [ ] Models [linter](https://git.gogacoder.ru/NTO/gormlint)
-- [ ] Auto-generated frontend
+- [x] Auto-generated frontend
 
 ## Установка
 
