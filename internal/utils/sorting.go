@@ -12,6 +12,30 @@ import (
 	"strings"
 )
 
+import "gorm.io/gorm"
+
+func GetTableName(model any, db *gorm.DB) (string, error) {
+	stmt := &gorm.Statement{DB: db}
+	if err := stmt.Parse(model); err != nil {
+		return "", err
+	}
+	return stmt.Schema.Table, nil
+}
+
+func GetColumnName(model any, fieldName string, db *gorm.DB) (string, error) {
+	stmt := &gorm.Statement{DB: db}
+	if err := stmt.Parse(model); err != nil {
+		return "", err
+	}
+
+	field := stmt.Schema.LookUpField(fieldName)
+	if field == nil {
+		return "", fmt.Errorf("field '%s' not found", fieldName)
+	}
+
+	return field.DBName, nil
+}
+
 var p = message.NewPrinter(language.Russian)
 
 func SortByOrder[T any](fieldsSortOrder map[string]string, entity T) ([]*T, error) {
@@ -48,7 +72,15 @@ func SortByOrder[T any](fieldsSortOrder map[string]string, entity T) ([]*T, erro
 
 		fieldPath := tag.GetTag("ui").GetParamOr("field", "")
 		if fieldPath == "" {
-			orderQuery = append(orderQuery, fmt.Sprintf("%s %s", name, order))
+			tableName, err := GetTableName(entity, database.GetInstance())
+			if err != nil {
+				return nil, errors.New(p.Sprintf("Failed to get table name: %s", err))
+			}
+			columnName, err := GetColumnName(entity, field.Name, database.GetInstance())
+			if err != nil {
+				return nil, errors.New(p.Sprintf("Failed to get column name: %s", err))
+			}
+			orderQuery = append(orderQuery, fmt.Sprintf("%s.%s %s", tableName, columnName, order))
 		} else {
 			fieldsPathParts := strings.Split(fieldPath, ".")
 
