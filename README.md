@@ -13,11 +13,11 @@
 ## Инициализация
 Для того чтобы использовать этот шаблон, выполните команды:
 ```shell
-curl -O https://proxy.golang.org/github.com/kuzgoga/nto-boilerplate/@v/v1.1.1.zip
+curl -O https://proxy.golang.org/github.com/kuzgoga/nto-boilerplate/@v/v1.1.5.zip
 ```
 #### ДЛЯ GREBEN OS
 ```shell
-Invoke-WebRequest -Uri https://proxy.golang.org/github.com/kuzgoga/nto-boilerplate/@v/v1.1.1.zip -OutFile v1.1.1.zip
+Invoke-WebRequest -Uri https://proxy.golang.org/github.com/kuzgoga/nto-boilerplate/@v/v1.1.1.zip -OutFile v1.1.5.zip
 ```
 
 ## Установка
