@@ -6,7 +6,7 @@
 - [x] Crud service generator (based on gorm gen)
 - [ ] Easy init without git repository (like create-nto-app)
 - [x] Excel export
-- [ ] Models validation logic (callbacks and other stuff)
+- [x] Models validation logic (callbacks and other stuff)
 - [ ] Models [linter](https://git.gogacoder.ru/NTO/gormlint)
 - [x] Auto-generated frontend
 
@@ -51,7 +51,7 @@ go install -v github.com/wailsapp/wails/v3/cmd/wails3@latest
 go install github.com/opbnq-q/nto-cli@latest
 ```
 ```shell
-go install git.gogacoder.ru/NTO/crudgen@latest
+go install git.gogacoder.ru/NTO/crudgen/cmd/crudgen@latest
 ```
 
 ## Сборка
