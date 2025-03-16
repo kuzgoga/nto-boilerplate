@@ -8,7 +8,7 @@ export const getDefaultSortOptions = <T extends IEntity>(scheme: Scheme<T>): Sor
 
     keys.forEach(key => {
         if (!scheme[key].hidden && key !== 'entityId' && !scheme[key].many) {
-            result[key] = 'ASC'
+            result[key] = 'NONE'
         }
     })
 
