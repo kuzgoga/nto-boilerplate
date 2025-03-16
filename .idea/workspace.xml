@@ -6,7 +6,87 @@
   <component name="ChangeListManager">
     <list default="true" id="0f2c8145-9000-45fe-a871-9ff0914e0e13" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/utils/sorting.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/utils/sorting.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/bindings/app/internal/models/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/bindings/app/internal/models/models.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/bindings/app/internal/services/customerservice.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/bindings/app/internal/services/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/bindings/app/internal/services/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/bindings/app/internal/services/models.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/bindings/app/internal/services/orderservice.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/bindings/app/internal/services/preptaskservice.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/bindings/app/internal/services/producttypeservice.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/bindings/app/internal/services/shiftservice.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/bindings/app/internal/services/taskservice.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/bindings/app/internal/services/teamtaskservice.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/bindings/app/internal/services/teamtypeservice.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/bindings/app/internal/services/workareaservice.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/bindings/app/internal/services/workerservice.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/bindings/app/internal/services/workshopservice.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/bindings/app/internal/utils/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/bindings/app/internal/utils/models.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/customer/CustomerScheme.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/customer/customer.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/order/OrderScheme.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/order/order.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/preptask/PreptaskScheme.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/preptask/preptask.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/producttype/ProducttypeScheme.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/producttype/producttype.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/shift/ShiftScheme.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/shift/shift.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/task/TaskScheme.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/task/task.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/teamtask/TeamtaskScheme.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/teamtask/teamtask.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/teamtype/TeamtypeScheme.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/teamtype/teamtype.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/workarea/WorkareaScheme.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/workarea/workarea.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/worker/WorkerScheme.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/worker/worker.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/workshop/WorkshopScheme.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/workshop/workshop.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dal/customers.gen.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dal/customers.gen_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dal/gen.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dal/gen_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dal/orders.gen.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dal/orders.gen_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dal/prep_tasks.gen.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dal/prep_tasks.gen_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dal/product_types.gen.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dal/product_types.gen_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dal/shifts.gen.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dal/shifts.gen_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dal/tasks.gen.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dal/tasks.gen_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dal/team_tasks.gen.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dal/team_tasks.gen_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dal/team_types.gen.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dal/team_types.gen_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dal/work_areas.gen.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dal/work_areas.gen_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dal/workers.gen.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dal/workers.gen_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dal/workshops.gen.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dal/workshops.gen_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/database/database.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/database/database.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/models/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/models/models.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/services/customer.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/services/default_data.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/services/default_data.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/services/excel.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/services/excel.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/services/order.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/services/preptask.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/services/producttype.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/services/services.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/services/services.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/services/shift.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/services/task.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/services/teamtask.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/services/teamtype.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/services/workarea.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/services/worker.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/services/workshop.go" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

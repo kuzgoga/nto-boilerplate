@@ -16,84 +16,34 @@ import (
 )
 
 var (
-	Q           = new(Query)
-	Customer    *customer
-	Order       *order
-	PrepTask    *prepTask
-	ProductType *productType
-	Shift       *shift
-	Task        *task
-	TeamTask    *teamTask
-	TeamType    *teamType
-	WorkArea    *workArea
-	Worker      *worker
-	Workshop    *workshop
+	Q    = new(Query)
+	Post *post
 )
 
 func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	*Q = *Use(db, opts...)
-	Customer = &Q.Customer
-	Order = &Q.Order
-	PrepTask = &Q.PrepTask
-	ProductType = &Q.ProductType
-	Shift = &Q.Shift
-	Task = &Q.Task
-	TeamTask = &Q.TeamTask
-	TeamType = &Q.TeamType
-	WorkArea = &Q.WorkArea
-	Worker = &Q.Worker
-	Workshop = &Q.Workshop
+	Post = &Q.Post
 }
 
 func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
-		db:          db,
-		Customer:    newCustomer(db, opts...),
-		Order:       newOrder(db, opts...),
-		PrepTask:    newPrepTask(db, opts...),
-		ProductType: newProductType(db, opts...),
-		Shift:       newShift(db, opts...),
-		Task:        newTask(db, opts...),
-		TeamTask:    newTeamTask(db, opts...),
-		TeamType:    newTeamType(db, opts...),
-		WorkArea:    newWorkArea(db, opts...),
-		Worker:      newWorker(db, opts...),
-		Workshop:    newWorkshop(db, opts...),
+		db:   db,
+		Post: newPost(db, opts...),
 	}
 }
 
 type Query struct {
 	db *gorm.DB
 
-	Customer    customer
-	Order       order
-	PrepTask    prepTask
-	ProductType productType
-	Shift       shift
-	Task        task
-	TeamTask    teamTask
-	TeamType    teamType
-	WorkArea    workArea
-	Worker      worker
-	Workshop    workshop
+	Post post
 }
 
 func (q *Query) Available() bool { return q.db != nil }
 
 func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
-		db:          db,
-		Customer:    q.Customer.clone(db),
-		Order:       q.Order.clone(db),
-		PrepTask:    q.PrepTask.clone(db),
-		ProductType: q.ProductType.clone(db),
-		Shift:       q.Shift.clone(db),
-		Task:        q.Task.clone(db),
-		TeamTask:    q.TeamTask.clone(db),
-		TeamType:    q.TeamType.clone(db),
-		WorkArea:    q.WorkArea.clone(db),
-		Worker:      q.Worker.clone(db),
-		Workshop:    q.Workshop.clone(db),
+		db:   db,
+		Post: q.Post.clone(db),
 	}
 }
 
@@ -107,48 +57,18 @@ func (q *Query) WriteDB() *Query {
 
 func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
-		db:          db,
-		Customer:    q.Customer.replaceDB(db),
-		Order:       q.Order.replaceDB(db),
-		PrepTask:    q.PrepTask.replaceDB(db),
-		ProductType: q.ProductType.replaceDB(db),
-		Shift:       q.Shift.replaceDB(db),
-		Task:        q.Task.replaceDB(db),
-		TeamTask:    q.TeamTask.replaceDB(db),
-		TeamType:    q.TeamType.replaceDB(db),
-		WorkArea:    q.WorkArea.replaceDB(db),
-		Worker:      q.Worker.replaceDB(db),
-		Workshop:    q.Workshop.replaceDB(db),
+		db:   db,
+		Post: q.Post.replaceDB(db),
 	}
 }
 
 type queryCtx struct {
-	Customer    ICustomerDo
-	Order       IOrderDo
-	PrepTask    IPrepTaskDo
-	ProductType IProductTypeDo
-	Shift       IShiftDo
-	Task        ITaskDo
-	TeamTask    ITeamTaskDo
-	TeamType    ITeamTypeDo
-	WorkArea    IWorkAreaDo
-	Worker      IWorkerDo
-	Workshop    IWorkshopDo
+	Post IPostDo
 }
 
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
-		Customer:    q.Customer.WithContext(ctx),
-		Order:       q.Order.WithContext(ctx),
-		PrepTask:    q.PrepTask.WithContext(ctx),
-		ProductType: q.ProductType.WithContext(ctx),
-		Shift:       q.Shift.WithContext(ctx),
-		Task:        q.Task.WithContext(ctx),
-		TeamTask:    q.TeamTask.WithContext(ctx),
-		TeamType:    q.TeamType.WithContext(ctx),
-		WorkArea:    q.WorkArea.WithContext(ctx),
-		Worker:      q.Worker.WithContext(ctx),
-		Workshop:    q.Workshop.WithContext(ctx),
+		Post: q.Post.WithContext(ctx),
 	}
 }
 

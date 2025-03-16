@@ -16,13 +16,11 @@
 
 - [Node.js](https://nodejs.org/en)
 - [Golang](https://go.dev/dl/)
-- VSCode или Goland
-- [UPX](https://github.com/upx/upx/releases/latest) - для сжатия.
-  **Необходимо зазеркалировать с Github и добавить в PATH!!!**
+- [VSCode](https://code.visualstudio.com/) или [Goland](https://cloud.gogacoder.ru/s/pZJzpeNSprmWDB8)
+- ~~[UPX](https://github.com/upx/upx/releases/latest) - для сжатия.~~
 - [Git](https://git-scm.com/)
 - Wails3
-- MinGw-64: https://jmeubank.github.io/tdm-gcc/
-  **Необходимо зазеркалировать с Github!!!**
+- MinGw-64 (необязательно): https://jmeubank.github.io/tdm-gcc/
 
 ## Разработка
 
@@ -51,7 +49,7 @@ go install -v github.com/wailsapp/wails/v3/cmd/wails3@latest
 go install github.com/opbnq-q/nto-cli@latest
 ```
 ```shell
-go install git.gogacoder.ru/NTO/crudgen@latest
+go install git.gogacoder.ru/NTO/crudgen/cmd/crudgen@latest
 ```
 
 ## Сборка

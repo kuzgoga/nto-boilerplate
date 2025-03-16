@@ -3,6 +3,8 @@ package database
 import (
 	"app/internal/dal"
 	"context"
+	"database/sql"
+	"github.com/ncruces/go-sqlite3"
 	"github.com/ncruces/go-sqlite3/driver"
 	"log"
 	"log/slog"
@@ -103,7 +105,12 @@ func RegisterUnicodeExtension(db *gorm.DB) {
 	if err != nil {
 		panic(err)
 	}
-	defer conn.Close()
+	defer func(conn *sql.Conn) {
+		err := conn.Close()
+		if err != nil {
+			slog.Error(err.Error())
+		}
+	}(conn)
 
 	err = conn.Raw(func(driverConn any) error {
 		c := driverConn.(driver.Conn)
@@ -125,7 +132,12 @@ func RegisterUnicodeExtension(db *gorm.DB) {
 		if err != nil {
 			return err
 		}
-		defer stmt.Close()
+		defer func(stmt *sqlite3.Stmt) {
+			err := stmt.Close()
+			if err != nil {
+				slog.Error(err.Error())
+			}
+		}(stmt)
 
 		if stmt.Step() {
 			slog.Info("ICU test result", "value", stmt.ColumnBool(0))

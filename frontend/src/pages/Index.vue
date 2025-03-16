@@ -35,9 +35,6 @@
 <!--</template>-->
 
 <template>
-  <TaskScheme></TaskScheme>
 </template>
 <script setup lang="ts">
-import ProducttypeScheme from "../producttype/ProducttypeScheme.vue";
-import TaskScheme from "../task/TaskScheme.vue";
 </script>
