@@ -3,7 +3,7 @@ package database
 import (
 	"context"
 	"database/sql"
-	"git.gogacoder.ru/NTO/boilerplate/internal/dal"
+	"github.com/kuzgoga/nto-boilerplate/internal/dal"
 	"github.com/ncruces/go-sqlite3"
 	"github.com/ncruces/go-sqlite3/driver"
 	"log"

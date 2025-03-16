@@ -3,8 +3,8 @@ package utils
 import (
 	"errors"
 	"fmt"
-	"git.gogacoder.ru/NTO/boilerplate/internal/database"
 	"github.com/kuzgoga/fogg"
+	"github.com/kuzgoga/nto-boilerplate/internal/database"
 	"golang.org/x/text/language"
 	"golang.org/x/text/message"
 	"gorm.io/gorm/clause"

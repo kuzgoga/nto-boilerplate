@@ -3,8 +3,8 @@ package excel
 import (
 	"errors"
 	"fmt"
-	"git.gogacoder.ru/NTO/boilerplate/internal/dialogs"
 	"github.com/kuzgoga/fogg"
+	"github.com/kuzgoga/nto-boilerplate/internal/dialogs"
 	"github.com/xuri/excelize/v2"
 	"golang.org/x/text/language"
 	"golang.org/x/text/message"

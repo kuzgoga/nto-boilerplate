@@ -7,7 +7,7 @@ package dal
 import (
 	"context"
 
-	"git.gogacoder.ru/NTO/boilerplate/internal/models"
+	"github.com/kuzgoga/nto-boilerplate/internal/models"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 	"gorm.io/gorm/schema"

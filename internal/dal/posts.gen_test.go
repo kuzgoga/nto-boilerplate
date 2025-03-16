@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"testing"
 
-	"git.gogacoder.ru/NTO/boilerplate/internal/models"
+	"github.com/kuzgoga/nto-boilerplate/internal/models"
 	"gorm.io/gen"
 	"gorm.io/gen/field"
 	"gorm.io/gorm/clause"

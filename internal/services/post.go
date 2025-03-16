@@ -2,10 +2,10 @@ package services
 
 import (
 	"errors"
-	"git.gogacoder.ru/NTO/boilerplate/internal/dal"
-	"git.gogacoder.ru/NTO/boilerplate/internal/database"
-	"git.gogacoder.ru/NTO/boilerplate/internal/models"
-	"git.gogacoder.ru/NTO/boilerplate/internal/utils"
+	"github.com/kuzgoga/nto-boilerplate/internal/dal"
+	"github.com/kuzgoga/nto-boilerplate/internal/database"
+	"github.com/kuzgoga/nto-boilerplate/internal/models"
+	"github.com/kuzgoga/nto-boilerplate/internal/utils"
 	"gorm.io/gen/field"
 	"gorm.io/gorm"
 )

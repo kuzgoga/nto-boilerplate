@@ -1,4 +1,4 @@
-module git.gogacoder.ru/NTO/boilerplate
+module github.com/kuzgoga/nto-boilerplate
 
 go 1.23.0
 

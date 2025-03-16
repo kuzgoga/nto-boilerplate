@@ -6,11 +6,11 @@
 import {Call as $Call, Create as $Create} from "@wailsio/runtime";
 
 export function ExportAllEntities(): Promise<void> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(4195777221) as any;
+    let $resultPromise = $Call.ByID(714010832) as any;
     return $resultPromise;
 }
 
 export function ImportAllEntities(): Promise<void> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(2803141560) as any;
+    let $resultPromise = $Call.ByID(3384503197) as any;
     return $resultPromise;
 }

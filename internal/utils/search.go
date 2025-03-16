@@ -2,7 +2,7 @@ package utils
 
 import (
 	"fmt"
-	"git.gogacoder.ru/NTO/boilerplate/internal/database"
+	"github.com/kuzgoga/nto-boilerplate/internal/database"
 	"gorm.io/gorm/clause"
 	"reflect"
 )

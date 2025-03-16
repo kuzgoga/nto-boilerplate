@@ -1,7 +1,7 @@
 package main
 
 import (
-	"git.gogacoder.ru/NTO/boilerplate/internal/models"
+	"github.com/kuzgoga/nto-boilerplate/internal/models"
 
 	"gorm.io/gen"
 )

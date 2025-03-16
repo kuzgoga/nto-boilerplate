@@ -2,8 +2,8 @@ package services
 
 import (
 	"fmt"
-	"git.gogacoder.ru/NTO/boilerplate/internal/dialogs"
-	"git.gogacoder.ru/NTO/boilerplate/internal/models"
+	"github.com/kuzgoga/nto-boilerplate/internal/dialogs"
+	"github.com/kuzgoga/nto-boilerplate/internal/models"
 )
 
 func InsertDefaultData() {

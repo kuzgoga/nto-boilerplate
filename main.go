@@ -2,7 +2,7 @@ package main
 
 import (
 	"embed"
-	"git.gogacoder.ru/NTO/boilerplate/internal/services"
+	"github.com/kuzgoga/nto-boilerplate/internal/services"
 	"github.com/wailsapp/wails/v3/pkg/application"
 	"log"
 )
