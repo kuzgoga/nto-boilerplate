@@ -3,6 +3,7 @@ import { Dialog } from "primevue";
 import { useErrorStore } from "./stores/error.store";
 import { RouterView } from "vue-router";
 import VHeader from "./components/headers/VHeader.vue";
+import PostScheme from "./post/PostScheme.vue";
 
 const errorStore = useErrorStore();
 </script>
@@ -19,5 +20,6 @@ const errorStore = useErrorStore();
     <VHeader v-if="$route?.matched?.length > 1"  />
     <main>
        <RouterView />
+       <PostScheme />
     </main>
 </template>

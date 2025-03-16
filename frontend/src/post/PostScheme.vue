@@ -41,8 +41,9 @@ const scheme: Scheme<Post> = reactive({
 
   CreatedAt: {
     readonly: true,
+    date: true,
     type: {
-      primitive: "number",
+      primitive: "date",
     },
   },
 });

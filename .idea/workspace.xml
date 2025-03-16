@@ -6,7 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="0f2c8145-9000-45fe-a871-9ff0914e0e13" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/bindings/github.com/kuzgoga/nto-boilerplate/internal/services/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/bindings/github.com/kuzgoga/nto-boilerplate/internal/services/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/post/PostScheme.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/post/post.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/models/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/models/models.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

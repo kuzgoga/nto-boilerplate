@@ -43,10 +43,16 @@ export default class PostService implements IService<Post> {
 
   async sort(options: SortOptions<Post>) {
     return (await SortedByOrder(
-      Object.entries(options).map((item) => ({
-        Name: item[0],
-        Order: item[1],
-      })),
+      Object.entries(options)
+        .map((item) => {
+          if (item[1] !== "NONE") {
+            return {
+              Name: item[0],
+              Order: item[1],
+            };
+          }
+        })
+        .filter((item) => !!item),
     )) as Post[];
   }
 }
