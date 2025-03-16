@@ -6,22 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0f2c8145-9000-45fe-a871-9ff0914e0e13" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/bindings/git.gogacoder.ru/NTO/boilerplate/internal/services/excelmodule.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/bindings/git.gogacoder.ru/NTO/boilerplate/internal/services/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/addons/excel/export.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/addons/excel/export.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/dal/gen.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/dal/gen_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/dal/posts.gen.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/dal/posts.gen_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/database/database.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/database/database.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/gen/gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/gen/gen.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/services/default_data.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/services/default_data.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/services/migrator.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/services/migrator.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/services/post.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/services/post.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/utils/search.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/utils/search.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/utils/sorting.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/utils/sorting.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +48,7 @@
     "go.import.settings.migrated": "true",
     "go.sdk.automatically.set": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/gogacoder/dev/go/nto/boilerplate",
+    "last_opened_file_path": "/home/gogacoder/dev/go/nto/crudgen",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",

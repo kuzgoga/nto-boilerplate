@@ -10,6 +10,12 @@
 - [ ] Models [linter](https://git.gogacoder.ru/NTO/gormlint)
 - [x] Auto-generated frontend
 
+## Инициализация
+Для того чтобы использовать этот шаблон, выполните команды:
+```shell
+curl -O https://proxy.golang.org/github.com/kuzgoga/nto-boilerplate/@v/v1.0.5.zip
+```
+
 ## Установка
 
 Для разработки необходимы следующие инструменты:
@@ -50,7 +56,7 @@ go install -v github.com/wailsapp/wails/v3/cmd/wails3@latest
 go install github.com/opbnq-q/nto-cli@latest
 ```
 ```shell
-go install git.gogacoder.ru/NTO/crudgen/cmd/crudgen@latest
+go install github.com/kuzgoga/crudgen/cmd/crudgen@latest
 ```
 
 ## Сборка
