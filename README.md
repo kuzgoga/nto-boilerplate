@@ -13,7 +13,7 @@
 ## Инициализация
 Для того чтобы использовать этот шаблон, выполните команды:
 ```shell
-curl -O https://proxy.golang.org/github.com/kuzgoga/nto-boilerplate/@v/v1.0.5.zip
+curl -O https://proxy.golang.org/github.com/kuzgoga/nto-boilerplate/@v/v1.1.1.zip
 ```
 
 ## Установка
