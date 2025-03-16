@@ -19,6 +19,7 @@
 - [VSCode](https://code.visualstudio.com/) или [Goland](https://cloud.gogacoder.ru/s/pZJzpeNSprmWDB8)
 - ~~[UPX](https://github.com/upx/upx/releases/latest) - для сжатия.~~
 - [Git](https://git-scm.com/)
+- [Obsidian](https://obsidian.md/)
 - Wails3
 - MinGw-64 (необязательно): https://jmeubank.github.io/tdm-gcc/
 
