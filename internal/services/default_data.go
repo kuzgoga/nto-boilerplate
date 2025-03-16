@@ -1,8 +1,9 @@
 package services
 
 import (
-	"app/internal/dialogs"
 	"fmt"
+	"git.gogacoder.ru/NTO/boilerplate/internal/dialogs"
+	"git.gogacoder.ru/NTO/boilerplate/internal/models"
 )
 
 func InsertDefaultData() {
@@ -22,7 +23,7 @@ func InsertDefaultData() {
 //}
 
 func insertPosts() {
-	InsertDefaultEntityData(&PostService{}, []Post{
+	InsertDefaultEntityData(&PostService{}, []models.Post{
 		{Text: "В Кузбассе начали строить дома выше, чтобы их жители стали ближе к Богу."},
 	})
 }

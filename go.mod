@@ -1,4 +1,4 @@
-module app
+module git.gogacoder.ru/NTO/boilerplate
 
 go 1.23.0
 

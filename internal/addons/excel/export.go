@@ -1,9 +1,9 @@
 package excel
 
 import (
-	"app/internal/dialogs"
 	"errors"
 	"fmt"
+	"git.gogacoder.ru/NTO/boilerplate/internal/dialogs"
 	"github.com/kuzgoga/fogg"
 	"github.com/xuri/excelize/v2"
 	"golang.org/x/text/language"

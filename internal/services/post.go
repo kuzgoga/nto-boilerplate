@@ -1,11 +1,11 @@
 package services
 
 import (
-	"app/internal/dal"
-	"app/internal/database"
-	"app/internal/models"
-	"app/internal/utils"
 	"errors"
+	"git.gogacoder.ru/NTO/boilerplate/internal/dal"
+	"git.gogacoder.ru/NTO/boilerplate/internal/database"
+	"git.gogacoder.ru/NTO/boilerplate/internal/models"
+	"git.gogacoder.ru/NTO/boilerplate/internal/utils"
 	"gorm.io/gen/field"
 	"gorm.io/gorm"
 )

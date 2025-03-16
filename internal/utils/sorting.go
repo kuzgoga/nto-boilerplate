@@ -1,9 +1,9 @@
 package utils
 
 import (
-	"app/internal/database"
 	"errors"
 	"fmt"
+	"git.gogacoder.ru/NTO/boilerplate/internal/database"
 	"github.com/kuzgoga/fogg"
 	"golang.org/x/text/language"
 	"golang.org/x/text/message"

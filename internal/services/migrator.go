@@ -1,11 +1,11 @@
 package services
 
 import (
-	"app/internal/database"
-	"app/internal/models"
 	"context"
 	"crypto/sha256"
 	"fmt"
+	"git.gogacoder.ru/NTO/boilerplate/internal/database"
+	"git.gogacoder.ru/NTO/boilerplate/internal/models"
 	"io"
 	"log/slog"
 	"os"

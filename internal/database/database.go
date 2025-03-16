@@ -1,9 +1,9 @@
 package database
 
 import (
-	"app/internal/dal"
 	"context"
 	"database/sql"
+	"git.gogacoder.ru/NTO/boilerplate/internal/dal"
 	"github.com/ncruces/go-sqlite3"
 	"github.com/ncruces/go-sqlite3/driver"
 	"log"

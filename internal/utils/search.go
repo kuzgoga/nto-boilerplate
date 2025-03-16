@@ -1,8 +1,8 @@
 package utils
 
 import (
-	"app/internal/database"
 	"fmt"
+	"git.gogacoder.ru/NTO/boilerplate/internal/database"
 	"gorm.io/gorm/clause"
 	"reflect"
 )
