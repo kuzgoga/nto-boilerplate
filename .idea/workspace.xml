@@ -5,28 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0f2c8145-9000-45fe-a871-9ff0914e0e13" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/frontend/src/customer/CustomerScheme.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/customer/customer.service.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/order/OrderScheme.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/order/order.service.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/preptask/PreptaskScheme.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/preptask/preptask.service.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/producttype/ProducttypeScheme.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/producttype/producttype.service.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/shift/ShiftScheme.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/shift/shift.service.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/task/TaskScheme.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/task/task.service.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/teamtask/TeamtaskScheme.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/teamtask/teamtask.service.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/teamtype/TeamtypeScheme.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/teamtype/teamtype.service.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/workarea/WorkareaScheme.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/workarea/workarea.service.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/worker/WorkerScheme.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/worker/worker.service.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/workshop/WorkshopScheme.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/workshop/workshop.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/utils/sorting.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/utils/sorting.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

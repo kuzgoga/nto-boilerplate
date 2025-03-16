@@ -9,6 +9,7 @@ import (
 	"golang.org/x/text/message"
 	"gorm.io/gorm/clause"
 	"reflect"
+	"slices"
 	"strings"
 )
 
@@ -104,7 +105,9 @@ func SortByOrder[T any](fieldsSortingOrder []SortField, entity T) ([]*T, error) 
 
 			joinField := strings.Join(joinPathParts, ".")
 			joinTable := field.Type.Name()
-			joins = append(joins, joinTable)
+			if !slices.Contains(joins, joinTable) {
+				joins = append(joins, joinTable)
+			}
 			orderQuery = append(orderQuery, fmt.Sprintf("%s %s", joinField, item.Order))
 		}
 	}
