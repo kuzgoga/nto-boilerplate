@@ -5,5 +5,5 @@ import (
 )
 
 var ExportedServices = []application.Service{
-	application.NewService(&Post{}),
+	application.NewService(&PostService{}),
 }
