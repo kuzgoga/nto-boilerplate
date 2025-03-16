@@ -15,6 +15,10 @@
 ```shell
 curl -O https://proxy.golang.org/github.com/kuzgoga/nto-boilerplate/@v/v1.1.1.zip
 ```
+#### ДЛЯ GREBEN OS
+```shell
+Invoke-WebRequest -Uri https://proxy.golang.org/github.com/kuzgoga/nto-boilerplate/@v/v1.1.1.zip -OutFile v1.1.1.zip
+```
 
 ## Установка
 
