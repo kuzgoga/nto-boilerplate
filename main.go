@@ -1,8 +1,8 @@
 package main
 
 import (
-	"app/internal/services"
 	"embed"
+	"git.gogacoder.ru/NTO/boilerplate/internal/services"
 	"github.com/wailsapp/wails/v3/pkg/application"
 	"log"
 )

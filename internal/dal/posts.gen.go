@@ -5,9 +5,9 @@
 package dal
 
 import (
-	"app/internal/models"
 	"context"
 
+	"git.gogacoder.ru/NTO/boilerplate/internal/models"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 	"gorm.io/gorm/schema"
@@ -28,6 +28,7 @@ func newPost(db *gorm.DB, opts ...gen.DOOption) post {
 	_post.ALL = field.NewAsterisk(tableName)
 	_post.Id = field.NewUint(tableName, "id")
 	_post.Text = field.NewString(tableName, "text")
+	_post.CreatedAt = field.NewUint(tableName, "created_at")
 
 	_post.fillFieldMap()
 
@@ -37,9 +38,10 @@ func newPost(db *gorm.DB, opts ...gen.DOOption) post {
 type post struct {
 	postDo
 
-	ALL  field.Asterisk
-	Id   field.Uint
-	Text field.String
+	ALL       field.Asterisk
+	Id        field.Uint
+	Text      field.String
+	CreatedAt field.Uint
 
 	fieldMap map[string]field.Expr
 }
@@ -58,6 +60,7 @@ func (p *post) updateTableName(table string) *post {
 	p.ALL = field.NewAsterisk(table)
 	p.Id = field.NewUint(table, "id")
 	p.Text = field.NewString(table, "text")
+	p.CreatedAt = field.NewUint(table, "created_at")
 
 	p.fillFieldMap()
 
@@ -74,9 +77,10 @@ func (p *post) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (p *post) fillFieldMap() {
-	p.fieldMap = make(map[string]field.Expr, 2)
+	p.fieldMap = make(map[string]field.Expr, 3)
 	p.fieldMap["id"] = p.Id
 	p.fieldMap["text"] = p.Text
+	p.fieldMap["created_at"] = p.CreatedAt
 }
 
 func (p post) clone(db *gorm.DB) post {

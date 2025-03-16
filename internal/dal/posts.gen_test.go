@@ -5,11 +5,11 @@
 package dal
 
 import (
-	"app/internal/models"
 	"context"
 	"fmt"
 	"testing"
 
+	"git.gogacoder.ru/NTO/boilerplate/internal/models"
 	"gorm.io/gen"
 	"gorm.io/gen/field"
 	"gorm.io/gorm/clause"
