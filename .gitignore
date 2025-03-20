@@ -3,9 +3,9 @@ database.db
 .task/
 nto-cli/
 /**/cli.exe
-/**/node_modules/
 /**/dist/
 .xlsx
 build/appimage
 build/nfpm
 build/nsis
+/**/node_modules

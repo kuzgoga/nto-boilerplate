@@ -17,12 +17,12 @@ import * as utils$0 from "../utils/models.js";
 import * as $models from "./models.js";
 
 export function Count(): Promise<number> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(2820623019) as any;
+    let $resultPromise = $Call.ByID(4105702790) as any;
     return $resultPromise;
 }
 
-export function Create(item: $models.Post): Promise<$models.Post> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(1228399424, item) as any;
+export function Create(item: $models.Receiver): Promise<$models.Receiver> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(705228007, item) as any;
     let $typingPromise = $resultPromise.then(($result: any) => {
         return $$createType0($result);
     }) as any;
@@ -31,12 +31,12 @@ export function Create(item: $models.Post): Promise<$models.Post> & { cancel(): 
 }
 
 export function Delete(id: number): Promise<void> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(875811263, id) as any;
+    let $resultPromise = $Call.ByID(1516151452, id) as any;
     return $resultPromise;
 }
 
-export function GetAll(): Promise<($models.Post | null)[]> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(2496161123) as any;
+export function GetAll(): Promise<($models.Receiver | null)[]> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(172419648) as any;
     let $typingPromise = $resultPromise.then(($result: any) => {
         return $$createType2($result);
     }) as any;
@@ -44,8 +44,8 @@ export function GetAll(): Promise<($models.Post | null)[]> & { cancel(): void } 
     return $typingPromise;
 }
 
-export function GetById(id: number): Promise<$models.Post | null> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(222091656, id) as any;
+export function GetById(id: number): Promise<$models.Receiver | null> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(2499017269, id) as any;
     let $typingPromise = $resultPromise.then(($result: any) => {
         return $$createType1($result);
     }) as any;
@@ -53,8 +53,8 @@ export function GetById(id: number): Promise<$models.Post | null> & { cancel(): 
     return $typingPromise;
 }
 
-export function SearchByAllTextFields(phrase: string): Promise<($models.Post | null)[]> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(3652127706, phrase) as any;
+export function SearchByAllTextFields(phrase: string): Promise<($models.Receiver | null)[]> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(2091575087, phrase) as any;
     let $typingPromise = $resultPromise.then(($result: any) => {
         return $$createType2($result);
     }) as any;
@@ -62,8 +62,8 @@ export function SearchByAllTextFields(phrase: string): Promise<($models.Post | n
     return $typingPromise;
 }
 
-export function SortedByOrder(fieldsSortingOrder: utils$0.SortField[]): Promise<($models.Post | null)[]> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(1364098504, fieldsSortingOrder) as any;
+export function SortedByOrder(fieldsSortingOrder: utils$0.SortField[]): Promise<($models.Receiver | null)[]> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(3657492497, fieldsSortingOrder) as any;
     let $typingPromise = $resultPromise.then(($result: any) => {
         return $$createType2($result);
     }) as any;
@@ -71,8 +71,8 @@ export function SortedByOrder(fieldsSortingOrder: utils$0.SortField[]): Promise<
     return $typingPromise;
 }
 
-export function Update(item: $models.Post): Promise<$models.Post> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(2166338261, item) as any;
+export function Update(item: $models.Receiver): Promise<$models.Receiver> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(1694749806, item) as any;
     let $typingPromise = $resultPromise.then(($result: any) => {
         return $$createType0($result);
     }) as any;
@@ -81,6 +81,6 @@ export function Update(item: $models.Post): Promise<$models.Post> & { cancel(): 
 }
 
 // Private type creation functions
-const $$createType0 = models$0.Post.createFrom;
+const $$createType0 = models$0.Receiver.createFrom;
 const $$createType1 = $Create.Nullable($$createType0);
 const $$createType2 = $Create.Array($$createType1);

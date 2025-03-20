@@ -3,9 +3,12 @@ import { Dialog } from "primevue";
 import { useErrorStore } from "./stores/error.store";
 import { RouterView } from "vue-router";
 import VHeader from "./components/headers/VHeader.vue";
-import PostScheme from "./post/PostScheme.vue";
+import { useNavModalStore } from "./stores/nav-modal.store";
+import NavModal from "./components/modals/NavModal.vue";
+import { routes } from "./router/router";
 
 const errorStore = useErrorStore();
+const nm = useNavModalStore()
 </script>
 
 <template>
@@ -17,9 +20,9 @@ const errorStore = useErrorStore();
         <template #header> Ошибка </template>
         <h1 class="text-red-500 text-2xl">{{ errorStore.message }}</h1>
     </Dialog>
-    <VHeader v-if="$route?.matched?.length > 1"  />
+    
+    <VHeader  />
     <main>
        <RouterView />
-       <PostScheme />
     </main>
 </template>

@@ -16,34 +16,69 @@ import (
 )
 
 var (
-	Q    = new(Query)
-	Post *post
+	Q            = new(Query)
+	DryMode      *dryMode
+	Exporter     *exporter
+	Postav       *postav
+	Receiver     *receiver
+	SushkaResult *sushkaResult
+	WoodSpec     *woodSpec
+	WoodSpecType *woodSpecType
+	WorkResult   *workResult
 )
 
 func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	*Q = *Use(db, opts...)
-	Post = &Q.Post
+	DryMode = &Q.DryMode
+	Exporter = &Q.Exporter
+	Postav = &Q.Postav
+	Receiver = &Q.Receiver
+	SushkaResult = &Q.SushkaResult
+	WoodSpec = &Q.WoodSpec
+	WoodSpecType = &Q.WoodSpecType
+	WorkResult = &Q.WorkResult
 }
 
 func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
-		db:   db,
-		Post: newPost(db, opts...),
+		db:           db,
+		DryMode:      newDryMode(db, opts...),
+		Exporter:     newExporter(db, opts...),
+		Postav:       newPostav(db, opts...),
+		Receiver:     newReceiver(db, opts...),
+		SushkaResult: newSushkaResult(db, opts...),
+		WoodSpec:     newWoodSpec(db, opts...),
+		WoodSpecType: newWoodSpecType(db, opts...),
+		WorkResult:   newWorkResult(db, opts...),
 	}
 }
 
 type Query struct {
 	db *gorm.DB
 
-	Post post
+	DryMode      dryMode
+	Exporter     exporter
+	Postav       postav
+	Receiver     receiver
+	SushkaResult sushkaResult
+	WoodSpec     woodSpec
+	WoodSpecType woodSpecType
+	WorkResult   workResult
 }
 
 func (q *Query) Available() bool { return q.db != nil }
 
 func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
-		db:   db,
-		Post: q.Post.clone(db),
+		db:           db,
+		DryMode:      q.DryMode.clone(db),
+		Exporter:     q.Exporter.clone(db),
+		Postav:       q.Postav.clone(db),
+		Receiver:     q.Receiver.clone(db),
+		SushkaResult: q.SushkaResult.clone(db),
+		WoodSpec:     q.WoodSpec.clone(db),
+		WoodSpecType: q.WoodSpecType.clone(db),
+		WorkResult:   q.WorkResult.clone(db),
 	}
 }
 
@@ -57,18 +92,39 @@ func (q *Query) WriteDB() *Query {
 
 func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
-		db:   db,
-		Post: q.Post.replaceDB(db),
+		db:           db,
+		DryMode:      q.DryMode.replaceDB(db),
+		Exporter:     q.Exporter.replaceDB(db),
+		Postav:       q.Postav.replaceDB(db),
+		Receiver:     q.Receiver.replaceDB(db),
+		SushkaResult: q.SushkaResult.replaceDB(db),
+		WoodSpec:     q.WoodSpec.replaceDB(db),
+		WoodSpecType: q.WoodSpecType.replaceDB(db),
+		WorkResult:   q.WorkResult.replaceDB(db),
 	}
 }
 
 type queryCtx struct {
-	Post IPostDo
+	DryMode      IDryModeDo
+	Exporter     IExporterDo
+	Postav       IPostavDo
+	Receiver     IReceiverDo
+	SushkaResult ISushkaResultDo
+	WoodSpec     IWoodSpecDo
+	WoodSpecType IWoodSpecTypeDo
+	WorkResult   IWorkResultDo
 }
 
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
-		Post: q.Post.WithContext(ctx),
+		DryMode:      q.DryMode.WithContext(ctx),
+		Exporter:     q.Exporter.WithContext(ctx),
+		Postav:       q.Postav.WithContext(ctx),
+		Receiver:     q.Receiver.WithContext(ctx),
+		SushkaResult: q.SushkaResult.WithContext(ctx),
+		WoodSpec:     q.WoodSpec.WithContext(ctx),
+		WoodSpecType: q.WoodSpecType.WithContext(ctx),
+		WorkResult:   q.WorkResult.WithContext(ctx),
 	}
 }
 

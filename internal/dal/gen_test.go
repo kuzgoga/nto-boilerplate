@@ -77,7 +77,14 @@ func Test_WithContext(t *testing.T) {
 	qCtx := query.WithContext(context.WithValue(context.Background(), key, value))
 
 	for _, ctx := range []context.Context{
-		qCtx.Post.UnderlyingDB().Statement.Context,
+		qCtx.DryMode.UnderlyingDB().Statement.Context,
+		qCtx.Exporter.UnderlyingDB().Statement.Context,
+		qCtx.Postav.UnderlyingDB().Statement.Context,
+		qCtx.Receiver.UnderlyingDB().Statement.Context,
+		qCtx.SushkaResult.UnderlyingDB().Statement.Context,
+		qCtx.WoodSpec.UnderlyingDB().Statement.Context,
+		qCtx.WoodSpecType.UnderlyingDB().Statement.Context,
+		qCtx.WorkResult.UnderlyingDB().Statement.Context,
 	} {
 		if v := ctx.Value(key); v != value {
 			t.Errorf("get value from context fail, expect %q, got %q", value, v)

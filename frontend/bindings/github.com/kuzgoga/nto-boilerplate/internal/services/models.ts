@@ -9,5 +9,87 @@ import {Create as $Create} from "@wailsio/runtime";
 // @ts-ignore: Unused imports
 import * as models$0 from "../models/models.js";
 
-export const Post = models$0.Post;
-export type Post = models$0.Post;
+export const DryMode = models$0.DryMode;
+export type DryMode = models$0.DryMode;
+
+export class DryReport {
+    "Materials": string[];
+    "MaterialsAmount": number;
+
+    /** Creates a new DryReport instance. */
+    constructor($$source: Partial<DryReport> = {}) {
+        if (!("Materials" in $$source)) {
+            this["Materials"] = [];
+        }
+        if (!("MaterialsAmount" in $$source)) {
+            this["MaterialsAmount"] = 0;
+        }
+
+        Object.assign(this, $$source);
+    }
+
+    /**
+     * Creates a new DryReport instance from a string or object.
+     */
+    static createFrom($$source: any = {}): DryReport {
+        const $$createField0_0 = $$createType0;
+        let $$parsedSource = typeof $$source === 'string' ? JSON.parse($$source) : $$source;
+        if ("Materials" in $$parsedSource) {
+            $$parsedSource["Materials"] = $$createField0_0($$parsedSource["Materials"]);
+        }
+        return new DryReport($$parsedSource as Partial<DryReport>);
+    }
+}
+
+export const Exporter = models$0.Exporter;
+export type Exporter = models$0.Exporter;
+
+export const Postav = models$0.Postav;
+export type Postav = models$0.Postav;
+
+export const Receiver = models$0.Receiver;
+export type Receiver = models$0.Receiver;
+
+export class Report {
+    "RawProductAmount": string[];
+    "RawProductCount": number;
+
+    /** Creates a new Report instance. */
+    constructor($$source: Partial<Report> = {}) {
+        if (!("RawProductAmount" in $$source)) {
+            this["RawProductAmount"] = [];
+        }
+        if (!("RawProductCount" in $$source)) {
+            this["RawProductCount"] = 0;
+        }
+
+        Object.assign(this, $$source);
+    }
+
+    /**
+     * Creates a new Report instance from a string or object.
+     */
+    static createFrom($$source: any = {}): Report {
+        const $$createField0_0 = $$createType0;
+        let $$parsedSource = typeof $$source === 'string' ? JSON.parse($$source) : $$source;
+        if ("RawProductAmount" in $$parsedSource) {
+            $$parsedSource["RawProductAmount"] = $$createField0_0($$parsedSource["RawProductAmount"]);
+        }
+        return new Report($$parsedSource as Partial<Report>);
+    }
+}
+
+export const SushkaResult = models$0.SushkaResult;
+export type SushkaResult = models$0.SushkaResult;
+
+export const WoodSpec = models$0.WoodSpec;
+export type WoodSpec = models$0.WoodSpec;
+
+export const WoodSpecType = models$0.WoodSpecType;
+export type WoodSpecType = models$0.WoodSpecType;
+
+export const WorkResult = models$0.WorkResult;
+export type WorkResult = models$0.WorkResult;
+
+// Private type creation functions
+const $$createType0 = $Create.Array($Create.Any);
