@@ -160,7 +160,7 @@ func insertSushkaResults() {
 			MaterialQuantity: 8,
 			ProductSpecId:    3,
 			ProductAmount:    9,
-			WorkDate:         time.Now().Add(time.Hour * 48).Unix(),
+			WorkDate:         time.Now().Add(time.Hour * 48).UnixMilli(),
 		},
 		{
 			Id:               2,
@@ -169,7 +169,7 @@ func insertSushkaResults() {
 			MaterialQuantity: 10,
 			ProductSpecId:    3,
 			ProductAmount:    10,
-			WorkDate:         time.Now().Add(time.Hour * 96).Unix(),
+			WorkDate:         time.Now().Add(time.Hour * 96).UnixMilli(),
 		},
 		{
 			Id:               3,
@@ -178,7 +178,7 @@ func insertSushkaResults() {
 			MaterialQuantity: 14,
 			ProductSpecId:    3,
 			ProductAmount:    16,
-			WorkDate:         time.Now().Add(time.Hour * 128).Unix(),
+			WorkDate:         time.Now().Add(time.Hour * 128).UnixMilli(),
 		},
 	})
 }
